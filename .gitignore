@@ -1,5 +1,6 @@
 *.DS_Store*
 backend-springboot/.DS_Store
 backend-springboot/.DS_Store
+node_modules/*
 *.iml
 .DS_Store

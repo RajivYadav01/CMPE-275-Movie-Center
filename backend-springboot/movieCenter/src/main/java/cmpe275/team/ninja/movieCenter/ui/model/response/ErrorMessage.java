@@ -2,13 +2,13 @@ package cmpe275.team.ninja.movieCenter.ui.model.response;
 
 import java.util.Date;
 
-public class ErrorMessageModel {
+public class ErrorMessage {
 	private Date timestamp;
 	private String message;
 	
-	public ErrorMessageModel() {}
+	public ErrorMessage() {}
 	
-	public ErrorMessageModel(Date timestamp, String message)
+	public ErrorMessage(Date timestamp, String message)
 	{
 		this.timestamp = timestamp;
 		this.message = message;

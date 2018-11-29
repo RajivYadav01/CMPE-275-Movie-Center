@@ -1,11 +1,11 @@
 package cmpe275.team.ninja.movieCenter.ui.controller;
 
 import cmpe275.team.ninja.movieCenter.service.interfaces.UserService;
-import cmpe275.team.ninja.movieCenter.shared.OperationName;
-import cmpe275.team.ninja.movieCenter.shared.OperationStatus;
+import cmpe275.team.ninja.movieCenter.ui.model.response.RequestOperationName;
+import cmpe275.team.ninja.movieCenter.ui.model.response.RequestOperationStatus;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserDto;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserDetailsRequestModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.OperationStatusRespModel;
+import cmpe275.team.ninja.movieCenter.ui.model.response.OperationStatusModel;
 import cmpe275.team.ninja.movieCenter.ui.model.response.UserDetailModel;
 import cmpe275.team.ninja.movieCenter.ui.model.response.UserResponseModel;
 
@@ -80,30 +80,30 @@ public class UserController {
     }
     
     @DeleteMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public OperationStatusRespModel deleteUser(@PathVariable String id) {
-    	OperationStatusRespModel returnValue = new OperationStatusRespModel();
-		returnValue.setOperationName(OperationName.DELETE.name());
+	public OperationStatusModel deleteUser(@PathVariable String id) {
+    	OperationStatusModel returnValue = new OperationStatusModel();
+		returnValue.setOperationName(RequestOperationName.DELETE.name());
 
 		userService.deleteUser(id);
 
-		returnValue.setOperationResult(OperationStatus.SUCCESS.name());
+		returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
 		return returnValue;
     }
     
     @GetMapping(path = "/email-verification", produces = { MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE })
-    public OperationStatusRespModel verifyEmailToken(@RequestParam(value = "token") String token) {
+    public OperationStatusModel verifyEmailToken(@RequestParam(value = "token") String token) {
 
-    	OperationStatusRespModel returnValue = new OperationStatusRespModel();
-        returnValue.setOperationName(OperationName.VERIFY_EMAIL.name());
+    	OperationStatusModel returnValue = new OperationStatusModel();
+        returnValue.setOperationName(RequestOperationName.VERIFY_EMAIL.name());
         
         boolean isVerified = userService.verifyEmailToken(token);
         
         if(isVerified)
         {
-            returnValue.setOperationResult(OperationStatus.SUCCESS.name());
+            returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
         } else {
-            returnValue.setOperationResult(OperationStatus.ERROR.name());
+            returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
         }
 
         return returnValue;

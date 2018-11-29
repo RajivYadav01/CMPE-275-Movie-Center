@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity(name = "ratings")
 public class RatingsEntity implements Serializable{
@@ -21,8 +24,9 @@ public class RatingsEntity implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 	
-	@Column(nullable = false)
-    private String userId;
+	@ManyToOne
+	@JoinColumn(name="users_id")
+    private UserEntity userId;
 	
 	@Column(nullable = false)
     private String movieId;
@@ -36,11 +40,11 @@ public class RatingsEntity implements Serializable{
 		this.id = id;
 	}
 
-	public String getUserId() {
+	public UserEntity getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(UserEntity userId) {
 		this.userId = userId;
 	}
 

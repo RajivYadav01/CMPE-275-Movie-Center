@@ -1,6 +1,6 @@
 package cmpe275.team.ninja.movieCenter.ui.model.response;
 
-public class OperationStatusRespModel {
+public class OperationStatusModel {
 	
 	private String operationResult;
 	private String operationName;

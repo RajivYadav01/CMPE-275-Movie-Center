@@ -1,13 +1,17 @@
 package cmpe275.team.ninja.movieCenter.ui.controller;
 
 import cmpe275.team.ninja.movieCenter.service.interfaces.UserService;
+import cmpe275.team.ninja.movieCenter.shared.OperationName;
+import cmpe275.team.ninja.movieCenter.shared.OperationStatus;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserDto;
-import cmpe275.team.ninja.movieCenter.shared.dto.UserPaymentDto;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserDetailsRequestModel;
-import cmpe275.team.ninja.movieCenter.ui.model.request.UserPaymentRequestModel;
+import cmpe275.team.ninja.movieCenter.ui.model.response.OperationStatusRespModel;
+import cmpe275.team.ninja.movieCenter.ui.model.response.UserDetailModel;
 import cmpe275.team.ninja.movieCenter.ui.model.response.UserResponseModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.UserSubscriptionResponseModel;
-import org.modelmapper.ModelMapper;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,13 +23,37 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping
-    public String getUsers(){
-        return "get all users";
-    }
+    @GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    public UserDetailModel getUsers(@PathVariable String id) throws Exception{
+    	UserDetailModel returnValue = new UserDetailModel();
 
-    @PostMapping
-    public UserResponseModel createUser(@RequestBody UserDetailsRequestModel userDetailsRequestModel){
+		UserDto userDto = userService.getUserByUserId(id);
+		BeanUtils.copyProperties(userDto,returnValue);
+		return returnValue;
+    }
+    
+    @GetMapping(produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public List<UserDetailModel> getUsers(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "2") int limit) {
+		List<UserDetailModel> returnValue = new ArrayList<>();
+
+		List<UserDto> users = userService.getUsers(page, limit);
+		
+		/*Type listType = new TypeToken<List<UserDetailModel>>() {
+		}.getType();
+		returnValue = new ModelMapper().map(users, listType);*/
+
+		for (UserDto userDto : users) {
+			UserDetailModel userModel = new UserDetailModel();
+			BeanUtils.copyProperties(userDto, userModel);
+			returnValue.add(userModel);
+		}
+
+		return returnValue;
+}
+    @PostMapping(consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE }, produces = {
+    		MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    public UserResponseModel createUser(@RequestBody UserDetailsRequestModel userDetailsRequestModel) throws Exception{
         UserDto userDto = new UserDto();
         UserResponseModel userResponseModel = new UserResponseModel();
         BeanUtils.copyProperties(userDetailsRequestModel,userDto);
@@ -36,23 +64,49 @@ public class UserController {
 
         return userResponseModel;
     }
+    
+    @PutMapping(path = "/{id}", consumes = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_VALUE })
+	public UserDetailModel updateUser(@PathVariable String id, @RequestBody UserDetailsRequestModel userDetails) {
+    	UserDetailModel returnValue = new UserDetailModel();
+    	UserDto userDto = new UserDto();
+    	BeanUtils.copyProperties(userDetails,userDto);
 
-    @PostMapping(
-            path="/{id}/startsubscription",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public UserSubscriptionResponseModel startUserSubscription(
-            @PathVariable String id,
-            @RequestBody UserPaymentRequestModel userPaymentRequestModel
-    ) {
+		UserDto updateUser = userService.updateUser(id, userDto);
+		BeanUtils.copyProperties(userDto,returnValue);
 
-        ModelMapper modelMapper = new ModelMapper();
-        UserPaymentDto userPaymentDto = modelMapper.map(userPaymentRequestModel, UserPaymentDto.class);
-        userService.startUserSubscription(id, userPaymentDto);
+		return returnValue;
+    }
+    
+    @DeleteMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public OperationStatusRespModel deleteUser(@PathVariable String id) {
+    	OperationStatusRespModel returnValue = new OperationStatusRespModel();
+		returnValue.setOperationName(OperationName.DELETE.name());
 
-        return new UserSubscriptionResponseModel();
+		userService.deleteUser(id);
 
+		returnValue.setOperationResult(OperationStatus.SUCCESS.name());
+		return returnValue;
+    }
+    
+    @GetMapping(path = "/email-verification", produces = { MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE })
+    public OperationStatusRespModel verifyEmailToken(@RequestParam(value = "token") String token) {
+
+    	OperationStatusRespModel returnValue = new OperationStatusRespModel();
+        returnValue.setOperationName(OperationName.VERIFY_EMAIL.name());
+        
+        boolean isVerified = userService.verifyEmailToken(token);
+        
+        if(isVerified)
+        {
+            returnValue.setOperationResult(OperationStatus.SUCCESS.name());
+        } else {
+            returnValue.setOperationResult(OperationStatus.ERROR.name());
+        }
+
+        return returnValue;
     }
 
 }

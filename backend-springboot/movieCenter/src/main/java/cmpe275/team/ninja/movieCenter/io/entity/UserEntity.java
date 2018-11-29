@@ -2,6 +2,7 @@ package cmpe275.team.ninja.movieCenter.io.entity;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.*;
 
 @Entity(name = "users")
@@ -22,26 +23,23 @@ public class UserEntity implements Serializable {
     @Column(nullable = false, length = 50)
     private String lastName;
 
-    //@Column(nullable = false, length = 120, unique = true)
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false, length = 120, unique=true)
     private String email;
 
     @Column(nullable = false)
     private String encryptedPassword;
 
     private String emailVerificationToken;
+    
+    @Column(nullable=false)
+    private Boolean emailVerificationStatus = false;
+    
+    
+	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
+		this.emailVerificationStatus = emailVerificationStatus;
+	}
 
-    @Column(nullable = false)
-    private boolean emailVerificationStatus = false;
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            mappedBy = "user",
-            orphanRemoval = true
-    )
-    private List<CardEntity> cardEntityList;
-
-    public long getId() {
+	public long getId() {
         return id;
     }
 
@@ -97,7 +95,7 @@ public class UserEntity implements Serializable {
         this.emailVerificationToken = emailVerificationToken;
     }
 
-    public boolean isEmailVerificationStatus() {
+    public boolean getEmailVerificationStatus() {
         return emailVerificationStatus;
     }
 

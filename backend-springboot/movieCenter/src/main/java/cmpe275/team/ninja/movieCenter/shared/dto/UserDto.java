@@ -1,6 +1,7 @@
 package cmpe275.team.ninja.movieCenter.shared.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserDto implements Serializable {
 
@@ -15,7 +16,9 @@ public class UserDto implements Serializable {
     private String emailVerificationToken;
     private boolean emailVerificationStatus = false;
 
-    public long getId() {
+   
+
+	public long getId() {
         return id;
     }
 

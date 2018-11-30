@@ -3,6 +3,7 @@ package cmpe275.team.ninja.movieCenter.ui.model.response;
 import java.util.List;
 
 public class MovieDetailsResponseModel {
+    private String movieId;
     private String title;
     private String genre;
     private String studioName;
@@ -17,6 +18,14 @@ public class MovieDetailsResponseModel {
     private String availabilityType;
     private double price;
     private boolean status;
+
+    public String getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
+    }
 
     public String getTitle() {
         return title;

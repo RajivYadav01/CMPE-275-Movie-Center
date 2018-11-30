@@ -1,7 +1,8 @@
 *.DS_Store*
 backend-springboot/.DS_Store
 backend-springboot/.DS_Store
-node_modules/*
+frontend-react/node_modules/*
+frontend-react/README.md
 *.iml
 .DS_Store
 .DS_Store

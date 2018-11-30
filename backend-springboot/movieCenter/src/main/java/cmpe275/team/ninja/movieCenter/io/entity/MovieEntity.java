@@ -56,6 +56,9 @@ public class MovieEntity {
     @Column(name="status")
     private boolean status;
 
+    @Column(name="year_of_release")
+    private String yearOfRelease;
+
 
     public long getId() {
         return id;
@@ -183,5 +186,13 @@ public class MovieEntity {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getYearOfRelease() {
+        return yearOfRelease;
+    }
+
+    public void setYearOfRelease(String yearOfRelease) {
+        this.yearOfRelease = yearOfRelease;
     }
 }

@@ -40,18 +40,18 @@ public class AdminController {
     }
 
     @PutMapping(
-            path="/update_movie",
+            path="{id}/update_movie",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public MovieDetailsResponseModel updateMovie(
-            @RequestParam("title") String title,
+            @PathVariable String id,
             @RequestBody MovieDetailsRequestModel movieDetailsRequestModel) {
-        System.out.println("Title in update call:"+title);
+
         ModelMapper modelMapper = new ModelMapper();
         MovieDto movieDtoToUpdate = modelMapper.map(movieDetailsRequestModel, MovieDto.class);
 
-        MovieDto returnedMovieDto = adminService.updateMovie(title, movieDtoToUpdate);
+        MovieDto returnedMovieDto = adminService.updateMovie(id, movieDtoToUpdate);
 
         System.out.println(returnedMovieDto);
 
@@ -61,13 +61,13 @@ public class AdminController {
     }
 
     @DeleteMapping(
-            path="/delete_movie",
+            path="{id}/delete_movie",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public OperationStatusModel deleteMovie(@RequestParam("title") String title){
+    public OperationStatusModel deleteMovie(@PathVariable String id){
         OperationStatusModel operationStatusModel = new OperationStatusModel();
         operationStatusModel.setOperationName(RequestOperationName.DELETE.name());
-        adminService.deleteMovie(title);
+        adminService.deleteMovie(id);
         operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
         return operationStatusModel;
     }

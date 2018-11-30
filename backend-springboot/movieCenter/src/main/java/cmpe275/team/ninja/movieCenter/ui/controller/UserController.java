@@ -6,8 +6,7 @@ import cmpe275.team.ninja.movieCenter.shared.dto.UserPaymentDto;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserSubscriptionDto;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserDetailsRequestModel;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserPaymentRequestModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.UserResponseModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.UserSubscriptionResponseModel;
+import cmpe275.team.ninja.movieCenter.ui.model.response.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,14 @@ public class UserController {
     @GetMapping
     public String getUsers(){
         return "get all users";
+    }
+
+    @GetMapping(
+            path="/{id}/checksubscription",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String checkIfUserSubscribed(@PathVariable String id){
+        return userService.checkIfUserIsSubscribed(id);
     }
 
     @PostMapping
@@ -61,5 +68,25 @@ public class UserController {
         return userSubscriptionResponseModel;
 
     }
+
+    @PostMapping(
+            path="/{id}/moviepayment",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public OperationStatusModel payForMovie(
+            @PathVariable String id,
+            @RequestBody UserPaymentRequestModel userPaymentRequestModel) {
+
+        ModelMapper modelMapper = new ModelMapper();
+        UserPaymentDto userPaymentDto = modelMapper.map(userPaymentRequestModel, UserPaymentDto.class);
+        OperationStatusModel operationStatusModel = new OperationStatusModel();
+        userService.payForMovie(id, userPaymentDto);
+        operationStatusModel.setOperationName(RequestOperationName.MOVIEPAYMENT.name());
+        operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        return operationStatusModel;
+    }
+
+
 
 }

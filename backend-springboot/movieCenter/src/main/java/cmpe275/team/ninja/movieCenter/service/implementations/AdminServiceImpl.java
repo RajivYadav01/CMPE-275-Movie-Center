@@ -22,8 +22,8 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public MovieDto updateMovie(String title, MovieDto movieDtoToUpdate) {
-        MovieEntity currentMovieEntity = movieRepository.findByTitle(title);
+    public MovieDto updateMovie(String id, MovieDto movieDtoToUpdate) {
+        MovieEntity currentMovieEntity = movieRepository.findByMovieId(id);
 
         if(currentMovieEntity == null ) throw new AdminServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
 
@@ -65,8 +65,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteMovie(String title) {
-        MovieEntity movieEntity = movieRepository.findByTitle(title);
+    public void deleteMovie(String id) {
+        MovieEntity movieEntity = movieRepository.findByMovieId(id);
 
         if(movieEntity == null) throw new AdminServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
 

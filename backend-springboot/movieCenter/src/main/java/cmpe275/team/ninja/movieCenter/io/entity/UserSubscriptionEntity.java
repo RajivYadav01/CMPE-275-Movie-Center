@@ -17,7 +17,7 @@ public class UserSubscriptionEntity {
     @Column(name="start_date")
     private Date startDate;
 
-    @Column(name="end_data")
+    @Column(name="end_date")
     private Date endDate;
 
     public long getId() {

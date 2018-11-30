@@ -5,6 +5,7 @@ public class UserResponseModel {
     private String firstName;
     private String lastName;
     private String email;
+    private boolean isSubscribed;
 
     public String getUserId() {
         return userId;
@@ -36,5 +37,13 @@ public class UserResponseModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isSubscribed() {
+        return isSubscribed;
+    }
+
+    public void setSubscribed(boolean subscribed) {
+        isSubscribed = subscribed;
     }
 }

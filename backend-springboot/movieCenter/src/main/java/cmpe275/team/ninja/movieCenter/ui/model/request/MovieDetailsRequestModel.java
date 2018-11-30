@@ -17,6 +17,7 @@ public class MovieDetailsRequestModel {
     private String availabilityType;
     private double price;
     private boolean status;
+    private String yearOfRelease;
 
     public String getTitle() {
         return title;
@@ -128,5 +129,13 @@ public class MovieDetailsRequestModel {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getYearOfRelease() {
+        return yearOfRelease;
+    }
+
+    public void setYearOfRelease(String yearOfRelease) {
+        this.yearOfRelease = yearOfRelease;
     }
 }

@@ -23,6 +23,7 @@ public class MovieDto implements Serializable {
     private String availabilityType;
     private double price;
     private boolean status = true;
+    private String yearOfRelease;
 
     public long getId() {
         return id;
@@ -150,5 +151,13 @@ public class MovieDto implements Serializable {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getYearOfRelease() {
+        return yearOfRelease;
+    }
+
+    public void setYearOfRelease(String yearOfRelease) {
+        this.yearOfRelease = yearOfRelease;
     }
 }

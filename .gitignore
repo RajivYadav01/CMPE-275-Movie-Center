@@ -7,3 +7,5 @@ frontend-react/README.md
 *.iml
 .DS_Store
 .DS_Store
+frontend-react/.idea/inspectionProfiles/Project_Default.xml
+frontend-react/.idea/vcs.xml

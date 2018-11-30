@@ -3,6 +3,7 @@ import Home from './component/Home';
 import {Switch,Route} from 'react-router-dom';
 import AddMovie from './component/addMovie';
 import DeleteMovie from './component/deleteMovie';
+import Filter from './component/filter';
 
 class App extends Component {
   render() {
@@ -11,6 +12,7 @@ class App extends Component {
             <Route exact path = '/' component = {Home}/>
             <Route exact path = '/admin/create/:movieID' component = {AddMovie}/>
             <Route exact path = '/admin/delete' component = {DeleteMovie}/>
+            <Route exact path = '/filter' component = {Filter}/>
       </Switch>
     );
   }

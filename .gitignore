@@ -2,6 +2,7 @@
 backend-springboot/.DS_Store
 backend-springboot/.DS_Store
 frontend-react/node_modules/*
+frontend-react/.idea/*
 frontend-react/README.md
 *.iml
 .DS_Store

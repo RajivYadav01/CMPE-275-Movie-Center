@@ -50,14 +50,13 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        List<UserSubscriptionEntity> tempList = userSubscriptionRepository.findByUserAndEndDateAfter(foundUser, new Date());
-        System.out.println(tempList);
+        List<UserSubscriptionEntity> validUserList = userSubscriptionRepository.findByUserAndEndDateAfter(foundUser, new Date());
+        System.out.println(validUserList);
 
-        if(foundUser.isSubscribed())
+        if(validUserList != null || validUserList.size() > 0)
             return "valid subscribed user";
         else
             return "invalid subscribed user";
-
     }
 
     @Override

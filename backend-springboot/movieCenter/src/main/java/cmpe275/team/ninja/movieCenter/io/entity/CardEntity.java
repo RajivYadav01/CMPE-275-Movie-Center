@@ -1,7 +1,7 @@
 package cmpe275.team.ninja.movieCenter.io.entity;
 
+
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name="cards")
 public class CardEntity {
@@ -15,31 +15,23 @@ public class CardEntity {
     private String cardId;
 
     @Column(name = "name_on_card")
-    private String name_on_card;
+    private String nameOnCard;
 
     @Column(name="cvv")
     private String cvv;
 
-    @Column(name="expiry_day")
-    private String expiry_day;
+    @Column(name="expiry_year")
+    private String expiryYear;
 
     @Column(name="expiry_month")
-    private String expiry_month;
+    private String expiryMonth;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "card", orphanRemoval = true)
-    private List<PaymentEntity> paymentEntityList;
-
-    public String getCardId() {
-        return cardId;
-    }
-
-    public void setCardId(String cardId) {
-        this.cardId = cardId;
-    }
+    @Column(name="card_number")
+    private String cardNumber;
 
     public long getId() {
         return id;
@@ -49,12 +41,20 @@ public class CardEntity {
         this.id = id;
     }
 
-    public String getName_on_card() {
-        return name_on_card;
+    public String getCardId() {
+        return cardId;
     }
 
-    public void setName_on_card(String name_on_card) {
-        this.name_on_card = name_on_card;
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public String getNameOnCard() {
+        return nameOnCard;
+    }
+
+    public void setNameOnCard(String nameOnCard) {
+        this.nameOnCard = nameOnCard;
     }
 
     public String getCvv() {
@@ -65,20 +65,20 @@ public class CardEntity {
         this.cvv = cvv;
     }
 
-    public String getExpiry_day() {
-        return expiry_day;
+    public String getExpiryYear() {
+        return expiryYear;
     }
 
-    public void setExpiry_day(String expiry_day) {
-        this.expiry_day = expiry_day;
+    public void setExpiryYear(String expiryYear) {
+        this.expiryYear = expiryYear;
     }
 
-    public String getExpiry_month() {
-        return expiry_month;
+    public String getExpiryMonth() {
+        return expiryMonth;
     }
 
-    public void setExpiry_month(String expiry_month) {
-        this.expiry_month = expiry_month;
+    public void setExpiryMonth(String expiryMonth) {
+        this.expiryMonth = expiryMonth;
     }
 
     public UserEntity getUser() {
@@ -87,5 +87,13 @@ public class CardEntity {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 }

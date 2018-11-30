@@ -2,8 +2,6 @@ package cmpe275.team.ninja.movieCenter.io.entity;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity(name="movies")
@@ -23,39 +21,22 @@ public class MovieEntity {
     private String genre;
 
     @Column(name="studio_name")
-    private String studio_name;
+    private String studioName;
 
     @Column(name="synopsis")
     private String synopsis;
 
     @Column(name="image_url")
-    private String image_url;
+    private String imageUrl;
 
     @Column(name="youtube_url")
-    private String youtube_url;
+    private String youtubeUrl;
 
     @Column(name="actors")
     private String actors;
 
     @Column(name="actresses")
     private String actresses;
-
-
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name="actor_movie",
-//            joinColumns = {@JoinColumn(name = "movies_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "actors_id")}
-//    )
-//    private List<ActorEntity> actorsList = new ArrayList<>();
-//
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name="actress_movie",
-//            joinColumns = {@JoinColumn(name = "movies_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "actresses_id")}
-//    )
-//    private List<ActressEntity> actressList = new ArrayList<>();
 
     @Column(name="director")
     private String director;
@@ -64,10 +45,10 @@ public class MovieEntity {
     private String country;
 
     @Column(name="mpaa_rating")
-    private String mpaa_rating;
+    private String mpaaRating;
 
     @Column(name="availability_type")
-    private String availability_type;
+    private String availabilityType;
 
     @Column(name="price")
     private double price;
@@ -108,12 +89,12 @@ public class MovieEntity {
         this.genre = genre;
     }
 
-    public String getStudio_name() {
-        return studio_name;
+    public String getStudioName() {
+        return studioName;
     }
 
-    public void setStudio_name(String studio_name) {
-        this.studio_name = studio_name;
+    public void setStudioName(String studioName) {
+        this.studioName = studioName;
     }
 
     public String getSynopsis() {
@@ -124,20 +105,20 @@ public class MovieEntity {
         this.synopsis = synopsis;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getYoutube_url() {
-        return youtube_url;
+    public String getYoutubeUrl() {
+        return youtubeUrl;
     }
 
-    public void setYoutube_url(String youtube_url) {
-        this.youtube_url = youtube_url;
+    public void setYoutubeUrl(String youtubeUrl) {
+        this.youtubeUrl = youtubeUrl;
     }
 
     public String getActors() {
@@ -172,20 +153,20 @@ public class MovieEntity {
         this.country = country;
     }
 
-    public String getMpaa_rating() {
-        return mpaa_rating;
+    public String getMpaaRating() {
+        return mpaaRating;
     }
 
-    public void setMpaa_rating(String mpaa_rating) {
-        this.mpaa_rating = mpaa_rating;
+    public void setMpaaRating(String mpaaRating) {
+        this.mpaaRating = mpaaRating;
     }
 
-    public String getAvailability_type() {
-        return availability_type;
+    public String getAvailabilityType() {
+        return availabilityType;
     }
 
-    public void setAvailability_type(String availability_type) {
-        this.availability_type = availability_type;
+    public void setAvailabilityType(String availabilityType) {
+        this.availabilityType = availabilityType;
     }
 
     public double getPrice() {
@@ -203,5 +184,4 @@ public class MovieEntity {
     public void setStatus(boolean status) {
         this.status = status;
     }
-
 }

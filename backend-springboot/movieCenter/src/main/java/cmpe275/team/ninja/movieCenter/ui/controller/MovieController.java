@@ -5,7 +5,9 @@ import cmpe275.team.ninja.movieCenter.shared.dto.MovieDto;
 import cmpe275.team.ninja.movieCenter.ui.model.response.MovieDetailsResponseModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +33,14 @@ public class MovieController {
         }
 
         return movieDetailsResponseModels;
+    }
+
+    @GetMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MovieDetailsResponseModel getMovieById(@PathVariable String id) {
+        ModelMapper modelMapper = new ModelMapper();
+        MovieDto movieDto = movieService.getMovieById(id);
+        MovieDetailsResponseModel movieDetailsResponseModel = modelMapper.map(movieDto, MovieDetailsResponseModel.class);
+        return movieDetailsResponseModel;
     }
 
 }

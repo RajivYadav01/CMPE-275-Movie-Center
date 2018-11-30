@@ -5,17 +5,8 @@ import java.util.Date;
 public class UserSubscriptionResponseModel {
 
     private String userId;
-    private Date start_date;
-    private Date end_date;
-    private double balance;
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
+    private Date startDate;
+    private Date endDate;
 
     public String getUserId() {
         return userId;
@@ -25,19 +16,19 @@ public class UserSubscriptionResponseModel {
         this.userId = userId;
     }
 
-    public Date getStart_date() {
-        return start_date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getEnd_date() {
-        return end_date;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

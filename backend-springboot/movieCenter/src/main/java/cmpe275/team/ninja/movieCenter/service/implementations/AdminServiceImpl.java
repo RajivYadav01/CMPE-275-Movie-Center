@@ -1,6 +1,6 @@
 package cmpe275.team.ninja.movieCenter.service.implementations;
 
-import cmpe275.team.ninja.movieCenter.exception.AdminServiceException;
+import cmpe275.team.ninja.movieCenter.exceptions.AdminServiceException;
 import cmpe275.team.ninja.movieCenter.io.entity.MovieEntity;
 import cmpe275.team.ninja.movieCenter.io.repositories.MovieRepository;
 import cmpe275.team.ninja.movieCenter.service.interfaces.AdminService;
@@ -10,8 +10,6 @@ import cmpe275.team.ninja.movieCenter.ui.model.response.ErrorMessages;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -34,12 +32,12 @@ public class AdminServiceImpl implements AdminService {
         currentMovieEntity.setTitle(movieDtoToUpdate.getTitle());
         currentMovieEntity.setGenre(movieDtoToUpdate.getGenre());
         currentMovieEntity.setSynopsis(movieDtoToUpdate.getSynopsis());
-        currentMovieEntity.setStudio_name(movieDtoToUpdate.getStudio_name());
+        currentMovieEntity.setStudioName(movieDtoToUpdate.getStudioName());
         currentMovieEntity.setDirector(movieDtoToUpdate.getDirector());
         currentMovieEntity.setCountry(movieDtoToUpdate.getCountry());
-        currentMovieEntity.setMpaa_rating(movieDtoToUpdate.getMpaa_rating());
+        currentMovieEntity.setMpaaRating(movieDtoToUpdate.getMpaaRating());
         currentMovieEntity.setPrice(movieDtoToUpdate.getPrice());
-        currentMovieEntity.setAvailability_type(movieDtoToUpdate.getAvailability_type());
+        currentMovieEntity.setAvailabilityType(movieDtoToUpdate.getAvailabilityType());
         currentMovieEntity.setActors(movieDtoToUpdate.getActors());
         currentMovieEntity.setActresses(movieDtoToUpdate.getActresses());
 

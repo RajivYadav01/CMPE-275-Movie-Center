@@ -1,4 +1,4 @@
-package cmpe275.team.ninja.movieCenter.exception;
+package cmpe275.team.ninja.movieCenter.exceptions;
 
 import cmpe275.team.ninja.movieCenter.ui.model.response.ErrorMessage;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +15,12 @@ public class AppExceptionsHandler {
 
     @ExceptionHandler(value = {AdminServiceException.class})
     public ResponseEntity<Object> handleAdminServiceException(AdminServiceException aex, WebRequest request) {
+        ErrorMessage errorMessage = new ErrorMessage(new Date(), aex.getMessage());
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = {MovieServiceException.class})
+    public ResponseEntity<Object> handleMovieServiceException(MovieServiceException aex, WebRequest request) {
         ErrorMessage errorMessage = new ErrorMessage(new Date(), aex.getMessage());
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

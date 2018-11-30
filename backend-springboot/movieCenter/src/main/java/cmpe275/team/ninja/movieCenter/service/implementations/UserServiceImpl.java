@@ -3,8 +3,11 @@ package cmpe275.team.ninja.movieCenter.service.implementations;
 import cmpe275.team.ninja.movieCenter.io.entity.CardEntity;
 import cmpe275.team.ninja.movieCenter.io.entity.PaymentEntity;
 import cmpe275.team.ninja.movieCenter.io.entity.UserEntity;
+import cmpe275.team.ninja.movieCenter.io.entity.UserSubscriptionEntity;
+import cmpe275.team.ninja.movieCenter.io.repositories.CardRepository;
 import cmpe275.team.ninja.movieCenter.io.repositories.PaymentRepository;
 import cmpe275.team.ninja.movieCenter.io.repositories.UserRepository;
+import cmpe275.team.ninja.movieCenter.io.repositories.UserSubscriptionRepository;
 import cmpe275.team.ninja.movieCenter.service.interfaces.UserService;
 import cmpe275.team.ninja.movieCenter.shared.dto.*;
 import cmpe275.team.ninja.movieCenter.shared.utils.Util;
@@ -13,6 +16,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -20,6 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     PaymentRepository paymentRepository;
+
+    @Autowired
+    CardRepository cardRepository;
+
+    @Autowired
+    UserSubscriptionRepository userSubscriptionRepository;
 
     @Autowired
     Util util;
@@ -40,33 +53,60 @@ public class UserServiceImpl implements UserService {
         return returnedUserDto;
     }
 
+    public Date addMonths(Date date, int i) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, i);
+        cal.set(Calendar.HOUR_OF_DAY, 00);
+        cal.set(Calendar.MINUTE, 00);
+        cal.set(Calendar.SECOND, 00);
+        return cal.getTime();
+    }
+
     @Override
-    public UserSubscriptionDto startUserSubscription(String id, UserPaymentDto userPaymentDto) {
+    public UserSubscriptionDto startUserSubscription(String id, int number_of_months, UserPaymentDto userPaymentDto) {
 
         UserEntity foundUser = userRepository.findByUserId(id);
+        CardEntity cardEntity = cardRepository.findByCardNumber(userPaymentDto.getCardNumber());
 
-        ModelMapper modelMapper = new ModelMapper();
-        UserDto userDto = modelMapper.map(foundUser, UserDto.class);
-        CardDto cardDto = new CardDto();
-        cardDto.setCardId(util.generateCardId(30));
-        cardDto.setCvv(userPaymentDto.getCvv());
-        cardDto.setExpiry_day(userPaymentDto.getExpiry_day());
-        cardDto.setExpiry_month(userPaymentDto.getExpiry_month());
-        cardDto.setUserDto(userDto);
+        if(cardEntity == null) {
+            cardEntity = new CardEntity();
+            cardEntity.setCardId(util.generateCardId(30));
+            cardEntity.setCardNumber(userPaymentDto.getCardNumber());
+            cardEntity.setCvv(userPaymentDto.getCvv());
+            cardEntity.setExpiryYear(userPaymentDto.getExpiryYear());
+            cardEntity.setExpiryMonth(userPaymentDto.getExpiryMonth());
+            cardEntity.setNameOnCard(userPaymentDto.getNameOnCard());
+            cardEntity.setUser(foundUser);
+            cardEntity = cardRepository.save(cardEntity);
 
-        PaymentDto paymentDto = new PaymentDto();
-        paymentDto.setCard(cardDto);
-        paymentDto.setTransactionId(util.generateTransactionId(30));
-
-        PaymentEntity paymentEntity = modelMapper.map(paymentDto, PaymentEntity.class);
-
-        PaymentEntity storedPaymentEntity = paymentRepository.save(paymentEntity);
-        if(storedPaymentEntity != null) {
-            System.out.println("storedPaymentEntity:"+storedPaymentEntity);
-            //start user_subscription logic here
         }
 
-        return new UserSubscriptionDto();
+
+        Date currentDate = new Date();
+        PaymentEntity paymentEntity = new PaymentEntity();
+        paymentEntity.setCard(cardEntity);
+        paymentEntity.setPaymentDate(currentDate);
+        paymentEntity.setUser(foundUser);
+        paymentEntity.setPaymentType(userPaymentDto.getPaymentType());
+        paymentEntity.setTransactionId(util.generateTransactionId(30));
+        paymentEntity.setAmount(userPaymentDto.getAmount());
+        PaymentEntity storedPaymentEntity = paymentRepository.save(paymentEntity);
+
+        UserSubscriptionEntity userSubscriptionEntity = new UserSubscriptionEntity();
+
+        userSubscriptionEntity.setStartDate(currentDate);
+        userSubscriptionEntity.setEndDate(addMonths(currentDate, number_of_months));
+        userSubscriptionEntity.setUser(foundUser);
+
+        UserSubscriptionEntity storedUserSubscriptionEntity = userSubscriptionRepository.save(userSubscriptionEntity);
+
+        ModelMapper modelMapper = new ModelMapper();
+        UserSubscriptionDto userSubscriptionDto = modelMapper.map(storedUserSubscriptionEntity, UserSubscriptionDto.class);
+
+
+
+        return userSubscriptionDto;
 
     }
 }

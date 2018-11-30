@@ -4,9 +4,10 @@ public class CardDto {
     private long id;
     private String cardId;
     private String cvv;
-    private String expiry_month;
-    private String expiry_day;
-    private String name_on_card;
+    private String cardNumber;
+    private String expiryMonth;
+    private String expiryYear;
+    private String nameOnCard;
     private UserDto userDto;
 
     public long getId() {
@@ -33,28 +34,36 @@ public class CardDto {
         this.cvv = cvv;
     }
 
-    public String getExpiry_month() {
-        return expiry_month;
+    public String getCardNumber() {
+        return cardNumber;
     }
 
-    public void setExpiry_month(String expiry_month) {
-        this.expiry_month = expiry_month;
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
-    public String getExpiry_day() {
-        return expiry_day;
+    public String getExpiryMonth() {
+        return expiryMonth;
     }
 
-    public void setExpiry_day(String expiry_day) {
-        this.expiry_day = expiry_day;
+    public void setExpiryMonth(String expiryMonth) {
+        this.expiryMonth = expiryMonth;
     }
 
-    public String getName_on_card() {
-        return name_on_card;
+    public String getExpiryYear() {
+        return expiryYear;
     }
 
-    public void setName_on_card(String name_on_card) {
-        this.name_on_card = name_on_card;
+    public void setExpiryYear(String expiryYear) {
+        this.expiryYear = expiryYear;
+    }
+
+    public String getNameOnCard() {
+        return nameOnCard;
+    }
+
+    public void setNameOnCard(String nameOnCard) {
+        this.nameOnCard = nameOnCard;
     }
 
     public UserDto getUserDto() {

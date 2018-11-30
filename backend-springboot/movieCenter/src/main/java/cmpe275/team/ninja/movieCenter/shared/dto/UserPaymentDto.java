@@ -1,13 +1,18 @@
 package cmpe275.team.ninja.movieCenter.shared.dto;
 
+import java.util.Date;
+
 public class UserPaymentDto {
     private long id;
+    private String cardNumber;
     private String cvv;
-    private String expiry_month;
-    private String expiry_day;
-    private String name_on_card;
+    private String expiryMonth;
+    private String expiryYear;
+    private String nameOnCard;
     private double amount;
     private String transactionId;
+    private String paymentType;
+    private Date paymentDate;
 
     public long getId() {
         return id;
@@ -15,6 +20,14 @@ public class UserPaymentDto {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
     public String getCvv() {
@@ -25,28 +38,28 @@ public class UserPaymentDto {
         this.cvv = cvv;
     }
 
-    public String getExpiry_month() {
-        return expiry_month;
+    public String getExpiryMonth() {
+        return expiryMonth;
     }
 
-    public void setExpiry_month(String expiry_month) {
-        this.expiry_month = expiry_month;
+    public void setExpiryMonth(String expiryMonth) {
+        this.expiryMonth = expiryMonth;
     }
 
-    public String getExpiry_day() {
-        return expiry_day;
+    public String getExpiryYear() {
+        return expiryYear;
     }
 
-    public void setExpiry_day(String expiry_day) {
-        this.expiry_day = expiry_day;
+    public void setExpiryYear(String expiryYear) {
+        this.expiryYear = expiryYear;
     }
 
-    public String getName_on_card() {
-        return name_on_card;
+    public String getNameOnCard() {
+        return nameOnCard;
     }
 
-    public void setName_on_card(String name_on_card) {
-        this.name_on_card = name_on_card;
+    public void setNameOnCard(String nameOnCard) {
+        this.nameOnCard = nameOnCard;
     }
 
     public double getAmount() {
@@ -63,5 +76,21 @@ public class UserPaymentDto {
 
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public Date getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(Date paymentDate) {
+        this.paymentDate = paymentDate;
     }
 }

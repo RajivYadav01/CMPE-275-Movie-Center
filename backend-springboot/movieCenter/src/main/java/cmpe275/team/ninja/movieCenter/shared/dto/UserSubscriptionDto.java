@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class UserSubscriptionDto {
     private long id;
-    private String userId;
-    private Date start_date;
-    private Date end_date;
+    private UserDto user;
+    private Date startDate;
+    private Date endDate;
 
     public long getId() {
         return id;
@@ -16,27 +16,27 @@ public class UserSubscriptionDto {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public UserDto getUser() {
+        return user;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 
-    public Date getStart_date() {
-        return start_date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getEnd_date() {
-        return end_date;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

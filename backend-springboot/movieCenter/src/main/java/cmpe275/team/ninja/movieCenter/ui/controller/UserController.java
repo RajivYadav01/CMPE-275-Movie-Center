@@ -3,6 +3,7 @@ package cmpe275.team.ninja.movieCenter.ui.controller;
 import cmpe275.team.ninja.movieCenter.service.interfaces.UserService;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserDto;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserPaymentDto;
+import cmpe275.team.ninja.movieCenter.shared.dto.UserSubscriptionDto;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserDetailsRequestModel;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserPaymentRequestModel;
 import cmpe275.team.ninja.movieCenter.ui.model.response.UserResponseModel;
@@ -44,14 +45,20 @@ public class UserController {
     )
     public UserSubscriptionResponseModel startUserSubscription(
             @PathVariable String id,
+            @RequestParam("months") int number_of_months,
             @RequestBody UserPaymentRequestModel userPaymentRequestModel
     ) {
 
         ModelMapper modelMapper = new ModelMapper();
         UserPaymentDto userPaymentDto = modelMapper.map(userPaymentRequestModel, UserPaymentDto.class);
-        userService.startUserSubscription(id, userPaymentDto);
+        UserSubscriptionDto userSubscriptionDto = userService.startUserSubscription(id, number_of_months, userPaymentDto);
 
-        return new UserSubscriptionResponseModel();
+        UserSubscriptionResponseModel userSubscriptionResponseModel = new UserSubscriptionResponseModel();
+        userSubscriptionResponseModel.setEndDate(userSubscriptionDto.getEndDate());
+        userSubscriptionResponseModel.setStartDate(userSubscriptionDto.getStartDate());
+        userSubscriptionResponseModel.setUserId(userSubscriptionDto.getUser().getUserId());
+        System.out.println(userSubscriptionResponseModel);
+        return userSubscriptionResponseModel;
 
     }
 

@@ -8,5 +8,5 @@ import cmpe275.team.ninja.movieCenter.shared.dto.UserSubscriptionDto;
 public interface UserService{
 
     UserDto createUser(UserDto userDto);
-    UserSubscriptionDto startUserSubscription(String id, UserPaymentDto userPaymentDto);
+    UserSubscriptionDto startUserSubscription(String id, int number_of_months,UserPaymentDto userPaymentDto);
 }

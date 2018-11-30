@@ -10,13 +10,45 @@ public class UserSubscriptionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="user_id")
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private UserEntity user;
 
     @Column(name="start_date")
-    private Date start_date;
+    private Date startDate;
 
     @Column(name="end_data")
-    private Date end_date;
+    private Date endDate;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 }

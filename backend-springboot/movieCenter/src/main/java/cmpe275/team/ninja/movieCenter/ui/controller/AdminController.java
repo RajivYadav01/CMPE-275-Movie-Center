@@ -11,10 +11,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 @RestController
 @RequestMapping("admin")
+@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = {"*"})
 public class AdminController {
 
     @Autowired

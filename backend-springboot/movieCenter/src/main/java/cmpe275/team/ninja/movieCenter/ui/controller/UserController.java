@@ -28,8 +28,17 @@ public class UserController {
             path="/{id}/checksubscription",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public String checkIfUserSubscribed(@PathVariable String id){
-        return userService.checkIfUserIsSubscribed(id);
+    public OperationStatusModel checkIfUserSubscribed(@PathVariable String id){
+        UserSubscriptionDto userSubscriptionDto = userService.checkIfUserIsSubscribed(id);
+        OperationStatusModel operationStatusModel = new OperationStatusModel();
+        operationStatusModel.setOperationName(RequestOperationName.CHECKUSERSUBSCRIPTION.name());
+
+        if(userSubscriptionDto == null) {
+            operationStatusModel.setOperationResult(RequestOperationStatus.INVALIDUSER.name());
+        } else {
+            operationStatusModel.setOperationResult(RequestOperationStatus.VALIDUSER.name());
+        }
+        return operationStatusModel;
     }
 
     @PostMapping

@@ -9,7 +9,8 @@ public enum ErrorMessages {
     COULD_NOT_UPDATE_RECORD("Could not update record"),
     COULD_NOT_DELETE_RECORD("Could not delete record"),
     EMAIL_ADDRESS_NOT_VERIFIED("Email id could not be verified"),
-    PAYMENT_NOT_SUCCESSFULL("Payment was not successfull");
+    PAYMENT_NOT_SUCCESSFULL("Payment was not successfull"),
+    VALIDUSER("User subscription is still valid");
 
 
 

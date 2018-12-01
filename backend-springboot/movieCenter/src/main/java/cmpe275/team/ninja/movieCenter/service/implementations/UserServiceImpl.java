@@ -1,5 +1,6 @@
 package cmpe275.team.ninja.movieCenter.service.implementations;
 
+import cmpe275.team.ninja.movieCenter.exceptions.UserServiceException;
 import cmpe275.team.ninja.movieCenter.io.entity.CardEntity;
 import cmpe275.team.ninja.movieCenter.io.entity.PaymentEntity;
 import cmpe275.team.ninja.movieCenter.io.entity.UserEntity;
@@ -11,6 +12,7 @@ import cmpe275.team.ninja.movieCenter.io.repositories.UserSubscriptionRepository
 import cmpe275.team.ninja.movieCenter.service.interfaces.UserService;
 import cmpe275.team.ninja.movieCenter.shared.dto.*;
 import cmpe275.team.ninja.movieCenter.shared.utils.Util;
+import cmpe275.team.ninja.movieCenter.ui.model.response.ErrorMessage;
 import cmpe275.team.ninja.movieCenter.ui.model.response.ErrorMessages;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -41,22 +43,23 @@ public class UserServiceImpl implements UserService {
     Util util;
 
     @Override
-    public String checkIfUserIsSubscribed(String id) {
+    public UserSubscriptionDto checkIfUserIsSubscribed(String id) {
         UserEntity foundUser = userRepository.findByUserId(id);
+        if(foundUser == null) {
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        }
         ModelMapper modelMapper = new ModelMapper();
         UserDto userDto = modelMapper.map(foundUser, UserDto.class);
-        if(foundUser == null) {
-            //throw UserServiceException
+
+        UserSubscriptionEntity validUser = userSubscriptionRepository.findByUserAndEndDateAfter(foundUser, new Date());
+        System.out.println(validUser);
+
+        if(validUser != null ) {
+            UserSubscriptionDto userSubscriptionDto = modelMapper.map(validUser, UserSubscriptionDto.class);
+            return userSubscriptionDto;
         }
-
-
-        List<UserSubscriptionEntity> validUserList = userSubscriptionRepository.findByUserAndEndDateAfter(foundUser, new Date());
-        System.out.println(validUserList);
-
-        if(validUserList != null || validUserList.size() > 0)
-            return "valid subscribed user";
         else
-            return "invalid subscribed user";
+            return null;
     }
 
     @Override
@@ -87,13 +90,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserSubscriptionDto startUserSubscription(String id, int number_of_months, UserPaymentDto userPaymentDto) {
+        UserSubscriptionDto userSubscriptionDto = checkIfUserIsSubscribed(id);
+        if(userSubscriptionDto != null)
+            throw new UserServiceException(ErrorMessages.VALIDUSER.getErrorMessage());
 
         UserEntity foundUser = userRepository.findByUserId(id);
 
         Date currentDate = new Date();
+
         PaymentEntity storedPaymentEntity = makePayment(foundUser, userPaymentDto, currentDate);
         if(storedPaymentEntity == null){
-            //throw new UserServiceException(ErrorMessages.PAYMENT_NOT_SUCCESSFULL.getErrorMessage());
+            throw new UserServiceException(ErrorMessages.PAYMENT_NOT_SUCCESSFULL.getErrorMessage());
         }
 
         UserSubscriptionEntity userSubscriptionEntity = new UserSubscriptionEntity();
@@ -110,9 +117,7 @@ public class UserServiceImpl implements UserService {
         }
 
         ModelMapper modelMapper = new ModelMapper();
-        UserSubscriptionDto userSubscriptionDto = modelMapper.map(storedUserSubscriptionEntity, UserSubscriptionDto.class);
-
-
+        userSubscriptionDto = modelMapper.map(storedUserSubscriptionEntity, UserSubscriptionDto.class);
 
         return userSubscriptionDto;
 
@@ -124,7 +129,7 @@ public class UserServiceImpl implements UserService {
         Date currentDate = new Date();
         PaymentEntity storedPaymentEntity = makePayment(foundUser, userPaymentDto, currentDate);
         if(storedPaymentEntity == null) {
-            //throw new UserServiceException(ErrorMessages.PAYMENT_NOT_SUCCESSFULL.getErrorMessage());
+            throw new UserServiceException(ErrorMessages.PAYMENT_NOT_SUCCESSFULL.getErrorMessage());
         }
     }
 

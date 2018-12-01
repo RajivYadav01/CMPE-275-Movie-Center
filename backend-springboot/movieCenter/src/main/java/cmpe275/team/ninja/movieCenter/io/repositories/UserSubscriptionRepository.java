@@ -9,5 +9,5 @@ import java.util.Date;
 import java.util.List;
 
 public interface UserSubscriptionRepository extends JpaRepository<UserSubscriptionEntity, Long> {
-    List<UserSubscriptionEntity> findByUserAndEndDateAfter(UserEntity userEntity, Date date);
+    UserSubscriptionEntity findByUserAndEndDateAfter(UserEntity userEntity, Date date);
 }

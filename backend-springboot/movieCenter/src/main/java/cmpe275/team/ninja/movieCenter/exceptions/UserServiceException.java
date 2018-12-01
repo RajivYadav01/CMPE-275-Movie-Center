@@ -1,7 +1,12 @@
 package cmpe275.team.ninja.movieCenter.exceptions;
 
 public class UserServiceException extends RuntimeException {
-    public UserServiceException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5833895597226641872L;
+
+	public UserServiceException(String message) {
         super(message);
     }
 }

@@ -2,16 +2,17 @@ package cmpe275.team.ninja.movieCenter.ui.controller;
 
 import cmpe275.team.ninja.movieCenter.service.interfaces.AdminService;
 import cmpe275.team.ninja.movieCenter.shared.dto.MovieDto;
+import cmpe275.team.ninja.movieCenter.shared.dto.UserDto;
 import cmpe275.team.ninja.movieCenter.ui.model.request.MovieDetailsRequestModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.MovieDetailsResponseModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.OperationStatusModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.RequestOperationName;
-import cmpe275.team.ninja.movieCenter.ui.model.response.RequestOperationStatus;
+import cmpe275.team.ninja.movieCenter.ui.model.response.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -40,7 +41,7 @@ public class AdminController {
     }
 
     @PutMapping(
-            path="{id}/update_movie",
+            path="/update_movie/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -61,7 +62,7 @@ public class AdminController {
     }
 
     @DeleteMapping(
-            path="{id}/delete_movie",
+            path="/delete_movie/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public OperationStatusModel deleteMovie(@PathVariable String id){
@@ -72,6 +73,37 @@ public class AdminController {
         return operationStatusModel;
     }
 
+    @GetMapping(
+            path= "/user/{id}/history",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<MovieDetailsResponseModel> getMoviePlayingHistoryForUser(@PathVariable String id) {
+        List<MovieDetailsResponseModel> movieDetailsResponseModels = new ArrayList<>();
+        List<MovieDto> movieDtos = adminService.getMoviePlayingHistoryForUser(id);
+        ModelMapper modelMapper = new ModelMapper();
+        if (movieDtos == null)
+            return null;
+        movieDtos.forEach(movieDto -> {
+            movieDetailsResponseModels.add(modelMapper.map(movieDto, MovieDetailsResponseModel.class));
+        });
 
+        return movieDetailsResponseModels;
+    }
+
+    @GetMapping(
+            path="/toptenusers",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<UserResponseModel> getTopTenUsersByPeriod(@RequestParam("period") String period) {
+        List<UserResponseModel> responseModels = new ArrayList<>();
+        List<UserDto> userDtos = adminService.getTopTenUsersByPeriod(period);
+        if(userDtos == null)
+            return new ArrayList<UserResponseModel>();
+        ModelMapper modelMapper = new ModelMapper();
+        userDtos.forEach(userDto -> {
+            responseModels.add(modelMapper.map(userDto, UserResponseModel.class));
+        });
+        return responseModels;
+    }
 
 }

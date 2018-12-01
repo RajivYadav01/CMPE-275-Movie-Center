@@ -80,5 +80,17 @@ public class MovieServiceImpl implements MovieService {
 
         return movieDtos;
     }
+    
+    @Override
+	public boolean updateMovieRating(String id, double rating) {
+		MovieEntity foundMovieEntity = movieRepository.findByMovieId(id);
+		if(foundMovieEntity == null) throw new MovieServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+		int totalCount = foundMovieEntity.getUserRatingCount() + 1;
+		foundMovieEntity.setUserRatingCount(totalCount);
+		double avgRating = (foundMovieEntity.getAverageRating() + rating) / totalCount;
+		foundMovieEntity.setAverageRating(avgRating);
+		movieRepository.save(foundMovieEntity);
+		return true;
+	}
 
 }

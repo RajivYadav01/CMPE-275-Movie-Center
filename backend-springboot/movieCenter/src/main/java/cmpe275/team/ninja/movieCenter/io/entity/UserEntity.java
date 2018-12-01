@@ -1,9 +1,12 @@
 package cmpe275.team.ninja.movieCenter.io.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity(name = "users")
 public class UserEntity implements Serializable {
@@ -23,20 +26,32 @@ public class UserEntity implements Serializable {
     @Column(nullable = false, length = 50)
     private String lastName;
 
-    //@Column(nullable = false, length = 120, unique = true)
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false, length = 120, unique=true)
     private String email;
 
     @Column(nullable = false)
     private String encryptedPassword;
 
     private String emailVerificationToken;
-
-    @Column(nullable = false)
-    private boolean emailVerificationStatus = false;
-
+    
+    @Column(nullable=false)
+    private Boolean emailVerificationStatus = false;
+    
     @Column(name="is_subscribed")
     private boolean isSubscribed = false;
+    
+    
+    public boolean isSubscribed() {
+		return isSubscribed;
+	}
+
+	public void setSubscribed(boolean isSubscribed) {
+		this.isSubscribed = isSubscribed;
+	}
+
+	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
+        this.emailVerificationStatus = emailVerificationStatus;
+    }
 
     public long getId() {
         return id;
@@ -94,7 +109,7 @@ public class UserEntity implements Serializable {
         this.emailVerificationToken = emailVerificationToken;
     }
 
-    public boolean isEmailVerificationStatus() {
+    public boolean getEmailVerificationStatus() {
         return emailVerificationStatus;
     }
 
@@ -102,11 +117,17 @@ public class UserEntity implements Serializable {
         this.emailVerificationStatus = emailVerificationStatus;
     }
 
-    public boolean isSubscribed() {
-        return isSubscribed;
-    }
-
-    public void setSubscribed(boolean subscribed) {
-        isSubscribed = subscribed;
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", encryptedPassword='" + encryptedPassword + '\'' +
+                ", emailVerificationToken='" + emailVerificationToken + '\'' +
+                ", emailVerificationStatus=" + emailVerificationStatus +
+                '}';
     }
 }

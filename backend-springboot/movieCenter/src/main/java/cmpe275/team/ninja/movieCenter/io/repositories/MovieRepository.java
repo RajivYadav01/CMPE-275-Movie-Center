@@ -11,6 +11,4 @@ public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
     MovieEntity findByMovieId(String publicMovieId);
     List<MovieEntity> findAllByTitleLikeOrActorsLikeOrDirectorLikeOrSynopsisLike(String a, String b, String c, String d);
 
-
-
 }

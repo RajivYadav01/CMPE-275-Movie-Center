@@ -59,6 +59,28 @@ public class MovieEntity {
     @Column(name="year_of_release")
     private String yearOfRelease;
 
+    public double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(double averageRating) {
+		this.averageRating = averageRating;
+	}
+
+	public int getUserRatingCount() {
+		return userRatingCount;
+	}
+
+	public void setUserRatingCount(int userRatingCount) {
+		this.userRatingCount = userRatingCount;
+	}
+
+	@Column(name="average_rating", columnDefinition="Decimal(2,1) default '0.0'")
+    private double averageRating;
+    
+    @Column(name="user_rating_count", columnDefinition = "int default 0")
+    private int userRatingCount;
+
 
     public long getId() {
         return id;

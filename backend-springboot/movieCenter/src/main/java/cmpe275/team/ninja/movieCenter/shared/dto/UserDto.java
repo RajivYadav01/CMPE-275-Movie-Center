@@ -15,8 +15,9 @@ public class UserDto implements Serializable {
     private String emailVerificationToken;
     private boolean emailVerificationStatus = false;
     private boolean isSubscribed = false;
+   
 
-    public long getId() {
+	public long getId() {
         return id;
     }
 
@@ -88,11 +89,11 @@ public class UserDto implements Serializable {
         this.emailVerificationStatus = emailVerificationStatus;
     }
 
-    public boolean isSubscribed() {
-        return isSubscribed;
-    }
+	public boolean isSubscribed() {
+		return isSubscribed;
+	}
 
-    public void setSubscribed(boolean subscribed) {
-        isSubscribed = subscribed;
-    }
+	public void setSubscribed(boolean isSubscribed) {
+		this.isSubscribed = isSubscribed;
+	}
 }

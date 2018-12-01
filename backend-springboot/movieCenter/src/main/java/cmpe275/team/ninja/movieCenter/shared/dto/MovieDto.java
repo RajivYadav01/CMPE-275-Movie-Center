@@ -24,6 +24,8 @@ public class MovieDto implements Serializable {
     private double price;
     private boolean status = true;
     private String yearOfRelease;
+    private double averageRating;
+    private int userRatingCount;
 
     public long getId() {
         return id;
@@ -160,4 +162,20 @@ public class MovieDto implements Serializable {
     public void setYearOfRelease(String yearOfRelease) {
         this.yearOfRelease = yearOfRelease;
     }
+
+	public int getUserRatingCount() {
+		return userRatingCount;
+	}
+
+	public void setUserRatingCount(int userRatingCount) {
+		this.userRatingCount = userRatingCount;
+	}
+
+	public double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(double averageRating) {
+		this.averageRating = averageRating;
+	}
 }

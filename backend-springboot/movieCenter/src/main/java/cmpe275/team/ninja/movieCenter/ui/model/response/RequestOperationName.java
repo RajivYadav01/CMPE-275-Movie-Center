@@ -3,5 +3,7 @@ package cmpe275.team.ninja.movieCenter.ui.model.response;
 public enum RequestOperationName {
     DELETE,
     MOVIEPAYMENT,
-    CHECKUSERSUBSCRIPTION
+    CHECKUSERSUBSCRIPTION,
+    VERIFY_EMAIL,
+    USERMOVIEPLAY
 }

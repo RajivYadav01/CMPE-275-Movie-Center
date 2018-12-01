@@ -182,7 +182,7 @@ public class UserController {
         operationStatusModel.setOperationName(RequestOperationName.USERMOVIEPLAY.name());
         operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
         return operationStatusModel;
-}
+    }
 
 
 }

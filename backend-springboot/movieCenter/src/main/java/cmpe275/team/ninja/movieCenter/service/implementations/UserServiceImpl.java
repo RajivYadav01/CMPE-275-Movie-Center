@@ -72,6 +72,12 @@ public class UserServiceImpl implements UserService {
     UserMoviePlayRepository userMoviePlayRepository;
 
     @Autowired
+    MovieRepository movieRepository;
+
+    @Autowired
+    UserMoviePlayRepository userMoviePlayRepository;
+
+    @Autowired
     Util util;
 
     @Override

@@ -20,8 +20,14 @@ public class AppExceptionsHandler {
     }
 
     @ExceptionHandler(value = {MovieServiceException.class})
-    public ResponseEntity<Object> handleMovieServiceException(MovieServiceException aex, WebRequest request) {
-        ErrorMessage errorMessage = new ErrorMessage(new Date(), aex.getMessage());
+    public ResponseEntity<Object> handleMovieServiceException(MovieServiceException mex, WebRequest request) {
+        ErrorMessage errorMessage = new ErrorMessage(new Date(), mex.getMessage());
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = {UserServiceException.class})
+    public ResponseEntity<Object> handleUserServiceException(UserServiceException uex, WebRequest request) {
+        ErrorMessage errorMessage = new ErrorMessage(new Date(), uex.getMessage());
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

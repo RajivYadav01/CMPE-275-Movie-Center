@@ -2,9 +2,11 @@ package cmpe275.team.ninja.movieCenter.ui.controller;
 
 import cmpe275.team.ninja.movieCenter.service.interfaces.UserService;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserDto;
+import cmpe275.team.ninja.movieCenter.shared.dto.UserMoviePlayDto;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserPaymentDto;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserSubscriptionDto;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserDetailsRequestModel;
+import cmpe275.team.ninja.movieCenter.ui.model.request.UserMoviePlayRequestModel;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserPaymentRequestModel;
 import cmpe275.team.ninja.movieCenter.ui.model.response.*;
 import org.modelmapper.ModelMapper;
@@ -41,7 +43,11 @@ public class UserController {
         return operationStatusModel;
     }
 
-    @PostMapping
+    @PostMapping(
+            path = "/create_user",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public UserResponseModel createUser(@RequestBody UserDetailsRequestModel userDetailsRequestModel){
         UserDto userDto = new UserDto();
         UserResponseModel userResponseModel = new UserResponseModel();
@@ -92,6 +98,21 @@ public class UserController {
         OperationStatusModel operationStatusModel = new OperationStatusModel();
         userService.payForMovie(id, userPaymentDto);
         operationStatusModel.setOperationName(RequestOperationName.MOVIEPAYMENT.name());
+        operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        return operationStatusModel;
+    }
+
+    @PostMapping(
+            path="/play",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public OperationStatusModel userActivity(@RequestBody UserMoviePlayRequestModel userMoviePlayRequestModel) {
+        UserMoviePlayDto userMoviePlayDto = new UserMoviePlayDto();
+        userMoviePlayDto.setSubscriptionType(userMoviePlayRequestModel.getSubscriptionType());
+        userService.createUserActivity(userMoviePlayRequestModel.getUserId(), userMoviePlayRequestModel.getMovieId(), userMoviePlayDto);
+        OperationStatusModel operationStatusModel = new OperationStatusModel();
+        operationStatusModel.setOperationName(RequestOperationName.USERMOVIEPLAY.name());
         operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
         return operationStatusModel;
     }

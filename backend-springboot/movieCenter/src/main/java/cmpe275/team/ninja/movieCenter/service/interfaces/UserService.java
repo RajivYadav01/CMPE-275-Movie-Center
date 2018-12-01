@@ -1,6 +1,7 @@
 package cmpe275.team.ninja.movieCenter.service.interfaces;
 
 import cmpe275.team.ninja.movieCenter.shared.dto.UserDto;
+import cmpe275.team.ninja.movieCenter.shared.dto.UserMoviePlayDto;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserPaymentDto;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserSubscriptionDto;
 
@@ -10,4 +11,5 @@ public interface UserService{
     UserDto createUser(UserDto userDto);
     UserSubscriptionDto startUserSubscription(String id, int number_of_months,UserPaymentDto userPaymentDto);
     void payForMovie(String id, UserPaymentDto userPaymentDto);
+    void createUserActivity(String userId, String movieId, UserMoviePlayDto userMoviePlayDto);
 }

@@ -36,7 +36,7 @@ public class UserEntity implements Serializable {
     private boolean emailVerificationStatus = false;
 
     @Column(name="is_subscribed")
-    private boolean isSubscribed = false;
+    private boolean isSubscribed;
 
     public long getId() {
         return id;

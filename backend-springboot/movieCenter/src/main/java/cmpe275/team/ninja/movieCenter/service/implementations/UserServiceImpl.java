@@ -1,14 +1,9 @@
 package cmpe275.team.ninja.movieCenter.service.implementations;
 
+import cmpe275.team.ninja.movieCenter.exceptions.MovieServiceException;
 import cmpe275.team.ninja.movieCenter.exceptions.UserServiceException;
-import cmpe275.team.ninja.movieCenter.io.entity.CardEntity;
-import cmpe275.team.ninja.movieCenter.io.entity.PaymentEntity;
-import cmpe275.team.ninja.movieCenter.io.entity.UserEntity;
-import cmpe275.team.ninja.movieCenter.io.entity.UserSubscriptionEntity;
-import cmpe275.team.ninja.movieCenter.io.repositories.CardRepository;
-import cmpe275.team.ninja.movieCenter.io.repositories.PaymentRepository;
-import cmpe275.team.ninja.movieCenter.io.repositories.UserRepository;
-import cmpe275.team.ninja.movieCenter.io.repositories.UserSubscriptionRepository;
+import cmpe275.team.ninja.movieCenter.io.entity.*;
+import cmpe275.team.ninja.movieCenter.io.repositories.*;
 import cmpe275.team.ninja.movieCenter.service.interfaces.UserService;
 import cmpe275.team.ninja.movieCenter.shared.dto.*;
 import cmpe275.team.ninja.movieCenter.shared.utils.Util;
@@ -38,6 +33,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserSubscriptionRepository userSubscriptionRepository;
+
+    @Autowired
+    MovieRepository movieRepository;
+
+    @Autowired
+    UserMoviePlayRepository userMoviePlayRepository;
 
     @Autowired
     Util util;
@@ -163,5 +164,51 @@ public class UserServiceImpl implements UserService {
 
         return storedPaymentEntity;
 
+    }
+
+    @Override
+    public void createUserActivity(String userId, String movieId, UserMoviePlayDto userMoviePlayDto) {
+        Date startTime = new Date();
+        userMoviePlayDto.setStartTime(startTime);
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        UserEntity foundUser = userRepository.findByUserId(userId);
+        if(foundUser == null)
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+
+        MovieEntity foundMovie = movieRepository.findByMovieId(movieId);
+        if(foundMovie == null)
+            throw new MovieServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+
+        UserMoviePlayEntity retrievedUserMoviePlayEntity = checkLastStartTimeIfWithin24hours(foundUser, foundMovie, startTime);
+
+        if(retrievedUserMoviePlayEntity == null) {
+            UserDto foundUserDto = modelMapper.map(foundUser, UserDto.class);
+            MovieDto foundMovieDto = modelMapper.map(foundMovie, MovieDto.class);
+
+            userMoviePlayDto.setMovie(foundMovieDto);
+            userMoviePlayDto.setUser(foundUserDto);
+            UserMoviePlayEntity userMoviePlayEntity = modelMapper.map(userMoviePlayDto, UserMoviePlayEntity.class);
+            //UserMoviePlayEntity storedUserMoviePlayEntity =
+            userMoviePlayRepository.save(userMoviePlayEntity);
+
+            //UserMoviePlayDto storedUserMoviePlayDto = modelMapper.map(storedUserMoviePlayEntity, UserMoviePlayDto.class);
+        }
+    }
+
+    public UserMoviePlayEntity checkLastStartTimeIfWithin24hours(UserEntity foundUser, MovieEntity foundMovie, Date currentTime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentTime);
+        calendar.add(Calendar.DATE, -1);
+
+        System.out.println(calendar.getTime());
+        Date previousDayDate = calendar.getTime();
+        UserMoviePlayEntity userMoviePlayEntity = userMoviePlayRepository.findByUserAndMovieAndStartTimeBetween(
+                foundUser,
+                foundMovie,
+                previousDayDate,
+                currentTime);
+        return userMoviePlayEntity;
     }
 }

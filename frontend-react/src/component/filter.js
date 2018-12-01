@@ -93,7 +93,7 @@ class Filter extends Component {
             ratingsRadio : this.state.ratingsRadio
         };
         console.log(allFilters);
-        axios.post('http://localhost:8080/users/movies/', allFilters,
+        axios.post('http://localhost:8080/users/movies', allFilters,
             {withCredentials:true})
             .then((response)=>{
                 console.log(response)

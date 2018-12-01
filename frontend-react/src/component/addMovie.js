@@ -167,12 +167,12 @@ class AddMovie extends Component{
         let nextButton = null;
         if(this.state.currentTab == 3){
             nextButton = (
-                <button style={styleButton2} type="button" id="prevBtn" onClick={(e) => this.handlePrev(e,FormTitle)}>Submit</button>
+                <button style={styleButton2} type="button" id="prevBtn" onClick={(e) => this.handleNext(e,FormTitle)}>Submit</button>
             )
                     
         }else{
             nextButton = (
-                <button style={styleButton2} type="button" id="prevBtn" onClick={(e) => this.handlePrev(e,FormTitle)}>Next</button>
+                <button style={styleButton2} type="button" id="prevBtn" onClick={(e) => this.handleNext(e,FormTitle)}>Next</button>
             )
         }
         return(

@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -46,4 +48,37 @@ public class MovieServiceImpl implements MovieService {
 
         return movieDto;
     }
+
+    @Override
+    public List<MovieDto> getMoviesBySearch(String searchtext) {
+
+        List<MovieDto> movieDtos = new ArrayList<>();
+        Set<MovieEntity> set = new HashSet<>();
+        String[] temp = searchtext.split("\\s+");
+
+        for(String s : temp){
+            String text = "%"+s+"%" ;
+            List<MovieEntity> movieEntities = movieRepository.findAllByTitleLikeOrActorsLikeOrDirectorLikeOrSynopsisLike(text, text, text, text);
+            for(MovieEntity m : movieEntities)
+                set.add(m);
+        }
+
+        for(MovieEntity m : set)
+            System.out.println(m);
+
+        ModelMapper modelMapper = new ModelMapper();
+
+//        if(addressDtos!= null && !addressDtos.isEmpty()) {
+//            Type listType = new TypeToken<List<AddressResponseModel>>() {}.getType();
+//            addressesResponse = modelMapper.map(addressDtos, listType);
+//        }
+
+        for(MovieEntity m : set){
+            MovieDto movieDto = modelMapper.map(m,MovieDto.class);
+            movieDtos.add(movieDto);
+        }
+
+        return movieDtos;
+    }
+
 }

@@ -6,4 +6,5 @@ import java.util.List;
 public interface MovieService {
     List<MovieDto> getAllMovies();
     MovieDto getMovieById(String id);
+    List<MovieDto> getMoviesBySearch(String searchtext);
 }

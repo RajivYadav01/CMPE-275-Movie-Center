@@ -41,4 +41,17 @@ public class MovieController {
         return movieDetailsResponseModel;
     }
 
+    @GetMapping(path="/search/{searchtext}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MovieDetailsResponseModel> getSearchResult(@PathVariable String searchtext) {
+        List<MovieDetailsResponseModel> MovieDetailsResponseModels = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        List<MovieDto> movieDtos = movieService.getMoviesBySearch(searchtext);
+        for(MovieDto m : movieDtos){
+            MovieDetailsResponseModel movieDetailsResponseModel = modelMapper.map(m, MovieDetailsResponseModel.class);
+            MovieDetailsResponseModels.add(movieDetailsResponseModel);
+        }
+        return MovieDetailsResponseModels;
+    }
+
 }

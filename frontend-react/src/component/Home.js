@@ -3,6 +3,7 @@ import movieImg from '../image.webp';
 import movieMeta from '../movie-meta.webp';
 import videoSrc from '../sabrina-crop.mp4';
 import TopTen from './TopTen';
+import SignUp from './SignUp';
 import Navbar from './/Navbar';
 
 class Home extends Component{

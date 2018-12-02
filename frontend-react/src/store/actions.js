@@ -27,11 +27,11 @@ export function CreateMovie(MovieDetails){
     var headers = new Headers();
     headers.append('Accept', 'application/json');
     return (dispatch) => {
-        const request = axios(`${api}/admin/create_movie`,{
+        const request = axios(`${api}/admin/create_movie/`,{
             method: 'post',
             mode: 'no-cors',
             redirect: 'follow',
-            withCredentials: true,
+            withCredentials: false,
             headers: headers,
             data: MovieDetails
         }).then((response)=>{
@@ -43,6 +43,45 @@ export function CreateMovie(MovieDetails){
             }
         })
     }    
+}
+
+export function SignInAction(UserDetails){
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return (dispatch) => {
+        const request = axios(`${api}/users/login`,{
+            method: 'post',
+            mode: 'no-cors',
+            redirect: 'follow',
+            withCredentials: false,
+            headers: headers,
+            data: UserDetails
+        }).then((response)=>{
+            if(response.status == 200){
+                console.log(response);
+                localStorage.setItem("Authorization", response.headers["authorization"]);
+            }else{
+                dispatch(MovieCreateFailed(response))
+            }
+        })
+    }    
+}
+
+export function CreateUser(UserDetails){
+    var headers = new Headers();
+    headers.append('Accept', 'application/json');
+   
+    return (dispatch) => {
+        axios({
+            method:'post',
+            url: `${api}/users`,
+            headers: headers,
+            data: UserDetails
+        })
+        .then((response) => {
+            console.log("done"+response);
+        })
+    }  
 }
 
 

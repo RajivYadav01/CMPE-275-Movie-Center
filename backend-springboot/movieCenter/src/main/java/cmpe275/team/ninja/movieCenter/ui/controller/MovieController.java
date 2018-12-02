@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("*/movies")
-@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = {"*"})
+@RequestMapping("movies")
+//@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = {"*"})
 public class MovieController {
 
     @Autowired

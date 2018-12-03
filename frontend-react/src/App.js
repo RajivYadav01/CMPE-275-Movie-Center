@@ -14,8 +14,8 @@ class App extends Component {
             <Route exact path = '/' component = {Home}/>
             <Route exact path = '/admin/create/:movieID' component = {AddMovie}/>
             <Route exact path = '/admin/delete' component = {DeleteMovie}/>
-            <Route exact path = '/users/signup' component = {SignUp}/>
-            <Route exact path = '/users/signin' component = {SignIn}/>
+            <Route exact path = '/signup' component = {SignUp}/>
+            <Route exact path = '/signin' component = {SignIn}/>
             <Route exact path = '/filter' component = {Filter}/>
       </Switch>
     );

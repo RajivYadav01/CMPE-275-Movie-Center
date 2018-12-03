@@ -71,8 +71,8 @@ class Navbar extends Component{
 
                 <li style={StyleFloatRight}><a href="/" style = {styleForLiA}>Search</a></li>
                 <li style={StyleFloatRight}><Link to="/admin/delete/">Admin Config</Link></li>
-                <li style={StyleFloatRight}><Link to="/users/signup/">SignUp</Link></li>
-                <li style={StyleFloatRight}><Link to="/users/signin/">SignIn</Link></li>
+                <li style={StyleFloatRight}><Link to="/signup/">SignUp</Link></li>
+                <li style={StyleFloatRight}><Link to="/signin/">SignIn</Link></li>
                 <li style={StyleFloatRight}><a href="/" style = {styleForLiA}>Account</a></li>
                 <li style={StyleFloatRight}><a id="searchbutton" onClick={this.handleSearch} style = {styleForLiA}>Search</a></li>
                 <li style={StyleFloatRight}>

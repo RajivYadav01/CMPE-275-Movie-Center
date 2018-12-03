@@ -62,10 +62,7 @@ public class MailSendingService {
 	
 	public void verifyEmail(UserDto userDto) {
 
-		// You can also set your keys this way. And it will work!
-		//System.setProperty("aws.accessKeyId", "AKIAJHWFVVQ3LV5WR7MQ"); 
-		//System.setProperty("aws.secretKey", "oUDjvdDkMSYzkUnLtBbLpJlIdHosjntHRHKI37yG"); 
-		BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAJHWFVVQ3LV5WR7MQ", "oUDjvdDkMSYzkUnLtBbLpJlIdHosjntHRHKI37yG");
+		BasicAWSCredentials awsCreds = new BasicAWSCredentials("XXXXX", "XXXXX");
 		AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard()
 				.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
 				.withRegion(Regions.US_WEST_2)

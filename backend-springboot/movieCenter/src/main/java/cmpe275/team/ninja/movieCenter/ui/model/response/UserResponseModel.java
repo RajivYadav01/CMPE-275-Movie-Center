@@ -7,6 +7,7 @@ public class UserResponseModel {
     private String firstName;
     private String lastName;
     private String email;
+	private String userType;
     private boolean isSubscribed;
     private Date createdDate;
 
@@ -57,4 +58,12 @@ public class UserResponseModel {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+    
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 }

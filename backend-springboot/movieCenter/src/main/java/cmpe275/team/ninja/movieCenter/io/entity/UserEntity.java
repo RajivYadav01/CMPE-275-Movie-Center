@@ -43,6 +43,17 @@ public class UserEntity implements Serializable {
 
     @Column(name="created_date")
     private Date createdDate;
+    
+    @Column(nullable=false)
+    private String userType;
+    
+    public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 
 
     public boolean isSubscribed() {

@@ -268,3 +268,124 @@ table.table .avatar {
 .modal form label {
     font-weight: normal;
 }	
+
+.bg-img {
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.bg-wrapper {
+    background-size: cover;
+    display: block;
+    height: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+    opacity: .5;
+
+}
+
+.main-center:before {
+    content: "";
+    height: 91px;
+    display: block;
+}
+
+.main-app {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 0;
+}
+
+.sign-in-form, .sign-up-form {
+    background-color: rgba(0,0,0,.75);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin: 0;
+    min-height: 515px;
+    padding: 20px 0 30px;
+    width: 100%;
+
+    padding: 60px 68px 40px;
+    margin-bottom: 90px;
+}
+
+.h4Label {
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 28px;
+}
+
+.main-center {
+    margin: 0 auto -236px;
+    min-height: 100vh;
+    background-color: transparent;
+    max-width: 450px;
+}
+
+.sign-in-form .help-text, .sign-up-form .help-text {
+    color: #737373;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 16px;
+}
+
+.sign-in-form .inputField, .sign-up-form .inputField {
+    background: #333;
+    border-radius: 4px;
+    border: 0;
+    color: #fff;
+    height: 50px;
+    line-height: 50px;
+}
+
+.header-wrapper{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border-bottom: transparent;
+    background: linear-gradient(to bottom,rgba(0,0,0,.5) 0,rgba(0,0,0,0) 100%);
+    padding-top: 15px;
+}
+
+.main-header{
+    margin-left: 3%;
+    text-decoration: none;
+    font-size: 50px;
+    font-weight: 700;
+    color: white;
+}
+
+.main-header:hover{
+    color: white;
+    text-decoration: none;
+}
+
+.error-msg {
+    color: red;
+    padding: 10px;
+}
+
+

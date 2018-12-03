@@ -11,6 +11,7 @@ public class UserDto implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
+    private String userType;
     private String password;
     private String encryptedPassword;
     private String emailVerificationToken;
@@ -94,10 +95,6 @@ public class UserDto implements Serializable {
         return isSubscribed;
     }
 
-    public void setSubscribed(boolean subscribed) {
-        isSubscribed = subscribed;
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -105,4 +102,17 @@ public class UserDto implements Serializable {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+
+	public void setSubscribed(boolean isSubscribed) {
+		this.isSubscribed = isSubscribed;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
 }

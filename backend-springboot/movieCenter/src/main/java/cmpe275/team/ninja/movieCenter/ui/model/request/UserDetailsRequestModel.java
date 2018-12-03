@@ -6,6 +6,7 @@ public class UserDetailsRequestModel {
     private String lastName;
     private String email;
     private String password;
+    private String userType;
 
     public String getFirstName() {
         return firstName;
@@ -38,4 +39,12 @@ public class UserDetailsRequestModel {
     public void setPassword(String password) {
         this.password = password;
     }
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 }

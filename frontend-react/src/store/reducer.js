@@ -2,7 +2,8 @@ import * as actionTypes from './actions';
 
 
 const initialState = {
-    msg : ''
+    msg : '',
+    status : ''
 }
 
 const reducer = (state = initialState, action) => {
@@ -19,7 +20,20 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 msg : action.payload.msg
             }
+        case actionTypes.SUCCESS:
+            return{
+                ...state,
+                msg : action.payload,
+                status : action.type
+            }
+        case actionTypes.ERROR:
+            return{
+                ...state,
+                msg : action.payload,
+                status : action.type
+            }
         }
+       
     
     return state;
 }

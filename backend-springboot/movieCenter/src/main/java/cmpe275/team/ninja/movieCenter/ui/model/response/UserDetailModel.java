@@ -5,6 +5,9 @@ public class UserDetailModel {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String userType;
+    private boolean isSubscribed;
+
 
 	public String getUserId() {
 		return userId;
@@ -36,6 +39,22 @@ public class UserDetailModel {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isSubscribed() {
+		return isSubscribed;
+	}
+
+	public void setSubscribed(boolean isSubscribed) {
+		this.isSubscribed = isSubscribed;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 
 }

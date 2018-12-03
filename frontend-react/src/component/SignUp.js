@@ -14,9 +14,10 @@ class SignUp extends Component{
 
         this.state = {
             firstName : '',
-            lastName : 'kkk',
+            lastName : '',
             email : '',
-            password : ''
+            password : '',
+            userType : ''
         }
     }
 
@@ -26,6 +27,11 @@ class SignUp extends Component{
                 firstName : events.target.value
             });
            
+        }
+        if(events.target.name === "lastname"){
+            this.setState({
+                lastName : events.target.value
+            });
         }
         
         if(events.target.name === "password"){
@@ -38,8 +44,16 @@ class SignUp extends Component{
             this.setState({
                 email: events.target.value
             });
+            if(events.target.value.endsWith("@sjsu.edu")){
+                this.setState({
+                    userType: "admin"
+                });
+            } else {
+                this.setState({
+                    userType: "customer"
+                });
+            }
         }
-        console.log("Temp data : " + events.target.value); 
     }
     handleSubmit = (e, formTitle) => {
         e.preventDefault();
@@ -48,29 +62,51 @@ class SignUp extends Component{
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
-            password:this.state.password
+            password: this.state.password,
+            userType: this.state.userType
         }
-        console.log("New Movie Deatils : ", newUserDetails);
+        console.log("New User Deatils : ", newUserDetails);
         this.props.onSubmitClicked(newUserDetails);
     }
 
     render(){
-       
+        let errorMsg = null;
+        if(this.props.status == "SUCCESS"){
+            this.props.history.push("/");
+        }
+        if(this.props.status == "ERROR"){
+            errorMsg = (
+                <div className="error-msg">
+                   Something went wrong
+                </div>
+            );
+        }
         return(
              
-            <div>
-            
-                <div className = "mainCenter">
-                    <div>
-                        <h4 className = "h4Label">Sign Up for free today!</h4>
+            <div class="main-app">
+                <div class="bg-wrapper">
+                    <img class="bg-img " src="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg" srcset="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w" alt="" />
+                </div>
+                <div class="header-wrapper">
+                    <a href="/" class="main-header">
+                        Movie Center
+                    </a>
+                </div>
+                <div className = "main-center">
+                    <div class="sign-up-form">
+                        <h4 className = "h4Label">Sign Up</h4>
                         <br/>
                         <form onSubmit = {this.handleSubmit.bind(this)}>
 			    			<div className="form-group">
-			    				<input onChange = {this.handleChange} className=" inputField form-control" type="email" name="email" id="email" required="required" placeholder="Email Address"/>
+			    				<input onChange = {this.handleChange} className="inputField form-control" type="email" name="email" id="email" required="required" placeholder="Email Address"/>
 			    			</div>
 
                             <div className="form-group">
 			    				<input onChange = {this.handleChange} className="inputField form-control" type="text" name="firstname" id="firstname" required="required" placeholder="First Name"/>
+			    			</div>
+
+                            <div className="form-group">
+			    				<input onChange = {this.handleChange} className="inputField form-control" type="text" name="lastname" id="lastname" required="required" placeholder="Last Name"/>
 			    			</div>
 
                             <div className="form-group">
@@ -80,18 +116,23 @@ class SignUp extends Component{
 			    			<input type="submit" value="Create Account" className=" signUpBtn btn btn-primary form-control"/>
 			    		</form>
                             <br/>
-                            <h5>
-                                By registering you confirm that you accept <a>Terms and Conditions</a>and<a>Privacy Policy</a>
-                            </h5>
-
+                
                             <br/><br/>
-                            <h5>Already a Neflix member?<a>Log In</a></h5>
+                            <div class="help-text">Already a member?<a href = {`/signin`}> Sign In</a></div>
                         </div>
                     </div>
             </div> 
         )
     }
 }
+
+const mapStateToProps = state => {
+    console.log(state); // state
+    return {
+        status: state.status,
+        msg: state.msg
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     console.log("Inside map dipatch to props");
@@ -100,4 +141,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null,mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps,mapDispatchToProps)(SignUp);

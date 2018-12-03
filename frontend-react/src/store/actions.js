@@ -5,6 +5,8 @@ import axios from 'axios';
 
 export const MOVIE_CREATE_SUCCESS = 'MOVIE_CREATE_SUCCESS';
 export const MOVIE_CREATE_FAIL = 'MOVIE_CREATE_FAIL';
+export const SUCCESS = "SUCCESS";
+export const ERROR = "ERROR";
 
 export const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://localhost:8080';
 
@@ -12,7 +14,7 @@ function MovieCreateSuccess(response){
     console.log("Response in Success : ", response);
     return{
         type : MOVIE_CREATE_SUCCESS,
-        payload : response.data
+        payload : response
     }
 }
 
@@ -20,9 +22,24 @@ function MovieCreateFailed(response){
     console.log("Response in Fail : ", response);
     return{
         type : MOVIE_CREATE_FAIL,
-        payload : response.data
+        payload : response
     }
 }
+
+function SuccessResonse(response){
+    return{
+        type : SUCCESS,
+        payload : response
+    }
+}
+
+function ErrorResonse(response){
+    return{
+        type : ERROR,
+        payload : response
+    }
+}
+
 export function CreateMovie(MovieDetails){
     var headers = new Headers();
     headers.append('Accept', 'application/json');
@@ -60,10 +77,14 @@ export function SignInAction(UserDetails){
             if(response.status == 200){
                 console.log(response);
                 localStorage.setItem("Authorization", response.headers["authorization"]);
+                dispatch(SuccessResonse(response));
             }else{
-                dispatch(MovieCreateFailed(response))
+                dispatch(ErrorResonse(response));
             }
         })
+        .catch(function (error) {
+            dispatch(ErrorResonse(error));
+        });
     }    
 }
 
@@ -79,8 +100,15 @@ export function CreateUser(UserDetails){
             data: UserDetails
         })
         .then((response) => {
-            console.log("done"+response);
+            if(response.status == 200){
+                dispatch(SuccessResonse(response));
+            }else{
+                dispatch(ErrorResonse(response));
+            }
         })
+        .catch(function (error) {
+            dispatch(ErrorResonse(error));
+        });
     }  
 }
 

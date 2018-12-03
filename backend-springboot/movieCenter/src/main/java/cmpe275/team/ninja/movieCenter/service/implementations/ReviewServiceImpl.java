@@ -1,8 +1,11 @@
 package cmpe275.team.ninja.movieCenter.service.implementations;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,8 +22,10 @@ import cmpe275.team.ninja.movieCenter.io.repositories.ReviewRepository;
 import cmpe275.team.ninja.movieCenter.io.repositories.UserRepository;
 import cmpe275.team.ninja.movieCenter.service.interfaces.MovieService;
 import cmpe275.team.ninja.movieCenter.service.interfaces.ReviewService;
+import cmpe275.team.ninja.movieCenter.shared.dto.MovieDto;
 import cmpe275.team.ninja.movieCenter.shared.dto.ReviewDto;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserDto;
+import cmpe275.team.ninja.movieCenter.shared.utils.Util;
 import cmpe275.team.ninja.movieCenter.ui.model.response.ErrorMessages;
 
 @Service
@@ -37,6 +42,9 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	@Autowired
 	MovieService movieService;
+	
+	@Autowired
+    Util util;
     
 
 	@Override
@@ -115,6 +123,23 @@ public class ReviewServiceImpl implements ReviewService{
 	        }
 
         return returnValue;
+	}
+
+
+	@Override
+	public List<MovieDto> getTopTenMoviesByRatings(String period) {
+		Date currentDate = new Date();
+		Date previousDayDate = util.getPreviousDateByPeriod(period, currentDate);
+		List<Object[]> topMovies = reviewRepository.findTopTenMoviesByReviews(previousDayDate, currentDate);
+		if(topMovies == null || topMovies.size() == 0)
+            return new ArrayList<>();
+		List<MovieDto> movieDtos = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        topMovies.forEach(movieid->{
+            movieDtos.add(modelMapper.map(movieRepository.findByMovieId(String.valueOf(movieid[0])), MovieDto.class));
+        });
+
+        return  movieDtos;
 	}
 
 }

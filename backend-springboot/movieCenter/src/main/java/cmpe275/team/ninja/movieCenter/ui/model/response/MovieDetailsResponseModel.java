@@ -19,6 +19,8 @@ public class MovieDetailsResponseModel {
     private double price;
     private boolean status;
     private String yearOfRelease;
+    private double averageRating;
+    private int userRatingCount;
 
     public String getMovieId() {
         return movieId;
@@ -147,4 +149,20 @@ public class MovieDetailsResponseModel {
     public void setYearOfRelease(String yearOfRelease) {
         this.yearOfRelease = yearOfRelease;
     }
+
+	public double getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(double averageRating) {
+		this.averageRating = averageRating;
+	}
+
+	public int getUserRatingCount() {
+		return userRatingCount;
+	}
+
+	public void setUserRatingCount(int userRatingCount) {
+		this.userRatingCount = userRatingCount;
+	}
 }

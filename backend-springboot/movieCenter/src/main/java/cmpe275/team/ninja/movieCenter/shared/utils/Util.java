@@ -3,6 +3,8 @@ package cmpe275.team.ninja.movieCenter.shared.utils;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 @Component
@@ -42,5 +44,16 @@ public class Util {
         }
 
         return new String(returnValue);
+    }
+
+    public Date getPreviousDateByPeriod(String period, Date currentDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        switch (period) {
+            case "last24hours": calendar.add(Calendar.DATE, -1);break;
+            case "lastweek": calendar.add(Calendar.DATE, -7); break;
+            case "lastmonth": calendar.add(Calendar.MONTH, -1); break;
+        }
+        return calendar.getTime();
     }
 }

@@ -1,6 +1,7 @@
 package cmpe275.team.ninja.movieCenter.shared.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class UserDto implements Serializable {
 
@@ -15,7 +16,7 @@ public class UserDto implements Serializable {
     private String emailVerificationToken;
     private boolean emailVerificationStatus = false;
     private boolean isSubscribed = false;
-   
+    private Date createdDate;
 
 	public long getId() {
         return id;
@@ -89,11 +90,19 @@ public class UserDto implements Serializable {
         this.emailVerificationStatus = emailVerificationStatus;
     }
 
-	public boolean isSubscribed() {
-		return isSubscribed;
-	}
+    public boolean isSubscribed() {
+        return isSubscribed;
+    }
 
-	public void setSubscribed(boolean isSubscribed) {
-		this.isSubscribed = isSubscribed;
-	}
+    public void setSubscribed(boolean subscribed) {
+        isSubscribed = subscribed;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 }

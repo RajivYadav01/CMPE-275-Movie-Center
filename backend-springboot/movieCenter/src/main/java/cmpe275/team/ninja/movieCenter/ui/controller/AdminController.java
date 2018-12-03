@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -74,7 +75,7 @@ public class AdminController {
     }
 
     @GetMapping(
-            path= "/user/{id}/history",
+            path= "/users/{id}/history",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<MovieDetailsResponseModel> getMoviePlayingHistoryForUser(@PathVariable String id) {
@@ -104,6 +105,51 @@ public class AdminController {
             responseModels.add(modelMapper.map(userDto, UserResponseModel.class));
         });
         return responseModels;
+    }
+
+    @GetMapping(
+            path="/movies/{movieid}/numberofplays",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public OperationStatusModel getNumberOfPlaysForMovie(@PathVariable String movieid, @RequestParam("period") String period) {
+        OperationStatusModel operationStatusModel = new OperationStatusModel();
+        operationStatusModel.setOperationName(RequestOperationName.NUMBEROFPLAYS.name());
+        int numberofplays = adminService.getNumberOfPlaysForMovie(movieid, period);
+        operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        operationStatusModel.setData(numberofplays);
+        return operationStatusModel;
+    }
+
+    @GetMapping(
+            path="/toptenmoviebyplays",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<MovieDetailsResponseModel> getTopTenMoviesByPeriod(@RequestParam("period") String period) {
+        List<MovieDetailsResponseModel> responseModels = new ArrayList<>();
+        List<MovieDto> movieDtos = adminService.getTopTenMoviesByPeriod(period);
+        if(movieDtos == null)
+            return new ArrayList<MovieDetailsResponseModel>();
+        ModelMapper modelMapper = new ModelMapper();
+        movieDtos.forEach(movieDto -> {
+            responseModels.add(modelMapper.map(movieDto, MovieDetailsResponseModel.class));
+        });
+        return responseModels;
+    }
+
+    @GetMapping(
+            path="/monthlyuserreport",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Map<String, Integer> getMonthlyUserReport(@RequestParam("reporttype") String reportType) {
+        return adminService.getMonthlyUserReport(reportType);
+    }
+
+    @GetMapping(
+            path="/monthlyincomereport",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Map<String, Double> getMonthlyIncomeReport(@RequestParam("reporttype") String reportType) {
+        return adminService.getMonthlyIncomeReport(reportType);
     }
 
 }

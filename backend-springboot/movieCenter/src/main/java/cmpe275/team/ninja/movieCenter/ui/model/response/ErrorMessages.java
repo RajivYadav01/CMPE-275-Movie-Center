@@ -11,7 +11,8 @@ public enum ErrorMessages {
     EMAIL_ADDRESS_NOT_VERIFIED("Email id could not be verified"),
     PAYMENT_NOT_SUCCESSFULL("Payment was not successfull"),
     VALIDUSER("User subscription is still valid"),
-	USERID_OR_MOVIEID_NOT_FOUND("UserId or MovieId not found");
+	USERID_OR_MOVIEID_NOT_FOUND("UserId or MovieId not found"),
+    INVALIDREPORTYPE("We currently support uniquesubscriptionusers, uniquepayperviewusers, uniqueactiveusers, uniqueregisteredusers");
 
 
     private String errorMessage;

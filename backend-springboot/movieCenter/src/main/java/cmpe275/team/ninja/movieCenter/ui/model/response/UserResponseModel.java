@@ -1,11 +1,14 @@
 package cmpe275.team.ninja.movieCenter.ui.model.response;
 
+import java.util.Date;
+
 public class UserResponseModel {
     private String userId;
     private String firstName;
     private String lastName;
     private String email;
     private boolean isSubscribed;
+    private Date createdDate;
 
     public String getUserId() {
         return userId;
@@ -45,5 +48,13 @@ public class UserResponseModel {
 
     public void setSubscribed(boolean subscribed) {
         isSubscribed = subscribed;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }

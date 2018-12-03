@@ -1,6 +1,7 @@
 package cmpe275.team.ninja.movieCenter.io.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,23 +34,26 @@ public class UserEntity implements Serializable {
     private String encryptedPassword;
 
     private String emailVerificationToken;
-    
+
     @Column(nullable=false)
     private Boolean emailVerificationStatus = false;
-    
+
     @Column(name="is_subscribed")
     private boolean isSubscribed = false;
-    
-    
+
+    @Column(name="created_date")
+    private Date createdDate;
+
+
     public boolean isSubscribed() {
-		return isSubscribed;
-	}
+        return isSubscribed;
+    }
 
-	public void setSubscribed(boolean isSubscribed) {
-		this.isSubscribed = isSubscribed;
-	}
+    public void setSubscribed(boolean isSubscribed) {
+        this.isSubscribed = isSubscribed;
+    }
 
-	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
+    public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
         this.emailVerificationStatus = emailVerificationStatus;
     }
 
@@ -115,6 +119,14 @@ public class UserEntity implements Serializable {
 
     public void setEmailVerificationStatus(boolean emailVerificationStatus) {
         this.emailVerificationStatus = emailVerificationStatus;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     @Override

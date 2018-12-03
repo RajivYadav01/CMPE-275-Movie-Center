@@ -3,6 +3,7 @@ package cmpe275.team.ninja.movieCenter.ui.model.response;
 public class OperationStatusModel {
     private String operationName;
     private String operationResult;
+    private Object data;
 
     public String getOperationName() {
         return operationName;
@@ -18,5 +19,13 @@ public class OperationStatusModel {
 
     public void setOperationResult(String operationResult) {
         this.operationResult = operationResult;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }

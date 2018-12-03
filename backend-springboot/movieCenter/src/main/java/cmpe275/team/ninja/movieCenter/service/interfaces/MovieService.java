@@ -1,6 +1,7 @@
 package cmpe275.team.ninja.movieCenter.service.interfaces;
 
 import cmpe275.team.ninja.movieCenter.shared.dto.MovieDto;
+
 import java.util.List;
 
 public interface MovieService {
@@ -8,5 +9,5 @@ public interface MovieService {
     MovieDto getMovieById(String id);
     List<MovieDto> getMoviesBySearch(String searchtext);
     boolean updateMovieRating(String id, double rating);
-
+    List<MovieDto> getTopTenMoviesByPeriod(String period);
 }

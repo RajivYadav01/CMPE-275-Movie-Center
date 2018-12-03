@@ -3,23 +3,28 @@ package cmpe275.team.ninja.movieCenter.service.implementations;
 import cmpe275.team.ninja.movieCenter.exceptions.MovieServiceException;
 import cmpe275.team.ninja.movieCenter.io.entity.MovieEntity;
 import cmpe275.team.ninja.movieCenter.io.repositories.MovieRepository;
+import cmpe275.team.ninja.movieCenter.io.repositories.UserMoviePlayRepository;
 import cmpe275.team.ninja.movieCenter.service.interfaces.MovieService;
 import cmpe275.team.ninja.movieCenter.shared.dto.MovieDto;
+import cmpe275.team.ninja.movieCenter.shared.utils.Util;
 import cmpe275.team.ninja.movieCenter.ui.model.response.ErrorMessages;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class MovieServiceImpl implements MovieService {
 
     @Autowired
     MovieRepository movieRepository;
+
+    @Autowired
+    UserMoviePlayRepository userMoviePlayRepository;
+
+    @Autowired
+    Util util;
 
     @Override
     public List<MovieDto> getAllMovies() {
@@ -80,7 +85,7 @@ public class MovieServiceImpl implements MovieService {
 
         return movieDtos;
     }
-    
+
     @Override
 	public boolean updateMovieRating(String id, double rating) {
 		MovieEntity foundMovieEntity = movieRepository.findByMovieId(id);
@@ -92,5 +97,22 @@ public class MovieServiceImpl implements MovieService {
 		movieRepository.save(foundMovieEntity);
 		return true;
 	}
+
+    @Override
+    public List<MovieDto> getTopTenMoviesByPeriod(String period) {
+        Date currentDate = new Date();
+        Date previousDayDate = util.getPreviousDateByPeriod(period, currentDate);
+        System.out.println("previousDayDate: "+previousDayDate);
+        List<Object[]> topMovies = userMoviePlayRepository.findTopTenMoviesByNumberOfPlays(previousDayDate, currentDate);
+        if(topMovies == null || topMovies.size() == 0)
+            return new ArrayList<>();
+        List<MovieDto> movieDtos = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        topMovies.forEach(movieid->{
+            movieDtos.add(modelMapper.map(movieRepository.findByMovieId(String.valueOf(movieid[0])), MovieDto.class));
+        });
+
+        return  movieDtos;
+    }
 
 }

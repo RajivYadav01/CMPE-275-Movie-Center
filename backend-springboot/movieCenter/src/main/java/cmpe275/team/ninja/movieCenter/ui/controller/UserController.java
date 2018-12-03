@@ -1,28 +1,19 @@
 package cmpe275.team.ninja.movieCenter.ui.controller;
 
 import cmpe275.team.ninja.movieCenter.service.interfaces.UserService;
-import cmpe275.team.ninja.movieCenter.ui.model.response.RequestOperationName;
-import cmpe275.team.ninja.movieCenter.ui.model.response.RequestOperationStatus;
-import cmpe275.team.ninja.movieCenter.shared.dto.UserDto;
-import cmpe275.team.ninja.movieCenter.shared.dto.UserMoviePlayDto;
-import cmpe275.team.ninja.movieCenter.shared.dto.UserPaymentDto;
-import cmpe275.team.ninja.movieCenter.shared.dto.UserSubscriptionDto;
+import cmpe275.team.ninja.movieCenter.shared.dto.*;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserDetailsRequestModel;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserMoviePlayRequestModel;
 import cmpe275.team.ninja.movieCenter.ui.model.request.UserPaymentRequestModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.OperationStatusModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.UserDetailModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.UserResponseModel;
-import cmpe275.team.ninja.movieCenter.ui.model.response.UserSubscriptionResponseModel;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import cmpe275.team.ninja.movieCenter.ui.model.response.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("users")
@@ -183,6 +174,24 @@ public class UserController {
         operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
         return operationStatusModel;
     }
+
+
+    @GetMapping(
+            path="/toptenmoviebyplays",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<MovieDetailsResponseModel> getTopTenMoviesByPeriod(@RequestParam("period") String period) {
+        List<MovieDetailsResponseModel> responseModels = new ArrayList<>();
+        List<MovieDto> movieDtos = userService.getTopTenMoviesByPeriod(period);
+        if(movieDtos == null)
+            return new ArrayList<MovieDetailsResponseModel>();
+        ModelMapper modelMapper = new ModelMapper();
+        movieDtos.forEach(movieDto -> {
+            responseModels.add(modelMapper.map(movieDto, MovieDetailsResponseModel.class));
+        });
+        return responseModels;
+    }
+
 
 
 }

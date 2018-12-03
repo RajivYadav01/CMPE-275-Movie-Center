@@ -41,6 +41,7 @@ import cmpe275.team.ninja.movieCenter.shared.dto.UserPaymentDto;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserSubscriptionDto;
 import cmpe275.team.ninja.movieCenter.shared.utils.Util;
 import cmpe275.team.ninja.movieCenter.ui.model.response.ErrorMessages;
+import cmpe275.team.ninja.movieCenter.service.interfaces.MovieService;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -71,6 +72,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMoviePlayRepository userMoviePlayRepository;
 
+    @Autowired
+    MovieService movieService;
 
     @Autowired
     Util util;
@@ -371,5 +374,10 @@ public class UserServiceImpl implements UserService {
     public boolean resetPassword(String token, String password) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public List<MovieDto> getTopTenMoviesByPeriod(String period) {
+        return movieService.getTopTenMoviesByPeriod(period);
     }
 }

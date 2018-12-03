@@ -112,4 +112,27 @@ export function CreateUser(UserDetails){
     }  
 }
 
+export function VerifyEmail(token){
+    var headers = new Headers();
+    headers.append('Accept', 'application/json');
+   
+    return (dispatch) => {
+        axios({
+            method:'get',
+            url: `${api}/users/email-verification?token=`+token,
+            headers: headers,
+        })
+        .then((response) => {
+            if(response.status == 200){
+                dispatch(SuccessResonse(response));
+            }else{
+                dispatch(ErrorResonse(response));
+            }
+        })
+        .catch(function (error) {
+            dispatch(ErrorResonse(error));
+        });
+    }  
+}
+
 

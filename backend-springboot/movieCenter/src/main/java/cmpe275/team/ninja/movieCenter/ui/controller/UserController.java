@@ -184,7 +184,7 @@ public class UserController {
         List<MovieDetailsResponseModel> responseModels = new ArrayList<>();
         List<MovieDto> movieDtos = userService.getTopTenMoviesByPeriod(period);
         if(movieDtos == null)
-            return new ArrayList<MovieDetailsResponseModel>();
+            return new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         movieDtos.forEach(movieDto -> {
             responseModels.add(modelMapper.map(movieDto, MovieDetailsResponseModel.class));

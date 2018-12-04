@@ -72,7 +72,7 @@ class SignUp extends Component{
     render(){
         let errorMsg = null;
         if(this.props.status == "SUCCESS"){
-            this.props.history.push("/");
+            this.props.history.push("/signupconfirmation");
         }
         if(this.props.status == "ERROR"){
             errorMsg = (

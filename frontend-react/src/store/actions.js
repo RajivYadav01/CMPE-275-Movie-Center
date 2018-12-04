@@ -164,7 +164,13 @@ export function SignInAction(UserDetails){
                 localStorage.setItem("firstName", userObj.firstName);
                 localStorage.setItem("lastName", userObj.lastName);
                 localStorage.setItem("userType", userObj.userType);
+                localStorage.setItem("email", userObj.email);
                 localStorage.setItem("isSubscribed", userObj.isSubscribed);
+                var obj = {
+                    lastName : 'puttest',
+                    firstName : 'verifyput'
+                }
+                UpdateUser(obj);
                 dispatch(SuccessResonse(response.data));
             }else{
                 dispatch(ErrorResonse(response));
@@ -173,7 +179,30 @@ export function SignInAction(UserDetails){
         .catch(function (error) {
             dispatch(ErrorResonse(error));
         });
-    }    
+    }  
+    
+}
+
+export function GetLoggedInUser(UserDetails){
+   var userId = localStorage.getItem('userId');
+    return (dispatch) => {
+        axios({
+            method:'get',
+            url: `${api}/users/`+userId,
+            headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')}
+        })
+        .then((response) => {
+            if(response.status == 200){
+                console.log("gettt"+response);
+                dispatch(SuccessResonse(response.data));
+            }else{
+                dispatch(ErrorResonse(response));
+            }
+        })
+        .catch(function (error) {
+            dispatch(ErrorResonse(error));
+        });
+    }  
 }
 
 export function CreateUser(UserDetails){
@@ -184,7 +213,30 @@ export function CreateUser(UserDetails){
         axios({
             method:'post',
             url: `${api}/users`,
-            headers: headers,
+            headers: {'Accept': 'application/json'},
+            data: UserDetails
+        })
+        .then((response) => {
+            if(response.status == 200){
+                console.log("putttt"+response);
+                dispatch(SuccessResonse(response));
+            }else{
+                dispatch(ErrorResonse(response));
+            }
+        })
+        .catch(function (error) {
+            dispatch(ErrorResonse(error));
+        });
+    }  
+}
+
+export function UpdateUser(UserDetails){
+ 
+    return (dispatch) => {
+        axios({
+            method:'put',
+            url: `${api}/users/xhNR3jq33rh3ZS2dvutRi62wFBaJCg`,
+            headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
             data: UserDetails
         })
         .then((response) => {

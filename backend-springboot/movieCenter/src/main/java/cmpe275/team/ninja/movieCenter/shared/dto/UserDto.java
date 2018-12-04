@@ -118,7 +118,7 @@ public class UserDto implements Serializable {
 	@Override
 	public String toString() {
 		
-		return "{\"userType\":\""+userType+"\",\"userId\":\""+userId+"\", \"firstName\": \""+firstName+"\", \"lastName\": \""+lastName+"\", \"isSubscribed\": \""+isSubscribed+"\"}";
+		return "{\"email\":\""+email+"\", \"userType\":\""+userType+"\", \"userId\":\""+userId+"\", \"firstName\": \""+firstName+"\", \"lastName\": \""+lastName+"\", \"isSubscribed\": \""+isSubscribed+"\"}";
 		}
 
 }

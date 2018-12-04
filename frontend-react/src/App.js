@@ -6,6 +6,7 @@ import SignUp from './component/SignUp';
 import SignUpConfirmation from './component/SignUpConfirmation';
 import EmailVerification from './component/EmailVerification';
 import SignIn from './component/SignIn';
+import UserProfile from './component/UserProfile';
 import DeleteMovie from './component/deleteMovie';
 import Filter from './component/filter';
 import MovieDetails from './component/movieDetails';
@@ -21,6 +22,7 @@ class App extends Component {
             <Route exact path = '/signup' component = {SignUp}/>
             <Route exact path = '/signupconfirmation' component = {SignUpConfirmation}/>
             <Route exact path = '/verifyemail' component = {EmailVerification}/>
+            <Route exact path = '/profile' component = {UserProfile}/>
             <Route exact path = '/signin' component = {SignIn}/>
             <Route exact path = '/filter' component = {Filter}/>
             <Route exact path = '/movieDetails/:movieID' component = {MovieDetails}/>

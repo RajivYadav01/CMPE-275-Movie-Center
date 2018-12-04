@@ -11,6 +11,8 @@ export const MOVIE_UPDATE_SUCCESS = 'MOVIE_UPDATE_SUCCESS';
 export const MOVIE_UPDATE_FAIL = 'MOVIE_UPDATE_FAIL';
 export const REVIEW_CREATE_SUCCESS = 'REVIEW_CREATE_SUCCESS';
 export const REVIEW_CREATE_FAIL = 'REVIEW_CREATE_FAIL';
+export const MOVIE_DELETE_SUCCESS = 'MOVIE_DELETE_SUCCESS';
+export const MOVIE_DELETE_FAIL = 'MOVIE_DELETE_FAIL';
 
 export const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://localhost:8080';
 
@@ -103,7 +105,7 @@ export function UpdateMovie(MovieDetails, movieID){
     // var headers = new Headers();
     // headers.append('Accept', 'application/json');
     return (dispatch) => {
-        const request = axios(`${api}/update_movie/${movieID}`,{
+        const request = axios(`${api}/admin/update_movie/${movieID}`,{
             method: 'put',
             mode: 'no-cors',
             redirect: 'follow',
@@ -116,6 +118,42 @@ export function UpdateMovie(MovieDetails, movieID){
                 // history.push('/question');
             }else{
                 dispatch(MovieUpdateFailed(response))
+            }
+        })
+    }    
+}
+
+function MovieDeleteSuccess(response){
+    console.log("Response in Success : ", response);
+    return{
+        type : MOVIE_DELETE_SUCCESS,
+        payload : response
+    }
+}
+
+function MovieDeleteFailed(response){
+    console.log("Response in Fail : ", response);
+    return{
+        type : MOVIE_DELETE_FAIL,
+        payload : response
+    }
+}
+
+export function DeleteMovieFunc(movieID){
+    console.log("MovieID in action : ", movieID);
+    return (dispatch) => {
+        const request = axios(`${api}/admin/delete_movie/${movieID}`,{
+            method: 'delete',
+            mode: 'no-cors',
+            redirect: 'follow',
+            withCredentials: false,
+            headers: {"Authorization" : localStorage.getItem("Authorization")},
+        }).then((response)=>{
+            if(response.status == 200){
+                dispatch(MovieDeleteSuccess(response));
+                // history.push('/question');
+            }else{
+                dispatch(MovieDeleteFailed(response))
             }
         })
     }    

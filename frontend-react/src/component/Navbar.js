@@ -84,7 +84,7 @@ class Navbar extends Component{
                         Search
                     </Link>
                 </li>
-                <li style={StyleFloatRight}>
+                {/* <li style={StyleFloatRight}>
                     <div className="form-group">
                         <input type="text" id='searchbox'
                                className="form-control"
@@ -94,7 +94,7 @@ class Navbar extends Component{
                                name='search'
                                placeholder="Search for movie" style={{width:'350px', marginTop : '10px'}} />
                     </div>
-                </li>
+                </li> */}
                 
 
             </ul>

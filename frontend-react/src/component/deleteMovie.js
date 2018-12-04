@@ -5,6 +5,8 @@ import ReactPaginate from 'react-paginate';
 import '../App.css';
 import axios from 'axios';
 import {api} from '../store/actions';
+import {connect} from 'react-redux';
+import {DeleteMovieFunc} from '../store/actions';
 
 class DeleteMovie extends Component{
     constructor(props){
@@ -20,8 +22,14 @@ class DeleteMovie extends Component{
                 //     "title" : "Title 2",
                 //     "genre" : "Comedy"
                 // }
-            ]
+                
+            ],
+            deleteMovieId : null
         }
+    }
+
+    handleDelete = (e) =>{
+        this.props.onSubmitDeleteClicked(this.state.deleteMovieId);
     }
 
     componentWillMount(){
@@ -39,6 +47,11 @@ class DeleteMovie extends Component{
             this.setState({
                 movies : this.state.movies.concat(response.data)
             })
+        })
+    }
+    handleMovieToDelete = (e,movieID) => {
+        this.setState({
+            deleteMovieId : movieID
         })
     }
     handleChange = (e) => {
@@ -83,7 +96,7 @@ class DeleteMovie extends Component{
                     <td>{m.price}</td>
                     <td>
                         <Link to= {`/admin/create/${m.movieId}`} class="edit"><i className="material-icons"><span class="glyphicon glyphicon-pencil"></span></i></Link>
-                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></a>
+                        <a onClick={(e) => this.handleMovieToDelete(e,m.movieId)} href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></a>
                     </td>
                 </tr>
             )
@@ -151,7 +164,7 @@ class DeleteMovie extends Component{
                                 </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"/>
-                                    <input type="submit" class="btn btn-danger" value="Delete"/>
+                                    <input onClick={this.handleDelete} type="submit" class="btn btn-danger" value="Delete"/>
                                 </div>
                             </form>
                         </div>
@@ -162,4 +175,12 @@ class DeleteMovie extends Component{
     }
 }
 
-export default DeleteMovie;
+const mapDispatchToProps = dispatch => {
+    console.log("Inside map dipatch to props");
+    return{
+        onSubmitDeleteClicked : (details) => dispatch(DeleteMovieFunc(details)),
+    }
+}
+
+
+export default connect(null,mapDispatchToProps)(DeleteMovie);

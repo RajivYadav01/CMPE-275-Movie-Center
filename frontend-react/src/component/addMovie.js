@@ -42,16 +42,16 @@ class AddMovie extends Component{
         var newMovieDetails = {
             title: this.state.title,
             genre: this.state.genre,
-            studioName: this.state.studio_name,
+            studioName: this.state.studioName,
             synopsis:this.state.title.synopsis,
-            imageUrl: this.state.image_url,
-            youtubeUrl: this.state.youtube_url,
+            imageUrl: this.state.imageUrl,
+            youtubeUrl: this.state.youtubeUrl,
             actors: this.state.actors,
             actresses: this.state.actresses,
             director:this.state.director,
             country: this.state.country,
-            mpaaRating: this.state.mpaa_rating,
-            availabilityType: this.state.availability_type,
+            mpaaRating: this.state.mpaaRating,
+            availabilityType: this.state.availabilityType,
             price: this.state.price
         }
         console.log("New Movie Deatils : ", newMovieDetails);
@@ -163,56 +163,62 @@ class AddMovie extends Component{
         let PrevButton = null;
             if(this.state.currentTab == 0){
                 PrevButton = (
-                    <button style={styleButton1} type="button" id="prevBtn" onClick={(e) => this.handlePrev(e,FormTitle)}>Previous</button>
+                    <button className=" signUpBtn btn btn-primary form-control" type="button" id="prevBtn" onClick={(e) => this.handlePrev(e,FormTitle)}>Previous</button>
                 )
                         
             }else{
                 PrevButton = (
-                    <button style={styleButton2} type="button" id="prevBtn" onClick={(e) => this.handlePrev(e,FormTitle)}>Previous</button>
+                    <button className=" signUpBtn btn btn-primary form-control"  type="button" id="prevBtn" onClick={(e) => this.handlePrev(e,FormTitle)}>Previous</button>
                 )
             }
         let nextButton = null;
         if(this.state.currentTab == 3){
             nextButton = (
-                <button style={styleButton2} type="button" id="prevBtn" onClick={(e) => this.handleSubmit(e,FormTitle)}>Submit</button>
+                <button className=" signUpBtn btn btn-primary form-control" type="button" id="prevBtn" onClick={(e) => this.handleSubmit(e,FormTitle)}>Submit</button>
             )
                     
         }else{
             nextButton = (
-                <button style={styleButton2} type="button" id="prevBtn" onClick={(e) => this.handleNext(e,FormTitle)}>Next</button>
+                <button className=" signUpBtn btn btn-primary form-control" type="button" id="prevBtn" onClick={(e) => this.handleNext(e,FormTitle)}>Next</button>
             )
         }
         return(
             <div>
                 <Navbar/>
+                <div class="bg-wrapper" style={{opacity : "0.25"}}> 
+                    <img class="bg-img " src="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg" srcset="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w" alt="" />
+                </div>
                 <br/>
-                    <form style={styleForm}>
-                        <h1 style={{textAlign : "center"}}>{FormTitle} a Movie:</h1>
+                <div className = "main-center" style={{width : "40%"}}>
+                    <form  className="sign-in-form">
+                        <h1 className = "h4Label" >{FormTitle} a Movie:</h1>
                         
-                        <div style={{display: this.state.currentTab === 0 ? 'block' : 'none', fontSize : "14pt" }}>Basic Movie Details:
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Movie Title" name="title" value={this.state.title}/></p>
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Movie Genre"  name="genre" value={this.state.genre}/></p>
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Studio Name" name="studioName" value={this.state.studioName}/></p>
+                        <div style={{display: this.state.currentTab === 0 ? 'block' : 'none', fontSize : "16pt" }}>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Movie Title" name="title" value={this.state.title}/></p>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Movie Genre"  name="genre" value={this.state.genre}/></p>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Studio Name" name="studioName" value={this.state.studioName}/></p>
                         </div>
-                        <div style={{display: this.state.currentTab === 1 ? 'block' : 'none' }}>Basic Movie Details:
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Synopsis"  name="synopsis" value={this.state.synopsis} /></p>
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Image URL"  name="imageUrl" value={this.state.imageUrl}/></p>
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Youtube URL"  name="youtubeUrl" value={this.state.youtubeUrl} /></p>
+                        <div style={{display: this.state.currentTab === 1 ? 'block' : 'none', fontSize : "16pt" }}>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Synopsis"  name="synopsis" value={this.state.synopsis} /></p>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Image URL"  name="imageUrl" value={this.state.imageUrl}/></p>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Youtube URL"  name="youtubeUrl" value={this.state.youtubeUrl} /></p>
                         </div>
-                        <div style={{display: this.state.currentTab === 2 ? 'block' : 'none' }}>Basic Movie Details:
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Actor"  name="actors" value={this.state.actors}/></p>
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Actresses"  name="actresses" value={this.state.actresses}/></p>
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Director"  name="director"value={this.state.director} /></p>
+                        <div style={{display: this.state.currentTab === 2 ? 'block' : 'none',fontSize : "16pt"  }}>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Actor"  name="actors" value={this.state.actors}/></p>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Actresses"  name="actresses" value={this.state.actresses}/></p>
+                            <p><input className="inputField form-control" onChange = {this.handleChange} placeholder="Director"  name="director"value={this.state.director} /></p>
                         </div>
-                        <div style={{display: this.state.currentTab === 3 ? 'block' : 'none' }}>Basic Movie Details:
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Country"  name="country"value={this.state.country}/></p>
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="MPAA Rating"  name="mpaaRating" type="text" value={this.state.mpaaRating} /></p>
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Availability Type"  name="availabilityType" type="text" value={this.state.availabilityType}/></p>
-                            <p><input onChange = {this.handleChange} style = {styleInput} placeholder="Price"  name="price" type="text"/></p>
+                        <div style={{display: this.state.currentTab === 3 ? 'block' : 'none', fontSize : "16pt" }}>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Country"  name="country"value={this.state.country}/></p>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="MPAA Rating"  name="mpaaRating" type="text" value={this.state.mpaaRating} /></p>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Availability Type"  name="availabilityType" type="text" value={this.state.availabilityType}/></p>
+                            <p><input className="inputField form-control" onChange = {this.handleChange}  placeholder="Price"  name="price" type="text"/></p>
                         </div>
                         <div style={{overflow:"auto"}}>
-                            <div style={{float:"right"}}>
+                            <div style={{float:"left"}}>
                             {PrevButton}
+                            </div>
+                            <div style={{float : "right"}}>
                             {nextButton}
                             </div>
                         </div>
@@ -223,6 +229,7 @@ class AddMovie extends Component{
                             <span style = {stepStyle}></span>
                         </div>
                     </form>
+                </div>
                 </div>
         )
     }

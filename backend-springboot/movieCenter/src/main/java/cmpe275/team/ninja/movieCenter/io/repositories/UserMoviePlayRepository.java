@@ -26,7 +26,7 @@ public interface UserMoviePlayRepository extends JpaRepository<UserMoviePlayEnti
                     "on u.id = up.user_id\n" +
                     "where start_time between :lastdate and :currentdate\n" +
                     "group by user_id\n" +
-                    "order by count_movie_plays desc limit 10;",
+                    "order by count_user_movie_plays desc limit 10;",
             nativeQuery = true
     )
     List<Object[]> findTopTenUsersByNumberOfMoviePlays(@Param("lastdate") Date lastDate,

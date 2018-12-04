@@ -83,7 +83,7 @@ public class AdminController {
         List<MovieDto> movieDtos = adminService.getMoviePlayingHistoryForUser(id);
         ModelMapper modelMapper = new ModelMapper();
         if (movieDtos == null)
-            return null;
+            return new ArrayList<>();
         movieDtos.forEach(movieDto -> {
             movieDetailsResponseModels.add(modelMapper.map(movieDto, MovieDetailsResponseModel.class));
         });

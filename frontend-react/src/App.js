@@ -11,6 +11,8 @@ import DeleteMovie from './component/deleteMovie';
 import Filter from './component/filter';
 import MovieDetails from './component/movieDetails';
 import Payment from "./component/payment";
+import UserActivity from './component/UserActivity';
+import UserMoviePlayHistory from './component/UserMoviePlayHistory';
 
 class App extends Component {
   render() {
@@ -26,7 +28,8 @@ class App extends Component {
             <Route exact path = '/signin' component = {SignIn}/>
             <Route exact path = '/filter' component = {Filter}/>
             <Route exact path = '/movieDetails/:movieID' component = {MovieDetails}/>
-            
+            <Route exact path = '/admin/useractivity' component = {UserActivity} />
+            <Route exact path = '/admin/usermovieplayinghistory/:userid' component = {UserMoviePlayHistory} />
             <Route exact path = '/payment' component = {Payment}/>
       </Switch>
     );

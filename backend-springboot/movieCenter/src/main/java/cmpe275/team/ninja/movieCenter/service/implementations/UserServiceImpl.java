@@ -88,6 +88,7 @@ public class UserServiceImpl implements UserService {
         
         String userId = utility.generateUserId(30);
         userEntity.setUserId(userId);
+        userEntity.setCreatedDate(new Date());
         userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         userEntity.setEmailVerificationToken(utility.generateEmailVerificationToken(userId));
         UserEntity storedUserEntity = userRepository.save(userEntity);
@@ -181,6 +182,8 @@ public class UserServiceImpl implements UserService {
         List<UserEntity> users = usersPage.getContent();
         
         for (UserEntity userEntity : users) {
+            if(userEntity.getUserType().equalsIgnoreCase("admin"))
+                continue;
             UserDto userDto = new UserDto();
             BeanUtils.copyProperties(userEntity, userDto);
             returnValue.add(userDto);

@@ -14,15 +14,6 @@ class Navbar extends Component{
     }
     
 
-<<<<<<< HEAD
-    componentDidMount() {
-        document.addEventListener('keydown', function(event) {
-            if(event.keyCode === 13 ) {
-                document.getElementById('searchbutton').click();
-            }
-        });
-    }
-=======
     // componentDidMount() {
     //     document.addEventListener('keydown', function(event) {
     //         if(event.keyCode === 13 ) {
@@ -52,7 +43,6 @@ class Navbar extends Component{
         }
     };
 
->>>>>>> 6d32e045cd6c5e23f620c257f598637737eb80aa
     render(){
         let isAdmin = false;
         if(this.props.userType === "admin"){
@@ -86,28 +76,14 @@ class Navbar extends Component{
             <ul style={styleForUL}>
 
                 <li style={styleForLi}><a href="/" style = {styleForLiA}>Home</a></li>
-<<<<<<< HEAD
                 {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signup/">SignUp</Link></li> : null}
                 {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signin/">SignIn</Link></li> : <li style={StyleFloatRight}><Link to="/signin/">Logout</Link></li>}
                 {isAdmin ? <li style={StyleFloatRight}><Link to="/admin/delete/">Admin Config</Link></li> : null}
-=======
-                <li style={styleForLi}><a href="/" style = {styleForLiA}>TV Shows</a></li>
-                <li style={styleForLi}><a href="/" style = {styleForLiA}>Movies</a></li>
-                <li style={styleForLi}><a href="/" style = {styleForLiA}>Recently Added</a></li>
-                <li style={styleForLi}><a href="/" style = {styleForLiA}>My List</a></li>
-
-                <li style={StyleFloatRight}><Link to="/admin/delete/">Admin Config</Link></li>
-                <li style={StyleFloatRight}><Link to="/signup/">SignUp</Link></li>
-                <li style={StyleFloatRight}><Link to="/signin/">SignIn</Link></li>
-                <li style={StyleFloatRight}><a href="/" style = {styleForLiA}>Account</a></li>
-
->>>>>>> 6d32e045cd6c5e23f620c257f598637737eb80aa
                 <li style={StyleFloatRight}>
                     <Link to='/filter'>
                         Search
                     </Link>
                 </li>
-<<<<<<< HEAD
                 <li style={StyleFloatRight}>
                     <div className="form-group">
                         <input type="text" id='searchbox'
@@ -120,9 +96,7 @@ class Navbar extends Component{
                     </div>
                 </li>
                 
-=======
 
->>>>>>> 6d32e045cd6c5e23f620c257f598637737eb80aa
             </ul>
         )
     }

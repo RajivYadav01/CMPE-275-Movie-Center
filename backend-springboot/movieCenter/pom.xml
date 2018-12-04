@@ -6,7 +6,7 @@
 	<groupId>cmpe275.team.ninja</groupId>
 	<artifactId>movieCenter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>movieCenter</name>
 	<description>CMPE 275 Team Project </description>

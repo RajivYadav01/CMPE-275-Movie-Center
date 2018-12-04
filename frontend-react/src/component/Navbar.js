@@ -2,15 +2,17 @@ import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
 import Filter from "./filter";
 import '../App.css';
+import {connect} from 'react-redux';
 
 class Navbar extends Component{
 
     constructor(){
         super();
         this.state = ({
-            search : ''
+            search : '',
         })
     }
+    
 
     componentDidMount() {
         document.addEventListener('keydown', function(event) {
@@ -19,34 +21,21 @@ class Navbar extends Component{
             }
         });
     }
-
-    // handleChange = (e) => {
-    //     e.preventDefault();
-    //     this.setState({
-    //         [e.target.name] : e.target.value
-    //     });
-    //     console.log(this.state);
-    // };
-
-    // handleSearch = (e) => {
-    //     e.preventDefault();
-    //     if(this.state.search === '')
-    //         alert("Please enter some search criteria");
-    //     else {
-    //         console.log("Search button clicked");
-    //         let keyword = this.state.search;
-    //         console.log(keyword);
-    //         // this.props.history.push('/filter');
-    //         // Axios Request to database, Splitting and all will be done at backend
-    //     }
-    // };
-
     render(){
+        let isAdmin = false;
+        if(this.props.userType === "admin"){
+            isAdmin = true;
+        }
+        let isLoggedIn = false;
+        if(this.props.userType.length !== 0){
+            isLoggedIn = true;
+        }
         const styleForUL = {
             listStyleType: "none",
             margin: "0",
             padding: "0",
             overflow: "hidden",
+            height : "50px"
         };
         const styleForLi = {
             float : "left"
@@ -64,17 +53,14 @@ class Navbar extends Component{
         return(
             <ul style={styleForUL}>
                 <li style={styleForLi}><a href="/" style = {styleForLiA}>Home</a></li>
-                <li style={styleForLi}><a href="/" style = {styleForLiA}>TV Shows</a></li>
-                <li style={styleForLi}><a href="/" style = {styleForLiA}>Movies</a></li>
-                <li style={styleForLi}><a href="/" style = {styleForLiA}>Recently Added</a></li>
-                <li style={styleForLi}><a href="/" style = {styleForLiA}>My List</a></li>
-
-                {/* <li style={StyleFloatRight}><Link to="/filter" style = {styleForLiA}>Search</Link></li> */}
-                <li style={StyleFloatRight}><Link to="/admin/delete/">Admin Config</Link></li>
-                <li style={StyleFloatRight}><Link to="/signup/">SignUp</Link></li>
-                <li style={StyleFloatRight}><Link to="/signin/">SignIn</Link></li>
-                <li style={StyleFloatRight}><a href="/" style = {styleForLiA}>Account</a></li>
-                <li style={StyleFloatRight}><a id="searchbutton" onClick={this.handleSearch} style = {styleForLiA}>Search</a></li>
+                {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signup/">SignUp</Link></li> : null}
+                {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signin/">SignIn</Link></li> : <li style={StyleFloatRight}><Link to="/signin/">Logout</Link></li>}
+                {isAdmin ? <li style={StyleFloatRight}><Link to="/admin/delete/">Admin Config</Link></li> : null}
+                <li style={StyleFloatRight}>
+                    <Link to='/filter'>
+                        Search
+                    </Link>
+                </li>
                 <li style={StyleFloatRight}>
                     <div className="form-group">
                         <input type="text" id='searchbox'
@@ -86,14 +72,16 @@ class Navbar extends Component{
                                placeholder="Search for movie" style={{width:'350px', marginTop : '10px'}} />
                     </div>
                 </li>
-                <li style={StyleFloatRight}>
-                    <Link to='/filter'>
-                        Search
-                    </Link>
-                </li>
+                
             </ul>
         )
     }
 }
 
-export default Navbar;
+const mapStateToProps = state => {
+    return{
+        userType : state.userType
+    }
+}
+
+export default connect(mapStateToProps)(Navbar);

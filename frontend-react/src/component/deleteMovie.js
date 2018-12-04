@@ -76,7 +76,7 @@ class DeleteMovie extends Component{
         movieDetails = this.state.movies.map((m,index) => {
             return(
                 <tr>
-                    <td>{m.title}</td>
+                    <td><Link to= {`/movieDetails/${m.movieId}`}>{m.title}</Link></td>
                     <td>{m.actors}</td>
                     <td>{m.actresses}</td>
                     <td>{m.director}</td>

@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import Navbar from '../component/Navbar';
 import {connect} from 'react-redux';
 import {CreateMovie} from '../store/actions';
+import {UpdateMovie} from '../store/actions';
 import {Link} from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
@@ -54,7 +55,13 @@ class AddMovie extends Component{
             price: this.state.price
         }
         console.log("New Movie Deatils : ", newMovieDetails);
-        this.props.onSubmitClicked(newMovieDetails);
+        if(this.props.match.params.movieID != -1){
+            console.log("Movie ID : ", this.props.match.params.movieID);
+            this.props.onUpdateClicked(newMovieDetails,this.props.match.params.movieID);
+        }else{
+            this.props.onSubmitClicked(newMovieDetails);
+        }
+        
     }
 
     handlePrev = (e) => {
@@ -70,11 +77,11 @@ class AddMovie extends Component{
             currentTab : (this.state.currentTab + 1)
         })
     }
-
     componentWillMount(){
         var movieID = this.props.match.params.movieID;
         console.log("Movie ID : ", movieID);
-        axios.get(`${api}/movies/${movieID}`)
+        axios.get(`${api}/movies/${movieID}`,{
+            headers: {"Authorization" : localStorage.getItem("Authorization")}})
             .then((response) => {
                 console.log("Response : ", response);
                 this.setState({
@@ -167,7 +174,7 @@ class AddMovie extends Component{
         let nextButton = null;
         if(this.state.currentTab == 3){
             nextButton = (
-                <button style={styleButton2} type="button" id="prevBtn" onClick={(e) => this.handleNext(e,FormTitle)}>Submit</button>
+                <button style={styleButton2} type="button" id="prevBtn" onClick={(e) => this.handleSubmit(e,FormTitle)}>Submit</button>
             )
                     
         }else{
@@ -225,6 +232,7 @@ const mapDispatchToProps = dispatch => {
     console.log("Inside map dipatch to props");
     return{
         onSubmitClicked : (details) => dispatch(CreateMovie(details)),
+        onUpdateClicked : (details,movieID) => dispatch(UpdateMovie(details,movieID)),
     }
 }
 

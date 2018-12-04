@@ -3,7 +3,8 @@ import * as actionTypes from './actions';
 
 const initialState = {
     msg : '',
-    status : ''
+    status : '',
+    userType : "admin"
 }
 
 const reducer = (state = initialState, action) => {
@@ -20,13 +21,26 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 msg : action.payload.msg
             }
-        case actionTypes.SUCCESS:
+            case actionTypes.REVIEW_CREATE_SUCCESS:
+            return{
+                ...state,
+                msg : action.payload.msg
+            }
+        case actionTypes.REVIEW_CREATE_FAIL:
+            console.log("Movie Create Failed");
+            return{
+                ...state,
+                msg : action.payload.msg
+            }
+        case actionTypes.LOGIN_SUCCESS:
+            console.log("Login Success : ", action.payload.data);
             return{
                 ...state,
                 msg : action.payload,
-                status : action.type
+                status : action.type,
+                userType : action.payload.data.userType
             }
-        case actionTypes.ERROR:
+        case actionTypes.LOGIN_ERROR:
             return{
                 ...state,
                 msg : action.payload,

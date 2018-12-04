@@ -47,7 +47,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
         .permitAll()
         .antMatchers(SecurityConstants.H2_CONSOLE)
         .permitAll()
-        .antMatchers(HttpMethod.POST, "/admin/create_movie/")
+        .antMatchers(HttpMethod.POST, "/admin/*")
         .permitAll()
         .antMatchers(HttpMethod.GET, "/movies/")
         .permitAll()

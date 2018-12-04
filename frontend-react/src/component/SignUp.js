@@ -71,10 +71,10 @@ class SignUp extends Component{
 
     render(){
         let errorMsg = null;
-        if(this.props.status == "SUCCESS"){
-            this.props.history.push("/");
+        if(this.props.status == "LOGIN_SUCCESS"){
+            this.props.history.push("/signupconfirmation");
         }
-        if(this.props.status == "ERROR"){
+        if(this.props.status == "LOGIN_ERROR"){
             errorMsg = (
                 <div className="error-msg">
                    Something went wrong

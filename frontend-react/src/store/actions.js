@@ -5,8 +5,12 @@ import axios from 'axios';
 
 export const MOVIE_CREATE_SUCCESS = 'MOVIE_CREATE_SUCCESS';
 export const MOVIE_CREATE_FAIL = 'MOVIE_CREATE_FAIL';
-export const SUCCESS = "SUCCESS";
-export const ERROR = "ERROR";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_ERROR = "LOGIN_ERROR";
+export const MOVIE_UPDATE_SUCCESS = 'MOVIE_UPDATE_SUCCESS';
+export const MOVIE_UPDATE_FAIL = 'MOVIE_UPDATE_FAIL';
+export const REVIEW_CREATE_SUCCESS = 'REVIEW_CREATE_SUCCESS';
+export const REVIEW_CREATE_FAIL = 'REVIEW_CREATE_FAIL';
 
 export const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://localhost:8080';
 
@@ -26,16 +30,48 @@ function MovieCreateFailed(response){
     }
 }
 
+function MovieUpdateSuccess(response){
+    console.log("Response in Success : ", response);
+    return{
+        type : MOVIE_UPDATE_SUCCESS,
+        payload : response
+    }
+}
+
+function MovieUpdateFailed(response){
+    console.log("Response in Fail : ", response);
+    return{
+        type : MOVIE_UPDATE_FAIL,
+        payload : response
+    }
+}
+
+function ReviewCreateSuccess(response){
+    console.log("Response in Success : ", response);
+    return{
+        type : REVIEW_CREATE_SUCCESS,
+        payload : response
+    }
+}
+
+function ReviewCreateFailed(response){
+    console.log("Response in Fail : ", response);
+    return{
+        type : REVIEW_CREATE_FAIL,
+        payload : response
+    }
+}
+
 function SuccessResonse(response){
     return{
-        type : SUCCESS,
+        type : LOGIN_SUCCESS,
         payload : response
     }
 }
 
 function ErrorResonse(response){
     return{
-        type : ERROR,
+        type : LOGIN_ERROR,
         payload : response
     }
 }
@@ -62,9 +98,55 @@ export function CreateMovie(MovieDetails){
     }    
 }
 
+export function UpdateMovie(MovieDetails, movieID){
+    console.log("MovieID in action : ", movieID);
+    // var headers = new Headers();
+    // headers.append('Accept', 'application/json');
+    return (dispatch) => {
+        const request = axios(`${api}/update_movie/${movieID}`,{
+            method: 'put',
+            mode: 'no-cors',
+            redirect: 'follow',
+            withCredentials: false,
+            headers: {"Authorization" : localStorage.getItem("Authorization")},
+            data: MovieDetails
+        }).then((response)=>{
+            if(response.status == 200){
+                dispatch(MovieUpdateSuccess(response));
+                // history.push('/question');
+            }else{
+                dispatch(MovieUpdateFailed(response))
+            }
+        })
+    }    
+}
+
+export function CreateReview(ReviewDetails){
+    var headers = new Headers();
+    headers.append('Accept', 'application/json');
+    return (dispatch) => {
+        const request = axios(`${api}/reviews/`,{
+            method: 'post',
+            mode: 'no-cors',
+            redirect: 'follow',
+            withCredentials: false,
+            headers: headers,
+            data: ReviewDetails
+        }).then((response)=>{
+            if(response.status == 200){
+                dispatch(ReviewCreateSuccess(response));
+                // history.push('/question');
+            }else{
+                dispatch(ReviewCreateFailed(response))
+            }
+        })
+    }    
+}
+
 export function SignInAction(UserDetails){
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    
     return (dispatch) => {
         const request = axios(`${api}/users/login`,{
             method: 'post',

@@ -8,6 +8,7 @@ import EmailVerification from './component/EmailVerification';
 import SignIn from './component/SignIn';
 import DeleteMovie from './component/deleteMovie';
 import Filter from './component/filter';
+import MovieDetails from './component/movieDetails';
 
 class App extends Component {
   render() {
@@ -21,6 +22,8 @@ class App extends Component {
             <Route exact path = '/verifyemail' component = {EmailVerification}/>
             <Route exact path = '/signin' component = {SignIn}/>
             <Route exact path = '/filter' component = {Filter}/>
+            <Route exact path = '/movieDetails/:movieID' component = {MovieDetails}/>
+            
       </Switch>
     );
   }

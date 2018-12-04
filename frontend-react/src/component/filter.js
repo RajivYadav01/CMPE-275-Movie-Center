@@ -208,30 +208,82 @@ class Filter extends Component {
         let filteredByDirector = [] ;
         // console.log('filteredByDirector',filteredByDirector);
         //
-        // let filteredByYear = this.filterByYear();
+        let filteredByYear = [];
         // console.log('filteredByYear',filteredByYear);
         //
-        // let filteredByMPAA = this.filterByMPAA();
+        let filteredByMPAA = [];
         // console.log('filteredByMPAA',filteredByMPAA);
         //
-        // let filteredByGenre = this.filterByGenre();
+        let filteredByGenre = [];
         // console.log('filteredByGenre',filteredByGenre);
 
-        let finalSet = new Set();
+        let filteredByRating = [];
+        // let finalSet = new Set();
 
         if(this.state.actor !== ''){
-            filteredByActor = this.filterByActor(this.state.displayArray);
+            if (this.state.movies !== '') 
+                filteredByActor = this.filterByActor(this.state.movies);
             console.log('filteredByActor',filteredByActor);
         }
         else
             filteredByActor = this.state.movies;
 
         if(this.state.director !== ''){
-            filteredByDirector = this.filterByDirector(filteredByActor);
+            if(filteredByActor!=='')
+                filteredByDirector = this.filterByDirector(filteredByActor);
             console.log('filteredByDirector' , filteredByDirector)
         }
         else
             filteredByDirector = filteredByActor;
+
+        if(this.state.year !== ''){
+            if(filteredByDirector!=='')
+                filteredByYear = this.filterByYear(filteredByDirector);
+            console.log('filteredByYear' , filteredByYear)
+        }
+        else
+            filteredByYear = filteredByDirector;
+
+        if(!this.state.mpaaRatingG
+            || !this.state.mpaaRatingPG
+            || !this.state.mpaaRatingPG13
+            || !this.state.mpaaRatingR
+            || !this.state.mpaaRatingNC17){
+            if(filteredByYear!=='')
+                filteredByMPAA = this.filterByMPAA(filteredByYear);
+            console.log('filteredByMPAA',filteredByMPAA)
+        }
+        else
+            filteredByMPAA = filteredByYear;
+
+        if(!this.state.genreAction
+            || !this.state.genre
+            || !this.state.genreComedy
+            || !this.state.genreDrama
+            || !this.state.genreHorror
+            || !this.state.genreThriller
+            || !this.state.genreRomance
+            || !this.state.genreCrime
+            || !this.state.genreFantasy
+            || !this.state.genreMystery
+            || !this.state.genreWar
+            || !this.state.genreAnimation
+            || !this.state.genreBiography ){
+            if(filteredByMPAA!==''){
+                 filteredByGenre = this.filterByGenre(filteredByMPAA);
+                 console.log(filteredByGenre);
+            }
+        }
+        else
+            filteredByGenre = filteredByMPAA ;
+
+        if(this.state.ratingsRadio!== ''){
+            if(filteredByGenre!=='')
+                filteredByRating = this.filterByRating(filteredByGenre);
+            console.log('filteredByRating',filteredByRating)
+        }
+        else
+            filteredByRating = filteredByGenre;
 
         // filteredByActor.forEach(i=>{
         //     finalSet.add(i)
@@ -254,13 +306,30 @@ class Filter extends Component {
         // });
 
         this.setState({
-            displayArray : filteredByDirector
+            displayArray : filteredByRating
         })
 
     };
 
+    filterByRating(arr){
+        let num = this.state.ratingsRadio ;
 
-    filterByGenre(){
+        let temp = arr;
+        let set = new Set();
+
+        if(num !== ''){
+            temp.forEach(i=>{
+                if(i.averageRating>num)
+                    set.add(i);
+            });
+            return Array.from(set);
+        }
+        else {
+            return arr;
+        }
+    }
+
+    filterByGenre(arr){
 
         let action = this.state.genreAction ;
         let comedy = this.state.genreComedy;
@@ -276,97 +345,138 @@ class Filter extends Component {
         let biography = this.state.genreBiography;
 
         let set = new Set();
-        let temp = this.state.movies;
+        let temp = arr;
+        console.log("inside genre",temp);
+        var flag = false;
 
         if(action){
             temp.forEach((i)=>{
-                if(i.genre.toLowerCase().trim() === 'action')
-                    set.add(i);
+                if(i.genre.toLowerCase().trim() === 'action')   {
+                         flag = true;
+                         set.add(i);
+                }
+
             })
         }
 
         if(comedy){
             temp.forEach((i)=>{
-                if(i.genre.toLowerCase().trim() === 'comedy')
+                if(i.genre.toLowerCase().trim() === 'comedy')    {
+                    flag = true;
                     set.add(i);
+                }
+
             })
         }
 
         if(drama){
             temp.forEach((i)=>{
-                if(i.genre.toLowerCase().trim() === 'drama')
+                if(i.genre.toLowerCase().trim() === 'drama') {
+                    flag = true;
                     set.add(i);
+                }
+
             })
         }
 
         if(horror){
             temp.forEach((i)=>{
-                if(i.genre.toLowerCase().trim() === 'horror')
-                    set.add(i);
+                if(i.genre.toLowerCase().trim() === 'horror') {
+                            flag = true;
+                            set.add(i);
+                }
+
             })
         }
 
         if(thriller){
             temp.forEach((i)=>{
-                if(i.genre.toLowerCase().trim() === 'thriller')
-                    set.add(i);
+                if(i.genre.toLowerCase().trim() === 'thriller')    {
+                      flag = true;
+                      set.add(i);
+                }
+
             })
         }
 
         if(romance){
             temp.forEach((i)=>{
-                if(i.genre.toLowerCase().trim() === 'romance')
+                if(i.genre.toLowerCase().trim() === 'romance')  {
+                    flag = true;
                     set.add(i);
+                }
+
             })
         }
 
         if(crime){
             temp.forEach((i)=>{
-                if(i.genre.toLowerCase().trim() === 'crime')
+                if(i.genre.toLowerCase().trim() === 'crime')  {
+                    flag = true;
                     set.add(i);
+                }
+
             })
         }
 
         if(fantasy){
             temp.forEach((i) => {
-                if(i.genre.toLowerCase().trim() === 'fantasy')
-                    set.add(i);
+                if(i.genre.toLowerCase().trim() === 'fantasy') {
+                       flag = true;
+                       set.add(i);
+                }
+
             })
         }
 
         if(mystery){
             temp.forEach((i) => {
-                if(i.genre.toLowerCase().trim() === 'mystery')
-                    set.add(i);
+                if(i.genre.toLowerCase().trim() === 'mystery')  {
+                       flag = true;
+                       set.add(i);
+                }
+
             })
         }
 
         if(war){
             temp.forEach((i) => {
-                if(i.genre.toLowerCase().trim() === 'war')
-                    set.add(i);
+                if(i.genre.toLowerCase().trim() === 'war'){
+                     flag = true;
+                     set.add(i);
+                }
+
             })
         }
 
         if(animation){
             temp.forEach((i) => {
-                if(i.genre.toLowerCase().trim() === 'animation')
-                    set.add(i);
+                if(i.genre.toLowerCase().trim() === 'animation')   {
+                      flag = true;
+                      set.add(i);
+                }
+
             })
         }
 
         if(biography){
             temp.forEach((i) => {
-                if(i.genre.toLowerCase().trim() === 'biography')
-                    set.add(i);
+                if(i.genre.toLowerCase().trim() === 'biography') {
+                     flag = true;
+                     set.add(i);
+                }
+
             })
         }
 
-        return Array.from(set);
+        if(flag)
+            return Array.from(set);
+        else
+            return arr;
 
     }
 
-    filterByMPAA(){
+    filterByMPAA(arr){
         let g = this.state.mpaaRatingG;
         let pg = this.state.mpaaRatingPG;
         let pg13 = this.state.mpaaRatingPG13;
@@ -374,14 +484,23 @@ class Filter extends Component {
         let nc17 = this.state.mpaaRatingNC17;
 
         let set = new Set();
-        let temp = this.state.movies;
+        let temp = arr;
+        console.log(arr);
+
+        var flag = false;
+        if(arr==='')
+            return [];
 
         if(g){
             console.log('inside g');
             temp.forEach((i)=>{
                 console.log('inside g', i.mpaaRating.toUpperCase().trim());
-                if(i.mpaaRating.toUpperCase().trim() === 'G')
-                    set.add(i);
+                if(i.mpaaRating.toUpperCase().trim() === 'G')  {
+                       flag = true;
+                       set.add(i);
+                }
+
+
             })
         }
         if(pg){
@@ -389,33 +508,48 @@ class Filter extends Component {
             temp.forEach((i)=>{
                 console.log('inside pg', i.mpaaRating.toUpperCase().trim());
                 if(i.mpaaRating.toUpperCase().trim() === 'PG'){
+                    flag = true;
                     set.add(i);
                 }
             })
         }
         if(pg13){
             temp.forEach((i)=>{
-                if(i.mpaaRating.toUpperCase().trim() === 'PG-13')
-                    set.add(i);
+                if(i.mpaaRating.toUpperCase().trim() === 'PG-13')   {
+                    flag = true;
+                     set.add(i);
+                }
+
             })
         }
         if(r){
             temp.forEach((i)=>{
-                if(i.mpaaRating.toUpperCase().trim() === 'R')
-                    set.add(i);
+                if(i.mpaaRating.toUpperCase().trim() === 'R')   {
+                    flag = true;
+                      set.add(i);
+                }
+
             })
         }
         if(nc17){
             temp.forEach((i)=>{
-                if(i.mpaaRating.toUpperCase().trim() === 'NC-17')
-                    set.add(i);
+                if(i.mpaaRating.toUpperCase().trim() === 'NC-17')     {
+                        flag = true;
+                         set.add(i);
+                }
+
             })
         }
         console.log('set : ', set);
-        return Array.from(set);
+        if(flag){
+               return Array.from(set);
+        } else{
+            return arr;
+        }
+
     }
 
-    filterByYear(){
+    filterByYear(arr){
 
         if(this.state.year === '')
             return [];
@@ -424,12 +558,10 @@ class Filter extends Component {
 
         let set = new Set();
 
-        let temp = this.state.movies;
-
         // console.log('splitted year array',yearArray);
         // console.log('year of release of first movie in array',temp[0].yearOfRelease);
 
-        temp.forEach((i)=>{
+        arr.forEach((i)=>{
             yearArray.forEach((j)=>{
                 if(i.yearOfRelease.includes(j.trim()))
                     set.add(i)
@@ -558,21 +690,21 @@ class Filter extends Component {
                     <br/>
                     <div style={{width:'1400px'}}>
                         <div style={{width:'1100px', float:'left', marginLeft: '-3%'}}>
-                            <input type="text"
+                            <input type="text" id='searchbox'
                                    className="form-control"
                                    id="exampleInputTitle"
                                    onChange={this.handleChange}
                                    name='searchText'
                                    placeholder="Search for movie by title, people, genre, availability, etc."
-                                   style={{width:'850px', marginLeft: '25%', float:'left'}} />
+                                   style={{width:'1160px', marginLeft: '20.5%', float:'left'}} />
                         </div>
-                        <div style={{width:'150px', float:'left', marginLeft: '2.5%'}}>
-                            <button style={{height:'50px'}} className="form-control"
-                                    id="searchbutton"
-                                    onClick={this.handleSearch}>
-                                <label> Search </label>
-                            </button>
-                        </div>
+                        {/*<div style={{width:'150px', float:'left', marginLeft: '2.5%'}}>*/}
+                            {/*<button style={{height:'50px'}} className="form-control"*/}
+                                    {/*id="searchbutton"*/}
+                                    {/*onClick={this.handleSearch}>*/}
+                                {/*<label> Search </label>*/}
+                            {/*</button>*/}
+                        {/*</div>*/}
                     </div>
                     <br/><br/><br/><br/>
                     <ul>
@@ -854,15 +986,15 @@ class Filter extends Component {
                                    onChange={this.handleChange}
                                    name='searchText'
                                    placeholder="Search for movie by title, people, genre, availability, etc."
-                                   style={{width:'850px', marginLeft: '25%', float:'left'}} />
+                                   style={{width:'1160px', marginLeft: '20.5%', float:'left'}} />
                         </div>
-                        <div style={{width:'150px', float:'left', marginLeft: '2.5%'}}>
-                            <button className="form-control"
-                                    id="exampleInputTitle"
-                                    onClick={this.handleSearch}>
-                                <label> Search </label>
-                            </button>
-                        </div>
+                        {/*<div style={{width:'150px', float:'left', marginLeft: '2.5%'}}>*/}
+                            {/*<button className="form-control"*/}
+                                    {/*id="exampleInputTitle"*/}
+                                    {/*onClick={this.handleSearch}>*/}
+                                {/*<label> Search </label>*/}
+                            {/*</button>*/}
+                        {/*</div>*/}
                     </div>
                     <br/><br/><br/><br/>
                     <ul>

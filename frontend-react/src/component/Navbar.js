@@ -20,26 +20,26 @@ class Navbar extends Component{
         });
     }
 
-    handleChange = (e) => {
-        e.preventDefault();
-        this.setState({
-            [e.target.name] : e.target.value
-        });
-        console.log(this.state);
-    };
+    // handleChange = (e) => {
+    //     e.preventDefault();
+    //     this.setState({
+    //         [e.target.name] : e.target.value
+    //     });
+    //     console.log(this.state);
+    // };
 
-    handleSearch = (e) => {
-        e.preventDefault();
-        if(this.state.search === '')
-            alert("Please enter some search criteria");
-        else {
-            console.log("Search button clicked");
-            let keyword = this.state.search;
-            console.log(keyword);
-            // this.props.history.push('/filter');
-            // Axios Request to database, Splitting and all will be done at backend
-        }
-    };
+    // handleSearch = (e) => {
+    //     e.preventDefault();
+    //     if(this.state.search === '')
+    //         alert("Please enter some search criteria");
+    //     else {
+    //         console.log("Search button clicked");
+    //         let keyword = this.state.search;
+    //         console.log(keyword);
+    //         // this.props.history.push('/filter');
+    //         // Axios Request to database, Splitting and all will be done at backend
+    //     }
+    // };
 
     render(){
         const styleForUL = {
@@ -69,7 +69,7 @@ class Navbar extends Component{
                 <li style={styleForLi}><a href="/" style = {styleForLiA}>Recently Added</a></li>
                 <li style={styleForLi}><a href="/" style = {styleForLiA}>My List</a></li>
 
-                <li style={StyleFloatRight}><a href="/" style = {styleForLiA}>Search</a></li>
+                {/* <li style={StyleFloatRight}><Link to="/filter" style = {styleForLiA}>Search</Link></li> */}
                 <li style={StyleFloatRight}><Link to="/admin/delete/">Admin Config</Link></li>
                 <li style={StyleFloatRight}><Link to="/signup/">SignUp</Link></li>
                 <li style={StyleFloatRight}><Link to="/signin/">SignIn</Link></li>
@@ -85,6 +85,11 @@ class Navbar extends Component{
                                name='search'
                                placeholder="Search for movie" style={{width:'350px', marginTop : '10px'}} />
                     </div>
+                </li>
+                <li style={StyleFloatRight}>
+                    <Link to='/filter'>
+                        Search
+                    </Link>
                 </li>
             </ul>
         )

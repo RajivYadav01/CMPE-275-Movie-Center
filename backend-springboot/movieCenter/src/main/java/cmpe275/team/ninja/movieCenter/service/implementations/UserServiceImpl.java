@@ -151,7 +151,6 @@ public class UserServiceImpl implements UserService {
 
         userEntity.setFirstName(user.getFirstName());
         userEntity.setLastName(user.getLastName());
-        userEntity.setEmail(user.getEmail());
 
         UserEntity updatedUserDetails = userRepository.save(userEntity);
         BeanUtils.copyProperties(updatedUserDetails, returnValue);

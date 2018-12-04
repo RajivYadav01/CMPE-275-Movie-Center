@@ -6,7 +6,6 @@ import Navbar from "./Navbar";
 import {Link} from "react-router-dom";
 
 
-
 class Filter extends Component {
 
     constructor() {
@@ -35,7 +34,9 @@ class Filter extends Component {
             genreAnimation: false,
             genreBiography: false,
             ratingsRadio : '',
-            movies : []
+            movies : [],
+            displayArray : [],
+            arr : []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleFilterToggle = this.handleFilterToggle.bind(this);
@@ -44,15 +45,30 @@ class Filter extends Component {
         this.handleSearch = this.handleSearch.bind(this);
     }
 
-    componentDidMount() {
-        document.addEventListener('keydown', function(event) {
-            if(event.keyCode === 13 ) {
-                console.log('after clicking enter on keyboard : ', this.state.searchText);
-                console.log(document.getElementById('searchbutton'));
-                // document.getElementById('searchbutton').click();
-            }
-        });
+    componentWillMount() {
+
+        axios.get('http://localhost:8080/movies/',{
+            headers: {"Authorization" : localStorage.getItem("Authorization")}
+        })
+            .then((response)=>{
+                console.log(response.data);
+                this.setState({
+                    movies : response.data,
+                    displayArray : response.data
+                })
+            })
+
     }
+
+    // componentDidMount() {
+    //     document.addEventListener('keydown', function(event) {
+    //         if(event.keyCode === 13 ) {
+    //             console.log('after clicking enter on keyboard : ', this.state.searchText);
+    //             console.log(document.getElementById('searchbutton'));
+    //             // document.getElementById('searchbutton').click();
+    //         }
+    //     });
+    // }
 
     handleFilterToggle = (e) => {
         e.preventDefault();
@@ -90,6 +106,30 @@ class Filter extends Component {
                 console.log('filters cleared');
                 this.handleSearch();
             }
+            // else if (this.state.actor===""
+            //     && this.state.director===""
+            //     && this.state.year===""
+            //     && this.state.searchText===""
+            //     && !this.state.mpaaRatingG
+            //     && !this.state.mpaaRatingPG
+            //     && !this.state.mpaaRatingPG13
+            //     && !this.state.mpaaRatingR
+            //     && !this.state.mpaaRatingNC17
+            //     && !this.state.genreAction
+            //     && !this.state.genreComedy
+            //     && !this.state.genreDrama
+            //     && !this.state.genreHorror
+            //     && !this.state.genreThriller
+            //     && !this.state.genreRomance
+            //     && !this.state.genreCrime
+            //     && !this.state.genreFantasy
+            //     && !this.state.genreMystery
+            //     && !this.state.genreWar
+            //     && !this.state.genreAnimation
+            //     && !this.state.genreBiography
+            //     && this.state.ratingsRadio===""){
+            //     console.log('All Fields cleared');
+            // }
         });
     };
 
@@ -132,8 +172,7 @@ class Filter extends Component {
     };
 
     handleSplit(s) {
-        var array = s.split(",");
-        return array;
+        return s.split(",");
     };
 
     handleAllFilters = (e) =>{
@@ -163,43 +202,167 @@ class Filter extends Component {
         };
         console.log('Applied filters', allFilters);
 
-        let filteredByActor = this.filterByActor();
-        console.log(filteredByActor);
+        let filteredByActor = [] ;
+        // console.log('filteredByActor',filteredByActor);
 
-        let filteredByDirector = this.filterByDirector();
-        console.log(filteredByDirector);
+        let filteredByDirector = [] ;
+        // console.log('filteredByDirector',filteredByDirector);
+        //
+        // let filteredByYear = this.filterByYear();
+        // console.log('filteredByYear',filteredByYear);
+        //
+        // let filteredByMPAA = this.filterByMPAA();
+        // console.log('filteredByMPAA',filteredByMPAA);
+        //
+        // let filteredByGenre = this.filterByGenre();
+        // console.log('filteredByGenre',filteredByGenre);
 
-        let filteredByYear = this.filterByYear();
-        console.log(filteredByYear);
+        let finalSet = new Set();
 
-        let filteredByMPAA = this.filterByMPAA();
-        console.log(filteredByMPAA);
+        if(this.state.actor !== ''){
+            filteredByActor = this.filterByActor(this.state.displayArray);
+            console.log('filteredByActor',filteredByActor);
+        }
+        else
+            filteredByActor = this.state.movies;
 
-        let filteredByGenre = this.filterByGenre();
-        console.log(filteredByGenre);
+        if(this.state.director !== ''){
+            filteredByDirector = this.filterByDirector(filteredByActor);
+            console.log('filteredByDirector' , filteredByDirector)
+        }
+        else
+            filteredByDirector = filteredByActor;
+
+        // filteredByActor.forEach(i=>{
+        //     finalSet.add(i)
+        // });
+        //
+        // filteredByDirector.forEach(i=>{
+        //     finalSet.add(i);
+        // });
+        //
+        // filteredByYear.forEach(i=>{
+        //     finalSet.add(i)
+        // });
+        //
+        // filteredByMPAA.forEach(i=>{
+        //     finalSet.add(i);
+        // });
+        //
+        // filteredByGenre.forEach(i=>{
+        //     finalSet.add(i);
+        // });
 
         this.setState({
-            movies : filteredByMPAA
+            displayArray : filteredByDirector
         })
+
     };
+
 
     filterByGenre(){
 
         let action = this.state.genreAction ;
         let comedy = this.state.genreComedy;
         let drama = this.state.genreDrama;
-        let genreHorror = this.state.genreHorror;
-        let genreThriller = this.state.genreThriller;
+        let horror = this.state.genreHorror;
+        let thriller = this.state.genreThriller;
         let romance = this.state.genreRomance;
         let crime = this.state.genreCrime;
-        let genreFantasy = this.state.genreFantasy;
-        let genreMystery = this.state.genreMystery;
-        let genreWar = this.state.genreWar;
-        let genreAnimation = this.state.genreAnimation;
-        let genreBiography = this.state.genreBiography;
+        let fantasy = this.state.genreFantasy;
+        let mystery = this.state.genreMystery;
+        let war = this.state.genreWar;
+        let animation = this.state.genreAnimation;
+        let biography = this.state.genreBiography;
 
         let set = new Set();
         let temp = this.state.movies;
+
+        if(action){
+            temp.forEach((i)=>{
+                if(i.genre.toLowerCase().trim() === 'action')
+                    set.add(i);
+            })
+        }
+
+        if(comedy){
+            temp.forEach((i)=>{
+                if(i.genre.toLowerCase().trim() === 'comedy')
+                    set.add(i);
+            })
+        }
+
+        if(drama){
+            temp.forEach((i)=>{
+                if(i.genre.toLowerCase().trim() === 'drama')
+                    set.add(i);
+            })
+        }
+
+        if(horror){
+            temp.forEach((i)=>{
+                if(i.genre.toLowerCase().trim() === 'horror')
+                    set.add(i);
+            })
+        }
+
+        if(thriller){
+            temp.forEach((i)=>{
+                if(i.genre.toLowerCase().trim() === 'thriller')
+                    set.add(i);
+            })
+        }
+
+        if(romance){
+            temp.forEach((i)=>{
+                if(i.genre.toLowerCase().trim() === 'romance')
+                    set.add(i);
+            })
+        }
+
+        if(crime){
+            temp.forEach((i)=>{
+                if(i.genre.toLowerCase().trim() === 'crime')
+                    set.add(i);
+            })
+        }
+
+        if(fantasy){
+            temp.forEach((i) => {
+                if(i.genre.toLowerCase().trim() === 'fantasy')
+                    set.add(i);
+            })
+        }
+
+        if(mystery){
+            temp.forEach((i) => {
+                if(i.genre.toLowerCase().trim() === 'mystery')
+                    set.add(i);
+            })
+        }
+
+        if(war){
+            temp.forEach((i) => {
+                if(i.genre.toLowerCase().trim() === 'war')
+                    set.add(i);
+            })
+        }
+
+        if(animation){
+            temp.forEach((i) => {
+                if(i.genre.toLowerCase().trim() === 'animation')
+                    set.add(i);
+            })
+        }
+
+        if(biography){
+            temp.forEach((i) => {
+                if(i.genre.toLowerCase().trim() === 'biography')
+                    set.add(i);
+            })
+        }
+
+        return Array.from(set);
 
     }
 
@@ -214,42 +377,51 @@ class Filter extends Component {
         let temp = this.state.movies;
 
         if(g){
+            console.log('inside g');
             temp.forEach((i)=>{
-                if(i.mpaaRating.toUpperCase().trim() === "G")
+                console.log('inside g', i.mpaaRating.toUpperCase().trim());
+                if(i.mpaaRating.toUpperCase().trim() === 'G')
                     set.add(i);
             })
         }
         if(pg){
+            console.log('inside pg');
             temp.forEach((i)=>{
-                if(i.mpaaRating.toUpperCase().trim() === "PG")
+                console.log('inside pg', i.mpaaRating.toUpperCase().trim());
+                if(i.mpaaRating.toUpperCase().trim() === 'PG'){
                     set.add(i);
+                }
             })
         }
         if(pg13){
             temp.forEach((i)=>{
-                if(i.mpaaRating.toUpperCase().trim() === "PG-13")
+                if(i.mpaaRating.toUpperCase().trim() === 'PG-13')
                     set.add(i);
             })
         }
         if(r){
             temp.forEach((i)=>{
-                if(i.mpaaRating.toUpperCase().trim() === "R")
+                if(i.mpaaRating.toUpperCase().trim() === 'R')
                     set.add(i);
             })
         }
         if(nc17){
             temp.forEach((i)=>{
-                if(i.mpaaRating.toUpperCase().trim() === "NC-17")
+                if(i.mpaaRating.toUpperCase().trim() === 'NC-17')
                     set.add(i);
             })
         }
-
+        console.log('set : ', set);
         return Array.from(set);
     }
 
     filterByYear(){
 
+        if(this.state.year === '')
+            return [];
+
         let yearArray = this.handleSplit(this.state.year);
+
         let set = new Set();
 
         let temp = this.state.movies;
@@ -267,14 +439,15 @@ class Filter extends Component {
         return Array.from(set)
     }
 
-    filterByDirector() {
+    filterByDirector(arr) {
+
+        if(this.state.director === '')
+            return [];
 
         let directorArray = this.handleSplit(this.state.director);
         let set = new Set();
 
-        let temp = this.state.movies ;
-
-        temp.forEach((i)=>{
+        arr.forEach((i)=>{
             directorArray.forEach((j)=>{
                 if(i.director.toLowerCase().includes(j.trim().toLowerCase()))
                     set.add(i)
@@ -283,14 +456,15 @@ class Filter extends Component {
         return Array.from(set)
     }
 
-    filterByActor(){
+    filterByActor(arr){
+
+        if(this.state.actor === '')
+            return [];
 
         let actorArray = this.handleSplit(this.state.actor);
         let set = new Set();
 
-        let tempArray = this.state.movies ;
-        
-        tempArray.forEach( (i) => {
+        arr.forEach( (i) => {
             actorArray.forEach( (j) => {
                 if(i.actors.toLowerCase().includes(j.trim().toLowerCase()))
                     set.add(i);
@@ -299,12 +473,6 @@ class Filter extends Component {
 
         return Array.from(set);
 
-        // for( var i = 0 ; i < tempArray.length ; i++ ) {
-        //     for( var j = 0 ; j < actorArray.length ; j++) {
-        //         if(tempArray[i].actors.includes(actorArray[j]))
-        //             set.add(tempArray[i]);
-        //     }
-        // }
     }
 
     handleSearch = (e) => {
@@ -312,15 +480,32 @@ class Filter extends Component {
         //headers.append('Authorization', localStorage.getItem("Authorization"));
         console.log('search clicked');
         let keyword = this.state.searchText;
-        axios.get('http://localhost:8080/movies/search/'+keyword,{
-             headers: {"Authorization" : localStorage.getItem("Authorization")} 
-        })
-            .then((response)=>{
-                console.log(response.data);
-                this.setState({
-                    movies : response.data
-                })
+
+        if(keyword === ''){
+            axios.get('http://localhost:8080/movies/',{
+                headers: {"Authorization" : localStorage.getItem("Authorization")}
             })
+                .then((response)=>{
+                    console.log(response.data);
+                    this.setState({
+                        movies : response.data,
+                        displayArray : response.data
+                    })
+                })
+        }
+        else if(keyword !== ''){
+            axios.get('http://localhost:8080/movies/search/'+keyword,{
+                headers: {"Authorization" : localStorage.getItem("Authorization")}
+            })
+                .then((response)=>{
+                    console.log(response.data);
+                    this.setState({
+                        movies : response.data,
+                        displayArray : response.data,
+                        arr : response.data
+                    })
+                })
+        }
     };
 
     render() {
@@ -352,7 +537,7 @@ class Filter extends Component {
         };
 
         let movieDetails = null;
-        movieDetails = this.state.movies.map((m,index) => {
+        movieDetails = this.state.displayArray.map((m,index) => {
             return(
                 <tr key={m.movieId} >
                     <td><Link to= {`/movieDetails/${m.movieId}`}>{m.title}</Link></td>
@@ -361,7 +546,7 @@ class Filter extends Component {
                     <td>{m.genre}</td>
                     <td>{m.mpaaRating}</td>
                     <td>{m.yearOfRelease}</td>
-                    <td>{m.average_rating}</td>
+                    <td>{m.averageRating}</td>
                 </tr>
             )
         });
@@ -691,7 +876,8 @@ class Filter extends Component {
                     <br/>
                     <div style={{marginLeft:'12%', marginRight:'12%'}}>
                         <div className="table-responsive" style={{backgroundColor: "white"}}>
-                            <table id="myTable" className="table table-striped table-hover">
+                            <table id="myTable"
+                                   className="table table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>Movie Title</th>
@@ -714,6 +900,7 @@ class Filter extends Component {
         }
     }
 }
+
 //
 // const mapDispatchToProps = dispatch => {
 //     console.log('inside mapdispatchtoprops')

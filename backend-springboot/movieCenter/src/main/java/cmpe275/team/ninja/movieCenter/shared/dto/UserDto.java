@@ -115,4 +115,10 @@ public class UserDto implements Serializable {
 		this.userType = userType;
 	}
 
+	@Override
+	public String toString() {
+		
+		return "{\"userType\":\""+userType+"\",\"userId\":\""+userId+"\", \"firstName\": \""+firstName+"\", \"lastName\": \""+lastName+"\", \"isSubscribed\": \""+isSubscribed+"\"}";
+		}
+
 }

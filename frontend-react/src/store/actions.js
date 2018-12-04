@@ -158,8 +158,14 @@ export function SignInAction(UserDetails){
         }).then((response)=>{
             if(response.status == 200){
                 console.log(response);
+                var userObj = response.data;
                 localStorage.setItem("Authorization", response.headers["authorization"]);
-                dispatch(SuccessResonse(response));
+                localStorage.setItem("userId", userObj.userId);
+                localStorage.setItem("firstName", userObj.firstName);
+                localStorage.setItem("lastName", userObj.lastName);
+                localStorage.setItem("userType", userObj.userType);
+                localStorage.setItem("isSubscribed", userObj.isSubscribed);
+                dispatch(SuccessResonse(response.data));
             }else{
                 dispatch(ErrorResonse(response));
             }

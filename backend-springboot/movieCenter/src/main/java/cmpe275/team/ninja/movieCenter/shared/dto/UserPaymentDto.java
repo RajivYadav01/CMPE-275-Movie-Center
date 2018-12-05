@@ -13,6 +13,7 @@ public class UserPaymentDto {
     private String transactionId;
     private String paymentType;
     private Date paymentDate;
+    private String movieId;
 
     public long getId() {
         return id;
@@ -92,5 +93,13 @@ public class UserPaymentDto {
 
     public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
+    }
+
+    public String getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
     }
 }

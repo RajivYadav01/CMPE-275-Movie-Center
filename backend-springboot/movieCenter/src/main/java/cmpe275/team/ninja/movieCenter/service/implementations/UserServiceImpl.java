@@ -280,11 +280,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void payForMovie(String id, UserPaymentDto userPaymentDto) {
-        UserEntity foundUser = userRepository.findByUserId(id);
         Date currentDate = new Date();
-        PaymentEntity storedPaymentEntity = makePayment(foundUser, userPaymentDto, currentDate);
-        if(storedPaymentEntity == null) {
-            throw new UserServiceException(ErrorMessages.PAYMENT_NOT_SUCCESSFULL.getErrorMessage());
+
+        UserEntity foundUser = userRepository.findByUserId(id);
+
+        if(foundUser == null)
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+
+        MovieEntity foundMovie = movieRepository.findByMovieId(userPaymentDto.getMovieId());
+
+        if(foundMovie == null)
+            throw new MovieServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+
+        UserMoviePlayEntity retrievedUserMoviePlayEntity = checkLastStartTimeIfWithin24hours(foundUser, foundMovie, currentDate);
+        if(retrievedUserMoviePlayEntity == null) {
+            PaymentEntity storedPaymentEntity = makePayment(foundUser, userPaymentDto, currentDate);
+            if(storedPaymentEntity == null) {
+                throw new UserServiceException(ErrorMessages.PAYMENT_NOT_SUCCESSFULL.getErrorMessage());
+            }
+        } else {
+            throw new UserServiceException(ErrorMessages.PAYMENTNOTNEEDED.getErrorMessage());
         }
     }
 

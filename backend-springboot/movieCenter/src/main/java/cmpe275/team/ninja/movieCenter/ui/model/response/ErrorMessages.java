@@ -12,8 +12,8 @@ public enum ErrorMessages {
     PAYMENT_NOT_SUCCESSFULL("Payment was not successfull"),
     VALIDUSER("User subscription is still valid"),
 	USERID_OR_MOVIEID_NOT_FOUND("UserId or MovieId not found"),
-    INVALIDREPORTYPE("We currently support uniquesubscriptionusers, uniquepayperviewusers, uniqueactiveusers, uniqueregisteredusers");
-
+    INVALIDREPORTYPE("We currently support uniquesubscriptionusers, uniquepayperviewusers, uniqueactiveusers, uniqueregisteredusers"),
+    PAYMENTNOTNEEDED("User has paid for this movie within 24 hours");
 
     private String errorMessage;
 

@@ -9,6 +9,7 @@ public class UserPaymentRequestModel {
     private String nameOnCard;
     private double amount;
     private String paymentType;
+    private String movieId;
 
     public String getCvv() {
         return cvv;
@@ -64,5 +65,13 @@ public class UserPaymentRequestModel {
 
     public void setPaymentType(String paymentType) {
         this.paymentType = paymentType;
+    }
+
+    public String getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
     }
 }

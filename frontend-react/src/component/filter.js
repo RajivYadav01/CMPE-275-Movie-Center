@@ -4,6 +4,7 @@ import '../css/filter.css';
 import axios from 'axios';
 import Navbar from "./Navbar";
 import {Link} from "react-router-dom";
+import '../App.css';
 
 
 class Filter extends Component {
@@ -689,6 +690,12 @@ class Filter extends Component {
             return (
                 <div>
                     <Navbar/>
+                    <div className="bg-wrapper" style={{opacity: ".75"}}>
+                        <img className="bg-img "
+                             src="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg"
+                             srcSet="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w"
+                             alt=""/>
+                    </div>
                     <br/>
                     <div style={{width:'1400px'}}>
                         <div style={{width:'1100px', float:'left', marginLeft: '-3%'}}>
@@ -979,11 +986,17 @@ class Filter extends Component {
             return (
                 <div>
                     <Navbar/>
+                    <div className="bg-wrapper" style={{opacity: ".75"}}>
+                        <img className="bg-img "
+                             src="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg"
+                             srcSet="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w"
+                             alt=""/>
+                    </div>
                     <br/>
                     <div style={{width:'1400px'}}>
                         <div style={{width:'1100px', float:'left', marginLeft: '-3%'}}>
                             <input type="text" id='searchbox'
-                                   className="form-control"
+                                   className="inputField form-control"
                                    id="exampleInputTitle"
                                    onChange={this.handleChange}
                                    name='searchText'

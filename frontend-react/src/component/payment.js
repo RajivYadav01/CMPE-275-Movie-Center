@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
-
+import axios from 'axios';
+import {api} from '../store/actions';
 
 class Payment extends Component {
 
@@ -30,15 +31,55 @@ class Payment extends Component {
         e.preventDefault();
         let num = e.target.value;
         this.setState({
+            months : num ,
             amount : 10*num
+        },()=>{
+            console.log(this.state);
         });
-        console.log(this.state);
+
     };
 
     handleSubscription = (e) => {
         e.preventDefault();
+        console.log("handle subscription clicked");
+        console.log(this.state);
 
-        //Axios request to store details in Database
+        let array = this.state.cardExpiry.split('/');
+        let month = array[0];
+        let year = array[1];
+        let id = localStorage.getItem("userId");
+        let subscribedMonths = Number(this.state.months);
+
+        let reqObject = {
+            cvv : this.state.cardCVC,
+            cardNumber : this.state.cardNumber,
+            expiryMonth : month ,
+            expiryYear : year,
+            nameOnCard : this.state.cardName ,
+            amount : this.state.amount,
+            paymentType : 'usersubscription'
+        };
+        console.log('request Object to send : ',reqObject);
+
+        axios({
+            method: 'post',
+            url: `${api}/users/${id}/startsubscription?months=${subscribedMonths}`,
+            mode: 'no-cors',
+            redirect: 'follow',
+            withCredentials: false,
+            headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
+            data: reqObject
+        })
+            .then(response=>{
+                console.log(response.data.endDate);
+                let currDate = new Date();
+                let endDate = new Date(response.data.endDate);
+
+                if(currDate<endDate){
+                    this.props.history.push('/');
+                }
+                // if(response.data.endDate)
+            })
 
     };
 

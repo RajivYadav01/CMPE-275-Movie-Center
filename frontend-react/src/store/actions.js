@@ -107,15 +107,15 @@ function LoginFailure(response){
 }
 
 export function CreateMovie(MovieDetails){
-    var headers = new Headers();
-    headers.append('Accept', 'application/json');
+    // var headers = new Headers();
+    // headers.append('Accept', 'application/json');
     return (dispatch) => {
         const request = axios(`${api}/admin/create_movie/`,{
             method: 'post',
             mode: 'no-cors',
             redirect: 'follow',
             withCredentials: false,
-            headers: headers,
+            headers: {"Authorization" : localStorage.getItem("Authorization")},
             data: MovieDetails
         }).then((response)=>{
             if(response.status == 200){
@@ -201,6 +201,9 @@ export function CreateReview(ReviewDetails){
             data: ReviewDetails
         }).then((response)=>{
             if(response.status == 200){
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
                 dispatch(ReviewCreateSuccess(response));
                 // history.push('/question');
             }else{
@@ -211,6 +214,7 @@ export function CreateReview(ReviewDetails){
 }
 
 export function SignInAction(UserDetails){
+    console.log("User Details in ACt : ", UserDetails);
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     
@@ -224,8 +228,9 @@ export function SignInAction(UserDetails){
             data: UserDetails
         }).then((response)=>{
             if(response.status == 200){
-                console.log(response);
+                console.log("Response in Action :",response);
                 var userObj = response.data;
+                console.log("User OBJ : ", userObj);
                 localStorage.setItem("Authorization", response.headers["authorization"]);
                 localStorage.setItem("userId", userObj.userId);
                 localStorage.setItem("firstName", userObj.firstName);

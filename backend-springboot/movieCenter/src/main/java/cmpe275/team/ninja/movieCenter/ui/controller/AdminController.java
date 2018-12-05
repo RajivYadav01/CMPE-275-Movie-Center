@@ -140,8 +140,20 @@ public class AdminController {
             path="/monthlyuserreport",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Map<String, Integer> getMonthlyUserReport(@RequestParam("reporttype") String reportType) {
-        return adminService.getMonthlyUserReport(reportType);
+    public List<ReportResponseModel> getMonthlyUserReport(@RequestParam("reporttype") String reportType) {
+        List<ReportResponseModel> reportResponseModels = new ArrayList<>();
+
+        Map<String, Integer> map = adminService.getMonthlyUserReport(reportType);
+
+        map.forEach((k,v)-> {
+            ReportResponseModel reportResponseModel = new ReportResponseModel();
+            reportResponseModel.setCustomMonthName(k);
+            reportResponseModel.setKey(k);
+            reportResponseModel.setValue(v);
+            reportResponseModels.add(reportResponseModel);
+        });
+
+        return reportResponseModels;
     }
 
     @GetMapping(

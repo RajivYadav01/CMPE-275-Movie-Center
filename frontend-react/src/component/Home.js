@@ -3,106 +3,27 @@ import movieImg from '../image.webp';
 import movieMeta from '../movie-meta.webp';
 import videoSrc from '../sabrina-crop.mp4';
 import TopTen from './TopTen';
-import SignUp from './SignUp';
 import Navbar from './/Navbar';
+import axios from 'axios';
+import {api} from '../store/actions';
 
 class Home extends Component{
     constructor(props){
         super(props);
         this.state = {
-            topTen : [
-              {
-                "title": "deadpool-1",
-                "genre": "action",
-                "studio_name": "Universal Studios",
-                "synopsis":"Marvel's action movie",
-                "image_url": "ksdbckabcab",
-                "youtube_url": "kbcisdbidbs",
-                "actorsList": [
-                        {"name":"Venkatesh"},
-                      {"name":"Warner"}
-                    ],
-                "actressList": [
-                      {"name":"alexia"},
-                      {"name":"julia"},
-                      {"name": "sandra"}
-                    ],
-                "director":"Rajiv",
-                "country": "United States of America",
-                "mpaa_rating": "G",
-                "availability_type": "Free",
-                "price": 10.00
+            topMovies : [
+                // {
+                //     "title" : "Title 1",
+                //     "genre" : "Comedy"
+                // },
+                // {
+                //     "title" : "Title 2",
+                //     "genre" : "Comedy"
+                // }
                 
-              },
-              {
-                "title": "deadpool - 2",
-                "genre": "action",
-                "studio_name": "Universal Studios",
-                "synopsis":"Marvel's action movie",
-                "image_url": "ksdbckabcab",
-                "youtube_url": "kbcisdbidbs",
-                "actorsList": [
-                        {"name":"Venkatesh"},
-                      {"name":"Warner"}
-                    ],
-                "actressList": [
-                      {"name":"alexia"},
-                      {"name":"julia"},
-                      {"name": "sandra"}
-                    ],
-                "director":"Rajiv",
-                "country": "United States of America",
-                "mpaa_rating": "G",
-                "availability_type": "Free",
-                "price": 10.00
-                
-              },
-              {
-                "title": "deadpool - 3",
-                "genre": "action",
-                "studio_name": "Universal Studios",
-                "synopsis":"Marvel's action movie",
-                "image_url": "ksdbckabcab",
-                "youtube_url": "kbcisdbidbs",
-                "actorsList": [
-                        {"name":"Venkatesh"},
-                      {"name":"Warner"}
-                    ],
-                "actressList": [
-                      {"name":"alexia"},
-                      {"name":"julia"},
-                      {"name": "sandra"}
-                    ],
-                "director":"Rajiv",
-                "country": "United States of America",
-                "mpaa_rating": "G",
-                "availability_type": "Free",
-                "price": 10.00
-                
-              },
-              {
-                "title": "deadpool - 4",
-                "genre": "action",
-                "studio_name": "Universal Studios",
-                "synopsis":"Marvel's action movie",
-                "image_url": "ksdbckabcab",
-                "youtube_url": "kbcisdbidbs",
-                "actorsList": [
-                        {"name":"Venkatesh"},
-                      {"name":"Warner"}
-                    ],
-                "actressList": [
-                      {"name":"alexia"},
-                      {"name":"julia"},
-                      {"name": "sandra"}
-                    ],
-                "director":"Rajiv",
-                "country": "United States of America",
-                "mpaa_rating": "G",
-                "availability_type": "Free",
-                "price": 10.00
-                
-              }
+            ],
+            trendingNow : [
+
             ]
         }
     }
@@ -116,6 +37,33 @@ class Home extends Component{
     handleMouseLeave = (e) => {
         document.getElementById('imgTag').style.display='block';
         document.getElementById('videoTag').style.display = 'none'
+    }
+
+    componentWillMount(){
+        
+        axios({
+            method:'get',
+            url: `${api}/reviews/toptenmoviebyratings?period=lastmonth`,
+            headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')}
+        })
+        .then((response) => {
+            console.log(response.data);
+            this.setState({
+                topMovies : this.state.topMovies.concat(response.data)
+            })
+        })
+
+        axios({
+            method:'get',
+            url: `${api}/movies/`,
+            headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')}
+        })
+        .then((response) => {
+            console.log(response.data);
+            this.setState({
+                trendingNow : this.state.trendingNow.concat(response.data)
+            })
+        })
     }
     render(){
         const videoContainer = {
@@ -136,10 +84,16 @@ class Home extends Component{
             height : "80%",
             display : "none"
         }
-        let top = this.state.topTen.map(movie => {
+        let top = this.state.topMovies.map(movie => {
             console.log("Movie Title : ", movie.title);
             return(
-              <TopTen title = {movie.title}/>
+              <TopTen title = {movie.title} imageUrl = {movie.imageUrl} movieId = {movie.movieId}/>
+            )
+        })
+        let trending = this.state.trendingNow.map(movie => {
+            console.log("Movie Title : ", movie.title);
+            return(
+              <TopTen title = {movie.title} imageUrl = {movie.imageUrl} movieId = {movie.movieId}/>
             )
         })
 
@@ -164,7 +118,10 @@ class Home extends Component{
                     </div>
                 </div>
                 <h1 style = {{color : "white"}}>Top Ten Movies of the Week</h1>
-                {top}
+                <div class="img-container"> {top}</div>
+               
+                <h1 style = {{color : "white"}}>Trending now</h1>
+                <div class="img-container">{trending}</div>
             </div>
         )
     }

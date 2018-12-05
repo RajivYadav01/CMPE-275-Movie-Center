@@ -86,13 +86,18 @@ class movieDetails extends Component{
             data: obj
         }).then((response) => {
                 console.log("Res : ", response.data);
+                var obj2 = {
+                    userId : localStorage.getItem("userId"),
+                    movieId : this.props.match.params.movieID,
+                    subscriptionType : this.state.availabilityType
+                }
                 axios(`${api}/users/play`,{
                     method: 'post',
                     mode: 'no-cors',
                     redirect: 'follow',
                     withCredentials: false,
                     headers: headers,
-                    data: obj
+                    data: obj2
                 }).then((response) => {
                    
                 })
@@ -154,6 +159,11 @@ class movieDetails extends Component{
                 headers.append('Content-Type', 'application/json');
                 console.log("Case Free");
                 if(userType==="customer"){
+                    var obj = {
+                        userId : localStorage.getItem("userId"),
+                        movieId : this.props.match.params.movieID,
+                        subscriptionType : this.state.availabilityType
+                    }
                     axios(`${api}/users/play`,{
                         method: 'post',
                         mode: 'no-cors',
@@ -164,6 +174,9 @@ class movieDetails extends Component{
                     }).then((response) => {
                         document.getElementById("videoButton").click();
                     })
+                }
+                if(userType==="admin"){
+                    document.getElementById("videoButton").click();
                 }
                 break;
             }
@@ -194,8 +207,13 @@ class movieDetails extends Component{
                                 })
                                 document.getElementById("paymentButton").click();
                             }
+                        }else{
+                            document.getElementById("videoButton").click();   
                         }
                     })
+                }
+                if(userType==="admin"){
+                    document.getElementById("videoButton").click();
                 }
                 break; 
             }
@@ -212,6 +230,11 @@ class movieDetails extends Component{
                         data: {movieId : this.props.match.params.movieID}
                     }).then((response) => {
                         if(response.data.data === "PAYMENTNEEDED"){
+                            var obj = {
+                                userId : localStorage.getItem("userId"),
+                                movieId : this.props.match.params.movieID,
+                                subscriptionType : this.state.availabilityType
+                            }
                             if(isSubscribed === "true"){
                                 axios(`${api}/users/play`,{
                                     method: 'post',
@@ -229,8 +252,13 @@ class movieDetails extends Component{
                                 })
                                 document.getElementById("paymentButton").click();
                             }
+                        }else{
+                            document.getElementById("videoButton").click();  
                         }
                     })
+                }
+                if(userType==="admin"){
+                    document.getElementById("videoButton").click();
                 }
                 break;
             }
@@ -263,6 +291,9 @@ class movieDetails extends Component{
                         document.getElementById("subscribeButton").click();
                     }
                 }
+                if(userType==="admin"){
+                    document.getElementById("videoButton").click();
+                }
                 break;
             }
         }
@@ -273,10 +304,10 @@ class movieDetails extends Component{
         })
     }
     submitReviewText = (e) => {
-        e.preventDefault();
+        //e.preventDefault();
         var newReviewDetails = {
             comments : this.state.reviewText,
-            movieID : this.props.match.params.movieID,
+            movieId : this.props.match.params.movieID,
             rating : this.state.rating,
             userId : localStorage.getItem("userId"),
             userFirstName : localStorage.getItem("firstName"),
@@ -453,13 +484,13 @@ class movieDetails extends Component{
                             </div>
                         </div>
                         <div class="modal fade" id="paymentModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document" style={{maxWidth: "800px", margin: "30px auto"}}>
+                            <div class="modal-dialog" role="document" style={{maxWidth: "400px", margin: "30px auto"}}>
                                 <div class="modal-content">
-                                    <div class="modal-body" style={{position:"relative",padding:"0px"}}>
-                                    <div className="container">
-                                            <div className="row">
-                                                <div style={{margin:'auto', width:'30%'}}>
-                                                    <div className="panel panel-default credit-card-box" >
+                                    <div class="modal-header">						
+                                            <h4 class="modal-title">Payment</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div className="panel panel-default credit-card-box" >
                                                         <div className="panel-heading display-table">
                                                             <div className="row display-tr">
                                                                 <h3 className="panel-title display-td" style={{marginLeft:'10px'}}>Payment Details</h3>
@@ -475,7 +506,7 @@ class movieDetails extends Component{
                                                                     <div className="col-xs-12">
                                                                         <div className="form-group">
                                                                             <label htmlFor="cardNumber">CARD NUMBER</label>
-                                                                            <div className="input-group">
+                                                                            <div className="input-group" style={{width:"100%"}}>
                                                                                 <input
                                                                                     type="tel"
                                                                                     className="form-control"
@@ -496,7 +527,7 @@ class movieDetails extends Component{
                                                                     <div className="col-xs-12">
                                                                         <div className="form-group">
                                                                             <label htmlFor="cardNumber">NAME ON CARD</label>
-                                                                            <div className="input-group">
+                                                                            <div className="input-group" style={{width:"100%"}}>
                                                                                 <input
                                                                                     type="tel"
                                                                                     className="form-control"
@@ -517,20 +548,24 @@ class movieDetails extends Component{
                                                                     <div className="col-xs-7 col-md-7">
                                                                         <div className="form-group">
                                                                             <label htmlFor="cardExpiry"><span
-                                                                                className="hidden-xs">EXPIRATION</span><span
-                                                                                className="visible-xs-inline">EXP</span> DATE</label>
+                                                                                className="hidden-xs">EXPIRATION MONTH</span>
+                                                                            </label>
                                                                             <input
                                                                                 type="tel"
-                                                                                className="form-control"
+                                                                                className="form-control col-xs-2 col-md-2"
                                                                                 name="expiryMonth"
                                                                                 placeholder="MM"
                                                                                 autoComplete="cc-exp"
                                                                                 onChange={this.handleChange}
                                                                                 required
                                                                             />
+                                                                            <br/>
+                                                                            <label htmlFor="cardExpiry"><span
+                                                                                className="hidden-xs">EXPIRATION YEAR</span>
+                                                                            </label>
                                                                             <input
                                                                                 type="tel"
-                                                                                className="form-control"
+                                                                                className="form-control col-xs-2 col-md-2 pull-right"
                                                                                 name="expiryYear"
                                                                                 placeholder="YY"
                                                                                 autoComplete="cc-exp"
@@ -588,10 +623,6 @@ class movieDetails extends Component{
                                                             </form>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

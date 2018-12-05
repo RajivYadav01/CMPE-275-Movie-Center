@@ -201,6 +201,9 @@ export function CreateReview(ReviewDetails){
             data: ReviewDetails
         }).then((response)=>{
             if(response.status == 200){
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
                 dispatch(ReviewCreateSuccess(response));
                 // history.push('/question');
             }else{

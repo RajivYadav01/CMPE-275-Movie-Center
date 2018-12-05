@@ -166,6 +166,7 @@ class UserActivity extends Component {
                         <button type="button" class="btn btn-secondary" onClick={() => this.handlePeriodClick('lastweek')}>Last Week</button>
                         <button type="button" class="btn btn-secondary" onClick={() => this.handlePeriodClick('lastmonth')}>Last Month</button>
                     </div>
+                    
                 </div>
 
                 <br />

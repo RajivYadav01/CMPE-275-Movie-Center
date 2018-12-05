@@ -1,8 +1,4 @@
 import axios from 'axios';
-// import { createBrowserHistory } from 'history';
-
-// const history = createBrowserHistory();
-
 export const MOVIE_CREATE_SUCCESS = 'MOVIE_CREATE_SUCCESS';
 export const MOVIE_CREATE_FAIL = 'MOVIE_CREATE_FAIL';
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -176,15 +172,16 @@ export function DeleteMovieFunc(movieID){
 }
 
 export function CreateReview(ReviewDetails){
-    var headers = new Headers();
-    headers.append('Accept', 'application/json');
+    console.log("Review Details in action  : ", ReviewDetails);
+    // var headers = new Headers();
+    // headers.append('Accept', 'application/json');
     return (dispatch) => {
-        const request = axios(`${api}/reviews/`,{
+        const request = axios(`${api}/reviews`,{
             method: 'post',
             mode: 'no-cors',
             redirect: 'follow',
             withCredentials: false,
-            headers: headers,
+            headers: {"Authorization" : localStorage.getItem("Authorization")},
             data: ReviewDetails
         }).then((response)=>{
             if(response.status == 200){

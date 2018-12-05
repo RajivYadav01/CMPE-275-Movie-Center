@@ -75,12 +75,12 @@ class movieDetails extends Component{
     submitReviewText = (e) => {
         e.preventDefault();
         var newReviewDetails = {
-            comment : this.state.reviewText,
+            comments : this.state.reviewText,
             movieID : this.props.match.params.movieID,
             rating : this.state.rating,
-            userId : "744nu61fY3gugMZF3ldtDY802CjSaq",
-            userFirstName : "Rajiv",
-            userLastName : "Yadav"
+            userId : localStorage.getItem("userId"),
+            userFirstName : localStorage.getItem("firstName"),
+            userLastName : localStorage.getItem("lastName")
         }
         console.log("New Review Deatils : ", newReviewDetails);
         this.props.onSubmitReviewClicked(newReviewDetails);
@@ -176,12 +176,12 @@ class movieDetails extends Component{
                             </ul>
                             <br/>
                             <br/>
-                            <button href="#reviewModal" class="delete" data-toggle="modal" style={{alignSelf:"center", width : "100%" ,fontSize : "14pt"}} type="button" class="btn btn-primary">
+                            <button href="#reviewModal" class="delete" data-toggle="modal" style={{alignSelf:"center", width : "33%" ,fontSize : "14pt"}} type="button" class="btn btn-primary">
                                 Add a Review
                             </button>
                             <br/>
                             <br/>
-                            <button href="#playVideoModal" class="delete" data-toggle="modal" style={{alignSelf:"center", width : "100%" ,fontSize : "14pt"}} type="button" class="btn btn-success">
+                            <button href="#playVideoModal" class="delete" data-toggle="modal" style={{alignSelf:"center", width : "33%" ,fontSize : "14pt"}} type="button" class="btn btn-success">
                                 Play
                             </button>
                         </aside>

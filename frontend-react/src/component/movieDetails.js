@@ -100,7 +100,9 @@ class movieDetails extends Component{
                     headers: headers,
                     data: obj2
                 }).then((response) => {
-                   
+                    alert("Payment Successfully")
+                    document.getElementById("paymentClose").click();
+                    
                 })
             })
 
@@ -426,6 +428,7 @@ class movieDetails extends Component{
                             <button id="paymentButton" href="#paymentModel" class="delete" data-toggle="modal" style={{display : "none"}} type="button" class="btn btn-success">
                                 Play
                             </button>
+                            
                         </aside>
                         <div id="reviewModal" class="modal fade">
                             <div class="modal-dialog">
@@ -490,7 +493,7 @@ class movieDetails extends Component{
                                 <div class="modal-content">
                                     <div class="modal-header">						
                                             <h4 class="modal-title">Payment</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <button id="paymentClose" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                     </div>
                                     <div className="panel panel-default credit-card-box" >
                                                         <div className="panel-heading display-table">

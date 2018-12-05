@@ -56,6 +56,31 @@ const reducer = (state = initialState, action) => {
                 msg : action.payload,
                 status : action.type
             }
+        case actionTypes.MOVIE_UPDATE_SUCCESS:
+            return{
+                ...state,
+                msg : action.payload,
+                status : action.type
+            }
+        case actionTypes.MOVIE_UPDATE_FAIL:
+            return{
+                ...state,
+                msg : action.payload,
+                status : action.type
+            }
+            case actionTypes.MOVIE_DELETE_SUCCESS:
+            console.log("Movie Delete : ", action.payload);
+            return{
+                ...state,
+                msg : action.payload,
+                status : action.type
+            }
+        case actionTypes.MOVIE_DELETE_FAIL:
+            return{
+                ...state,
+                msg : action.payload,
+                status : action.type
+            }
         case actionTypes.USER_UPDATE_SUCCESS:
             return{
                 ...state,

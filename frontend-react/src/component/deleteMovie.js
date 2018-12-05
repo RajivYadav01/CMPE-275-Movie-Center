@@ -50,6 +50,7 @@ class DeleteMovie extends Component{
         })
     }
     handleMovieToDelete = (e,movieID) => {
+        // document.getElementById("deleteModal").click();
         this.setState({
             deleteMovieId : movieID
         })
@@ -96,7 +97,7 @@ class DeleteMovie extends Component{
                     <td>{m.yearOfRelease}</td>
                     <td>
                         <Link to= {`/admin/create/${m.movieId}`} class="edit"><i className="material-icons"><span class="glyphicon glyphicon-pencil"></span></i></Link>
-                        <a onClick={(e) => this.handleMovieToDelete(e,m.movieId)} href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></a>
+                        <button onClick={(e) => this.handleMovieToDelete(e,m.movieId)} href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></button>
                     </td>
                 </tr>
             )

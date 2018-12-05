@@ -8,6 +8,8 @@ import '../App.css';
 import axios from 'axios';
 
 import {api} from '../store/actions';
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
 
 class AddMovie extends Component {
     constructor(props) {
@@ -45,7 +47,7 @@ class AddMovie extends Component {
             title: this.state.title,
             genre: this.state.genre,
             studioName: this.state.studioName,
-            synopsis: this.state.title.synopsis,
+            synopsis: this.state.synopsis,
             imageUrl: this.state.imageUrl,
             youtubeUrl: this.state.youtubeUrl,
             actors: this.state.actors,
@@ -285,21 +287,21 @@ class AddMovie extends Component {
                                 <select className="inputField form-control" name='mpaaRating'
                                         onChange={this.handleChange} >
                                     <option value="" disabled selected> MPAA Rating</option>
-                                    <option value="G" > G </option>
-                                    <option value="PG"  > PG </option>
-                                    <option value="PG-13" > PG-13 </option>
-                                    <option value="R"  > R </option>
-                                    <option value="NC-17" > NC-17 </option>
+                                    <option value="G" selected={this.state.mpaaRating === "G" ? "selected" : null}> G </option>
+                                    <option value="PG" selected={this.state.mpaaRating === "PG" ? "selected" : null} > PG </option>
+                                    <option value="PG-13" selected={this.state.mpaaRating === "PG-13" ? "selected" : null}> PG-13 </option>
+                                    <option value="R" selected={this.state.mpaaRating === "R" ? "selected" : null} > R </option>
+                                    <option value="NC-17" selected={this.state.mpaaRating === "NC-17" ? "selected" : null}> NC-17 </option>
                                 </select>
                             </p>
                             <p>
                                 <select className="inputField form-control" name='availabilityType'
                                         onChange={this.handleChange} >
                                     <option value="" disabled selected>Availability Type</option>
-                                    <option value="free" > Free </option>
-                                    <option value="subscriptiononly"  > Subscription Only </option>
-                                    <option value="payperview" > Pay-Per-View </option>
-                                    <option value="paid"  > Paid </option>
+                                    <option value="free" selected={this.state.availabilityType === "free" ? "selected" : null}> Free </option>
+                                    <option value="subscriptiononly" selected={this.state.availabilityType === "subscriptiononly" ? "selected" : null} > Subscription Only </option>
+                                    <option value="payperview" selected={this.state.availabilityType === "payperview" ? "selected" : null} > Pay-Per-View </option>
+                                    <option value="paid"  selected={this.state.availabilityType === "paid" ? "selected" : null} > Paid </option>
                                 </select>
                             </p>
                             <p><input className="inputField form-control" onChange={this.handleChange}
@@ -330,6 +332,19 @@ class AddMovie extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    if(state.status == 'MOVIE_UPDATE_SUCCESS'){
+        alert("Movie Updated Successfully");
+        history.push("/admin/delete");
+        
+    }
+    return {
+        status: state.status,
+        msg: state.msg,
+    };
+    
+};
+
 const mapDispatchToProps = dispatch => {
     console.log("Inside map dipatch to props");
     return {
@@ -338,4 +353,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(AddMovie);
+export default connect(mapStateToProps, mapDispatchToProps)(AddMovie);

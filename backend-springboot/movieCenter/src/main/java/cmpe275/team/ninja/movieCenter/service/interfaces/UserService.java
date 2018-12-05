@@ -23,7 +23,7 @@ public interface UserService extends UserDetailsService{
 	boolean verifyEmailToken(String token);
 	boolean requestPasswordReset(String email);
 	boolean resetPassword(String token, String password);
-	
+	boolean endUserSubscription(String userId);
 	UserSubscriptionDto checkIfUserIsSubscribed(String id);
     UserSubscriptionDto startUserSubscription(String id, int number_of_months,UserPaymentDto userPaymentDto);
     void payForMovie(String id, UserPaymentDto userPaymentDto);

@@ -7,6 +7,8 @@ export const MOVIE_CREATE_SUCCESS = 'MOVIE_CREATE_SUCCESS';
 export const MOVIE_CREATE_FAIL = 'MOVIE_CREATE_FAIL';
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_ERROR = "LOGIN_ERROR";
+export const USER_SUCCESS = "USER_SUCCESS";
+export const USER_ERROR = "USER_ERROR";
 export const MOVIE_UPDATE_SUCCESS = 'MOVIE_UPDATE_SUCCESS';
 export const MOVIE_UPDATE_FAIL = 'MOVIE_UPDATE_FAIL';
 export const REVIEW_CREATE_SUCCESS = 'REVIEW_CREATE_SUCCESS';
@@ -64,14 +66,28 @@ function ReviewCreateFailed(response){
     }
 }
 
-function SuccessResonse(response){
+function SuccessResponse(response){
+    return{
+        type : USER_SUCCESS,
+        payload : response
+    }
+}
+
+function ErrorResponse(response){
+    return{
+        type : USER_ERROR,
+        payload : response
+    }
+}
+
+function LoginSuccess(response){
     return{
         type : LOGIN_SUCCESS,
         payload : response
     }
 }
 
-function ErrorResonse(response){
+function LoginFailure(response){
     return{
         type : LOGIN_ERROR,
         payload : response
@@ -209,20 +225,19 @@ export function SignInAction(UserDetails){
                     firstName : 'verifyput'
                 }
                 UpdateUser(obj);
-                dispatch(SuccessResonse(response.data));
+                dispatch(LoginSuccess(response.data));
             }else{
-                dispatch(ErrorResonse(response));
+                dispatch(LoginFailure(response));
             }
         })
         .catch(function (error) {
-            dispatch(ErrorResonse(error));
+            dispatch(LoginFailure(error));
         });
     }  
     
 }
 
-export function GetLoggedInUser(UserDetails){
-   var userId = localStorage.getItem('userId');
+export function GetUserDetail(userId){
     return (dispatch) => {
         axios({
             method:'get',
@@ -232,20 +247,18 @@ export function GetLoggedInUser(UserDetails){
         .then((response) => {
             if(response.status == 200){
                 console.log("gettt"+response);
-                dispatch(SuccessResonse(response.data));
+                dispatch(SuccessResponse(response.data));
             }else{
-                dispatch(ErrorResonse(response));
+                dispatch(ErrorResponse(response));
             }
         })
         .catch(function (error) {
-            dispatch(ErrorResonse(error));
+            dispatch(ErrorResponse(error));
         });
     }  
 }
 
 export function CreateUser(UserDetails){
-    var headers = new Headers();
-    headers.append('Accept', 'application/json');
    
     return (dispatch) => {
         axios({
@@ -256,36 +269,34 @@ export function CreateUser(UserDetails){
         })
         .then((response) => {
             if(response.status == 200){
-                console.log("putttt"+response);
-                dispatch(SuccessResonse(response));
+                dispatch(SuccessResponse(response));
             }else{
-                dispatch(ErrorResonse(response));
+                dispatch(ErrorResponse(response));
             }
         })
         .catch(function (error) {
-            dispatch(ErrorResonse(error));
+            dispatch(ErrorResponse(error));
         });
     }  
 }
 
 export function UpdateUser(UserDetails){
- 
     return (dispatch) => {
         axios({
             method:'put',
-            url: `${api}/users/xhNR3jq33rh3ZS2dvutRi62wFBaJCg`,
+            url: `${api}/users/`+UserDetails.userId,
             headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
             data: UserDetails
         })
         .then((response) => {
             if(response.status == 200){
-                dispatch(SuccessResonse(response));
+                dispatch(SuccessResponse(response.data));
             }else{
-                dispatch(ErrorResonse(response));
+                dispatch(ErrorResponse(response));
             }
         })
         .catch(function (error) {
-            dispatch(ErrorResonse(error));
+            dispatch(ErrorResponse(error));
         });
     }  
 }
@@ -302,13 +313,13 @@ export function VerifyEmail(token){
         })
         .then((response) => {
             if(response.status == 200){
-                dispatch(SuccessResonse(response));
+                dispatch(SuccessResponse(response));
             }else{
-                dispatch(ErrorResonse(response));
+                dispatch(ErrorResponse(response));
             }
         })
         .catch(function (error) {
-            dispatch(ErrorResonse(error));
+            dispatch(ErrorResponse(error));
         });
     }  
 }

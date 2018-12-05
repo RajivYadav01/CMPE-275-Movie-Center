@@ -46,6 +46,7 @@ public class ReviewController {
 			reviewModel.setUserId(rating.getUser().getUserId());
 			reviewModel.setUserFirstName(rating.getUser().getFirstName());
 			reviewModel.setUserLastName(rating.getUser().getLastName());
+			reviewModel.setUserDisplayName(rating.getUser().getDisplayName());
 			reviewModel.setMovieId(rating.getMovieId());
 			returnValue.add(reviewModel);
 		}

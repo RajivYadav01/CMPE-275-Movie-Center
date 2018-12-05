@@ -1,5 +1,6 @@
 package cmpe275.team.ninja.movieCenter.ui.model.request;
 
+import javax.persistence.Column;
 
 public class UserDetailsRequestModel {
     private String firstName;
@@ -7,6 +8,7 @@ public class UserDetailsRequestModel {
     private String email;
     private String password;
     private String userType;
+    private String displayName;
 
     public String getFirstName() {
         return firstName;
@@ -46,5 +48,13 @@ public class UserDetailsRequestModel {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 }

@@ -9,6 +9,7 @@ public class ReviewResponseModel {
 	private String userLastName;
 	private double rating;
 	private String comments;
+    private String userDisplayName;
 
 	public String getMovieId() {
 		return movieId;
@@ -45,6 +46,12 @@ public class ReviewResponseModel {
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+	public String getUserDisplayName() {
+		return userDisplayName;
+	}
+	public void setUserDisplayName(String userDisplayName) {
+		this.userDisplayName = userDisplayName;
 	}
 	
 

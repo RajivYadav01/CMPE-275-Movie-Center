@@ -23,11 +23,20 @@ public class UserEntity implements Serializable {
 
     @Column(nullable = false, length = 50)
     private String firstName;
-
+    
     @Column(nullable = false, length = 50)
     private String lastName;
+    
 
-    @Column(nullable = false, length = 120, unique=true)
+    public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	@Column(nullable = false, length = 120, unique=true)
     private String email;
 
     @Column(nullable = false)
@@ -46,6 +55,9 @@ public class UserEntity implements Serializable {
     
     @Column(nullable=false)
     private String userType;
+    
+    @Column(length = 50)
+    private String displayName;
     
     public String getUserType() {
 		return userType;

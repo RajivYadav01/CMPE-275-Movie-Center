@@ -17,7 +17,8 @@ class SignUp extends Component{
             lastName : '',
             email : '',
             password : '',
-            userType : ''
+            userType : '',
+            displayName : ''
         }
     }
 
@@ -54,6 +55,12 @@ class SignUp extends Component{
                 });
             }
         }
+        if(events.target.name === "displayname"){
+            this.setState({
+                displayName : events.target.value
+            });
+           
+        }
     }
     handleSubmit = (e, formTitle) => {
         e.preventDefault();
@@ -71,10 +78,10 @@ class SignUp extends Component{
 
     render(){
         let errorMsg = null;
-        if(this.props.status == "LOGIN_SUCCESS"){
+        if(this.props.status == "USER_SUCCESS"){
             this.props.history.push("/signupconfirmation");
         }
-        if(this.props.status == "LOGIN_ERROR"){
+        if(this.props.status == "USER_ERROR"){
             errorMsg = (
                 <div className="error-msg">
                    Something went wrong
@@ -107,6 +114,10 @@ class SignUp extends Component{
 
                             <div className="form-group">
 			    				<input onChange = {this.handleChange} className="inputField form-control" type="text" name="lastname" id="lastname" required="required" placeholder="Last Name"/>
+			    			</div>
+
+                            <div className="form-group">
+			    				<input onChange = {this.handleChange} className="inputField form-control" type="text" name="displayName" id="displayName" required="required" placeholder="Display Name"/>
 			    			</div>
 
                             <div className="form-group">

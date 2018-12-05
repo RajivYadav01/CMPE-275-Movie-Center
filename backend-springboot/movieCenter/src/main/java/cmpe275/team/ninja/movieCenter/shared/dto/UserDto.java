@@ -18,6 +18,7 @@ public class UserDto implements Serializable {
     private boolean emailVerificationStatus = false;
     private boolean isSubscribed = false;
     private Date createdDate;
+    private String displayName;
 
 	public long getId() {
         return id;
@@ -120,5 +121,13 @@ public class UserDto implements Serializable {
 		
 		return "{\"email\":\""+email+"\", \"userType\":\""+userType+"\", \"userId\":\""+userId+"\", \"firstName\": \""+firstName+"\", \"lastName\": \""+lastName+"\", \"isSubscribed\": \""+isSubscribed+"\"}";
 		}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 
 }

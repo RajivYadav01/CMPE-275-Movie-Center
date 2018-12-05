@@ -3,8 +3,7 @@ import * as actionTypes from './actions';
 
 const initialState = {
     msg : '',
-    status : '',
-    userType : "admin"
+    status : ''
 }
 
 const reducer = (state = initialState, action) => {
@@ -37,10 +36,21 @@ const reducer = (state = initialState, action) => {
             return{
                 ...state,
                 msg : action.payload,
-                status : action.type,
-                userType : action.payload.data.userType
+                status : action.type
             }
         case actionTypes.LOGIN_ERROR:
+            return{
+                ...state,
+                msg : action.payload,
+                status : action.type
+            }
+        case actionTypes.USER_SUCCESS:
+            return{
+                ...state,
+                msg : action.payload,
+                status : action.type
+            }
+        case actionTypes.USER_ERROR:
             return{
                 ...state,
                 msg : action.payload,

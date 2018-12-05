@@ -1,8 +1,7 @@
 import React,{Component} from 'react';
 import Navbar from './Navbar';
 import {connect} from 'react-redux';
-import {CreateUser} from '../store/actions';
-import {GetLoggedInUser} from '../store/actions';
+import {UpdateUser, GetUserDetail} from '../store/actions';
 import {Link} from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
@@ -17,8 +16,7 @@ class UserProfile extends Component{
             firstName : '',
             lastName : '',
             email : '',
-            password : '',
-            userType : ''
+            userId : ''
         }
     }
 
@@ -29,15 +27,46 @@ class UserProfile extends Component{
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
-            password: this.state.password,
-            userType: this.state.userType
+            userId: this.state.userId
         }
-        console.log("New User Deatils : ", newUserDetails);
+        console.log("Update user details : ", newUserDetails);
         this.props.onSubmitClicked(newUserDetails);
     }
 
     componentWillMount(){
-        this.props.onLoadUser();
+        var userId = localStorage.getItem("userId");
+        this.props.onLoadUser(userId);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.status == 'USER_SUCCESS') {
+          this.setState({
+            firstName: nextProps.msg.firstName,
+            lastName: nextProps.msg.lastName,
+            email: nextProps.msg.email,
+            userId: nextProps.msg.userId
+          });
+        }
+      }
+
+    handleChange = (events) => {
+        if(events.target.name === "firstname"){
+            this.setState({
+                firstName : events.target.value
+            });
+           
+        }
+        if(events.target.name === "lastname"){
+            this.setState({
+                lastName : events.target.value
+            });
+        }
+        
+        if(events.target.name === 'email'){
+            this.setState({
+                email: events.target.value
+            });
+        }
     }
 
     render(){
@@ -81,22 +110,23 @@ class UserProfile extends Component{
                         <div class="modal-body">
                         <form onSubmit = {this.handleSubmit.bind(this)}>
 			    			<div className="form-group">
-			    				<input onChange = {this.handleChange} className="inputField form-control" type="email" name="email" id="email" required="required" placeholder="Email Address"/>
+                            <label>Email address:</label>
+			    				<input onChange = {this.handleChange} value={this.state.email} className="inputField form-control" type="email" name="email" id="email" required="required" />
 			    			</div>
 
                             <div className="form-group">
-			    				<input onChange = {this.handleChange} className="inputField form-control" type="text" name="firstname" id="firstname" required="required" placeholder="First Name"/>
+                            <label>First Name:</label>
+			    				<input onChange = {this.handleChange} value={this.state.firstName} className="inputField form-control" type="text" name="firstname" id="firstname" required="required" />
 			    			</div>
 
                             <div className="form-group">
-			    				<input onChange = {this.handleChange} className="inputField form-control" type="text" name="lastname" id="lastname" required="required" placeholder="Last Name"/>
+                            <label>Last Name:</label>
+			    				<input onChange = {this.handleChange} value={this.state.lastName} className="inputField form-control" type="text" name="lastname" id="lastname" required="required" />
 			    			</div>
 
-                            <div className="form-group">
-			    				<input onChange = {this.handleChange} className="inputField form-control" type="password" name="password" id="password" required="required" placeholder="Password"/>
-			    			</div>
+                        
                             <br/>
-			    			<input type="submit" value="Create Account" className=" signUpBtn btn btn-primary form-control"/>
+			    			<input type="submit" value="Update " className=" signUpBtn btn btn-primary form-control"/>
 			    		</form>
                         </div>
                         <div class="modal-footer">
@@ -116,15 +146,16 @@ const mapStateToProps = state => {
     console.log(state); // state
     return {
         status: state.status,
-        msg: state.msg
+        msg: state.msg,
     };
+    
 };
 
 const mapDispatchToProps = dispatch => {
     console.log("Inside map dipatch to props");
     return{
-        onSubmitClicked : (details) => dispatch(CreateUser(details)),
-        onLoadUser : (details) => dispatch(GetLoggedInUser(details))
+        onSubmitClicked : (details) => dispatch(UpdateUser(details)),
+        onLoadUser : (details) => dispatch(GetUserDetail(details))
     }
 }
 

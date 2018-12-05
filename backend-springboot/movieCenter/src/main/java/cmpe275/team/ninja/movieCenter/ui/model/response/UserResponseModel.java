@@ -10,6 +10,7 @@ public class UserResponseModel {
 	private String userType;
     private boolean isSubscribed;
     private Date createdDate;
+    private String displayName;
 
     public String getUserId() {
         return userId;
@@ -65,5 +66,13 @@ public class UserResponseModel {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 }

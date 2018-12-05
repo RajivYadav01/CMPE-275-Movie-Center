@@ -5,6 +5,8 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const USER_SUCCESS = "USER_SUCCESS";
 export const USER_ERROR = "USER_ERROR";
+export const USER_UPDATE_SUCCESS = "USER_UPDATE_SUCCESS";
+export const USER_UPDATE_ERROR = "USER_UPDATE_ERROR";
 export const MOVIE_UPDATE_SUCCESS = 'MOVIE_UPDATE_SUCCESS';
 export const MOVIE_UPDATE_FAIL = 'MOVIE_UPDATE_FAIL';
 export const REVIEW_CREATE_SUCCESS = 'REVIEW_CREATE_SUCCESS';
@@ -72,6 +74,20 @@ function SuccessResponse(response){
 function ErrorResponse(response){
     return{
         type : USER_ERROR,
+        payload : response
+    }
+}
+
+function UserUpdateSuccess(response){
+    return{
+        type : USER_UPDATE_SUCCESS,
+        payload : response
+    }
+}
+
+function UserUpdateError(response){
+    return{
+        type : USER_UPDATE_ERROR,
         payload : response
     }
 }
@@ -243,8 +259,26 @@ export function GetUserDetail(userId){
         })
         .then((response) => {
             if(response.status == 200){
-                console.log("gettt"+response);
-                dispatch(SuccessResponse(response.data));
+               // dispatch(SuccessResponse(response.data));
+
+                var data = response.data;
+                axios({
+                    method:'get',
+                    url: `${api}/users/`+userId+`/checksubscription`,
+                    headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
+                })
+                .then((resp) => {
+                    if(resp.status == 200){
+                        if(resp.data.data != null){
+                            try{
+                                data["subscriptionEnddate"]= formatDate(new Date(resp.data.data.endDate));
+                            } catch(e){
+                                console.log("error"+e);
+                            }
+                        }
+                        dispatch(SuccessResponse(data));
+                    }
+                })
             }else{
                 dispatch(ErrorResponse(response));
             }
@@ -287,13 +321,13 @@ export function UpdateUser(UserDetails){
         })
         .then((response) => {
             if(response.status == 200){
-                dispatch(SuccessResponse(response.data));
+                dispatch(UserUpdateSuccess(response.data));
             }else{
-                dispatch(ErrorResponse(response));
+                dispatch(UserUpdateError(response));
             }
         })
         .catch(function (error) {
-            dispatch(ErrorResponse(error));
+            dispatch(UserUpdateError(error));
         });
     }  
 }
@@ -320,5 +354,20 @@ export function VerifyEmail(token){
         });
     }  
 }
+
+function formatDate(date) {
+    var monthNames = [
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ];
+  
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+    return monthNames[monthIndex] + ' ' + day + ', ' + year;
+  }
+  
 
 

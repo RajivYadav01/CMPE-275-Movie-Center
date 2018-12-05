@@ -16,21 +16,25 @@ class UserProfile extends Component{
             firstName : '',
             lastName : '',
             email : '',
-            userId : ''
+            displayName : '',
+            userId : '',
+            isSubscribed : '',
+            subscriptionEndDate : ''
         }
     }
 
     handleSubmit = (e, formTitle) => {
         e.preventDefault();
         console.log("Inside Submit");
-        var newUserDetails = {
+        var userDetails = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
+            displayName: this.state.displayName,
             email: this.state.email,
-            userId: this.state.userId
+            userId: this.state.userId,
         }
-        console.log("Update user details : ", newUserDetails);
-        this.props.onSubmitClicked(newUserDetails);
+        console.log("Update user details : ", userDetails);
+        this.props.onSubmitClicked(userDetails);
     }
 
     componentWillMount(){
@@ -44,7 +48,10 @@ class UserProfile extends Component{
             firstName: nextProps.msg.firstName,
             lastName: nextProps.msg.lastName,
             email: nextProps.msg.email,
-            userId: nextProps.msg.userId
+            userId: nextProps.msg.userId,
+            displayName : nextProps.msg.displayName,
+            isSubscribed: nextProps.msg.subscribed,
+            subscriptionEndDate: nextProps.msg.subscriptionEnddate,
           });
         }
       }
@@ -53,6 +60,12 @@ class UserProfile extends Component{
         if(events.target.name === "firstname"){
             this.setState({
                 firstName : events.target.value
+            });
+           
+        }
+        if(events.target.name === "displayname"){
+            this.setState({
+                displayName : events.target.value
             });
            
         }
@@ -70,29 +83,38 @@ class UserProfile extends Component{
     }
 
     render(){
-        
+        let subscription = null;
+        if(this.props.msg.subscribed == false){
+            subscription = (
+                 <p><a href={`/payment`} class="btn btn-default btn-lg" >Start Subscription</a></p>
+            );
+        } else if(this.props.msg.subscribed == true){
+            subscription = (
+                 <p class="md-text">Subscription ending on: <span class="bold">{this.props.msg.subscriptionEnddate}</span></p>
+           )
+        }
         return(
-             
             <div >
-            
                 <Navbar/>
                 <div className = "profile-body full-body">
                 <div class="content-md">
                    <h1>Account</h1>
                    <div class="row profile-content">
-                        <div class="col-sm-2 profile-label">
+                        <div class="col-sm-3 profile-label">
+                            <p>Display name:</p>
                             <p>First name:</p>
                             <p>Last name:</p>
                             <p>Email:</p>
                         </div>
-                        <div class="col-sm-6 profile-values">
-                            <p>{this.props.msg.firstName}</p>
-                            <p>{this.props.msg.lastName}</p>
-                            <p>{this.props.msg.email}</p>
+                        <div class="col-sm-5 profile-values">
+                            <p>{this.props.msg.displayName}&nbsp;</p>
+                            <p>{this.props.msg.firstName}&nbsp;</p>
+                            <p>{this.props.msg.lastName}&nbsp;</p>
+                            <p>{this.props.msg.email}&nbsp;</p>
                         </div>
                         <div class="col-sm-4 profile-actions">
                         <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#updateModal">Update account details</button></p>
-                        <p><a href={`/payment`} class="btn btn-default btn-lg" >Start Subscription</a></p>
+                        {subscription}
                         </div>
                     </div>
                   
@@ -110,6 +132,11 @@ class UserProfile extends Component{
                         <div class="modal-body">
                         <form onSubmit = {this.handleSubmit.bind(this)}>
 			    			<div className="form-group">
+                            <div className="form-group">
+                            <label>Display Name:</label>
+			    				<input onChange = {this.handleChange} value={this.state.displayName} className="inputField form-control" type="text" name="displayname" id="displayname" required="required" />
+			    			</div>
+
                             <label>Email address:</label>
 			    				<input onChange = {this.handleChange} value={this.state.email} className="inputField form-control" type="email" name="email" id="email" required="required" />
 			    			</div>
@@ -143,7 +170,9 @@ class UserProfile extends Component{
 }
 
 const mapStateToProps = state => {
-    console.log(state); // state
+    if(state.status == 'USER_UPDATE_SUCCESS'){
+        alert("Updated user");
+    }
     return {
         status: state.status,
         msg: state.msg,

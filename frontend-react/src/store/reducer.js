@@ -56,6 +56,18 @@ const reducer = (state = initialState, action) => {
                 msg : action.payload,
                 status : action.type
             }
+        case actionTypes.USER_UPDATE_SUCCESS:
+            return{
+                ...state,
+                msg : action.payload,
+                status : action.type
+            }
+        case actionTypes.USER_UPDATE_ERROR:
+            return{
+                ...state,
+                msg : action.payload,
+                status : action.type
+            }
         }
        
     

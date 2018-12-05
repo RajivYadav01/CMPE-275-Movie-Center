@@ -103,6 +103,7 @@ class SignUp extends Component{
                     <div class="sign-up-form">
                         <h4 className = "h4Label">Sign Up</h4>
                         <br/>
+                        {errorMsg}
                         <form onSubmit = {this.handleSubmit.bind(this)}>
 			    			<div className="form-group">
 			    				<input onChange = {this.handleChange} className="inputField form-control" type="email" name="email" id="email" required="required" placeholder="Email Address"/>

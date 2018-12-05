@@ -29,4 +29,5 @@ public interface UserService extends UserDetailsService{
     void payForMovie(String id, UserPaymentDto userPaymentDto);
     void createUserActivity(String userId, String movieId, UserMoviePlayDto userMoviePlayDto);
     List<MovieDto> getTopTenMoviesByPeriod(String period);
+    String checkifPaymentNeeded(String userid, String movieid);
 }

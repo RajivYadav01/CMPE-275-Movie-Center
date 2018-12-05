@@ -194,5 +194,24 @@ public class UserController {
     }
 
 
+    @GetMapping(
+            path="/{id}/checkifpaymentneeded",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public OperationStatusModel checkifPaymentNeeded(
+            @RequestParam("id") String userid,
+            @RequestBody UserPaymentRequestModel userPaymentRequestModel) {
+
+        OperationStatusModel operationStatusModel = new OperationStatusModel();
+        operationStatusModel.setOperationName(RequestOperationName.MOVIEPAYMENT.name());
+        operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        String result = userService.checkifPaymentNeeded(userid, userPaymentRequestModel.getMovieId());
+        operationStatusModel.setData(result);
+
+        return operationStatusModel;
+    }
+
+
 
 }

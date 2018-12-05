@@ -411,4 +411,26 @@ public class UserServiceImpl implements UserService {
     public List<MovieDto> getTopTenMoviesByPeriod(String period) {
         return movieService.getTopTenMoviesByPeriod(period);
     }
+
+    @Override
+    public String checkifPaymentNeeded(String userid, String movieid) {
+        Date currentDate = new Date();
+
+        UserEntity foundUser = userRepository.findByUserId(userid);
+
+        if(foundUser == null)
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+
+        MovieEntity foundMovie = movieRepository.findByMovieId(movieid);
+
+        if(foundMovie == null)
+            throw new MovieServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+
+        UserMoviePlayEntity retrievedUserMoviePlayEntity = checkLastStartTimeIfWithin24hours(foundUser, foundMovie, currentDate);
+        if(retrievedUserMoviePlayEntity != null) {
+            return "PAYMENTNOTNEEDED";
+        } else{
+            return "PAYMENTNEEDED";
+        }
+    }
 }

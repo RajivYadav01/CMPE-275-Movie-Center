@@ -29,7 +29,7 @@ class Navbar extends Component{
         localStorage.removeItem("userType");
         localStorage.removeItem("email");
         localStorage.removeItem("isSubscribed");
-    }
+    };
 
     handleSearch = (e) => {
         e.preventDefault();
@@ -76,7 +76,9 @@ class Navbar extends Component{
 
                 <li style={styleForLi}><a href="/" style = {styleForLiA}>Home</a></li>
                 {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signup/">SignUp</Link></li> : null}
-                {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signin/">SignIn</Link></li> : <li style={StyleFloatRight}><Link to="/signin/">Logout</Link></li>}
+                {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signin/">SignIn</Link></li> : <li style={StyleFloatRight}>
+                    <Link onClick={this.handleLogout} to="/signin/">Logout</Link>
+                </li>}
                 {isLoggedIn ? <li style={StyleFloatRight}><Link to="/profile/">Account</Link></li> : null}
                 {isAdmin ? <li style={StyleFloatRight}><Link to="/admin/delete/">Admin Config</Link></li> : null}
                 {isLoggedIn ? <li style={StyleFloatRight}>
@@ -93,6 +95,6 @@ const mapStateToProps = state => {
     return{
         userType : localStorage.getItem("userType")
     }
-}
+};
 
 export default connect(mapStateToProps)(Navbar);

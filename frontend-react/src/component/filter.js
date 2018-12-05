@@ -971,7 +971,9 @@ class Filter extends Component {
                              style={{backgroundColor:'black', opacity:'0.85',
                                  color:'rgb(255, 255, 255)'}}>
                             <table id="myTable"
-                                   className="table">
+                                   className="table"
+                                   style={{tableLayout: 'fixed',
+                                       border: '1px solid white'}}>
                                 <thead style={{fontWeight: '900', fontSize: '20px' }}>
                                 <tr>
                                     <th>Movie Title</th>
@@ -1034,7 +1036,9 @@ class Filter extends Component {
                     <div style={{marginLeft:'12%', marginRight:'12%'}}>
                         <div className="table-responsive" style={{backgroundColor:'black', opacity:'0.85', color:'rgb(255, 255, 255)'}}>
                             <table id="myTable"
-                                   className="table">
+                                   className="table"
+                                   style={{tableLayout: 'fixed',
+                                       border: '1px solid white'}}>
                                 <thead style={{fontWeight: '900', fontSize: '20px' }}>
                                 <tr>
                                     <th>Movie Title</th>

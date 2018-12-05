@@ -115,6 +115,7 @@ public class UserController {
             operationStatusModel.setOperationResult(RequestOperationStatus.INVALIDUSER.name());
         } else {
             operationStatusModel.setOperationResult(RequestOperationStatus.VALIDUSER.name());
+            operationStatusModel.setData(userSubscriptionDto);
         }
         return operationStatusModel;
     }

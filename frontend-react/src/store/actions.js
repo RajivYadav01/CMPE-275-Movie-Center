@@ -107,15 +107,15 @@ function LoginFailure(response){
 }
 
 export function CreateMovie(MovieDetails){
-    var headers = new Headers();
-    headers.append('Accept', 'application/json');
+    // var headers = new Headers();
+    // headers.append('Accept', 'application/json');
     return (dispatch) => {
         const request = axios(`${api}/admin/create_movie/`,{
             method: 'post',
             mode: 'no-cors',
             redirect: 'follow',
             withCredentials: false,
-            headers: headers,
+            headers: {"Authorization" : localStorage.getItem("Authorization")},
             data: MovieDetails
         }).then((response)=>{
             if(response.status == 200){

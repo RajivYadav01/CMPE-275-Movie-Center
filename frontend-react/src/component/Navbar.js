@@ -45,11 +45,11 @@ class Navbar extends Component{
 
     render(){
         let isAdmin = false;
-        if(this.props.userType === "admin"){
+        if(localStorage.getItem("userType") === "admin"){
             isAdmin = true;
         }
         let isLoggedIn = false;
-        if(this.props.userType.length !== 0){
+        if(localStorage.getItem("userType").length !== 0){
             isLoggedIn = true;
         }
         const styleForUL = {

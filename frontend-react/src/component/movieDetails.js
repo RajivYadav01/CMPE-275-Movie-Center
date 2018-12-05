@@ -7,10 +7,11 @@ import {api} from '../store/actions';
 import StarRatingComponent from 'react-star-rating-component';
 import {CreateReview} from '../store/actions';
 import {connect} from 'react-redux';
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
 class movieDetails extends Component{
     constructor(props){
         super(props);
-
         this.state = {
             title: '',
             genre: '',
@@ -28,9 +29,79 @@ class movieDetails extends Component{
             currentTab : 0,
             reviews : [],
             reviewText : '',
-            rating : 1
+            rating : 1,
+            cardNumber : '',
+            expiryYear : '',
+            expiryMonth : '',
+            cardName : '',
+            cardCVC : '',
+            months : '',
+            amount : '',
+            paymentSuccess : false
         }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleMonths = this.handleMonths.bind(this);
+        this.handleSubscription = this.handleSubscription.bind(this);
     }
+
+    handleChange = (e) => {
+        e.preventDefault();
+        this.setState({
+            [e.target.name] : e.target.value
+        });
+        console.log(this.state)
+    };
+
+    handleMonths = (e) => {
+        e.preventDefault();
+        let num = e.target.value;
+        this.setState({
+            amount : 10*num
+        });
+        console.log(this.state);
+    };
+
+    handleSubscription = (e) => {
+        e.preventDefault();
+        var obj = {
+            cvv : this.state.cvv,
+            cardNumber : this.state.cardName,
+            expiryMonth : this.state.expiryMonth,
+            expiryYear : this.state.expiryYear,
+            nameOnCard : this.state.nameOnCard,
+            amount : this.state.amount,
+            paymentType : "payperview",
+            movieId : this.props.match.params.movieID
+        }
+        var userId = localStorage.getItem("userId")
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        axios({
+            method: 'post',
+            url: `${api}/users/${userId}/moviepayment`,
+            mode: 'no-cors',
+            redirect: 'follow',
+            withCredentials: false,
+            headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
+            data: obj
+        }).then((response) => {
+                console.log("Res : ", response.data);
+                axios(`${api}/users/play`,{
+                    method: 'post',
+                    mode: 'no-cors',
+                    redirect: 'follow',
+                    withCredentials: false,
+                    headers: headers,
+                    data: obj
+                }).then((response) => {
+                   
+                })
+            })
+
+        //Axios request to store details in Database
+
+    };
+
     onStarClick(nextValue, prevValue, name) {
         this.setState({rating: nextValue});
       }
@@ -54,7 +125,8 @@ class movieDetails extends Component{
                     country : response.data.country,
                     mpaaRating : response.data.mpaaRating,
                     availabilityType : response.data.availabilityType,
-                    price : response.data.price
+                    price : response.data.price,
+                    modalName : ''
                 })
         })
         axios.get(`${api}/reviews/?movieid=${movieID}`,{
@@ -66,6 +138,134 @@ class movieDetails extends Component{
                 })
         })
         
+    }
+    handlePlayCheck = (e) => {
+        //e.preventDefault();
+        var movieAvailability = this.state.availabilityType;
+        var userType = localStorage.getItem("userType");
+        var isSubscribed = localStorage.getItem("isSubscribed");
+        var userId = localStorage.getItem("userId");
+
+        console.log("A : ", movieAvailability.toLowerCase() , " UT : ", userType, " iS : ", isSubscribed);
+
+        switch(movieAvailability.toLowerCase()){
+            case "free":{
+                var headers = new Headers();
+                headers.append('Content-Type', 'application/json');
+                console.log("Case Free");
+                if(userType==="customer"){
+                    axios(`${api}/users/play`,{
+                        method: 'post',
+                        mode: 'no-cors',
+                        redirect: 'follow',
+                        withCredentials: false,
+                        headers: headers,
+                        data: obj
+                    }).then((response) => {
+                        document.getElementById("videoButton").click();
+                    })
+                }
+                break;
+            }
+            case "payperview":{
+                console.log("Case PayPerView");
+                if(userType === "customer"){
+                    axios({
+                        method: 'get',
+                        url: `${api}/users/${userId}/movie/${this.props.match.params.movieID}/checkifpaymentneeded`,
+                        mode: 'no-cors',
+                        redirect: 'follow',
+                        withCredentials: false,
+                        headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
+                        data: {movieId : this.props.match.params.movieID}
+                    }).then((response) => {
+                        if(response.data.data === "PAYMENTNEEDED"){
+                            if(isSubscribed==="true"){     
+                                console.log("Inside PPV True")
+                                this.setState({
+                                    amount : this.state.price * .5
+                                })       
+                                console.log("SUbscribed False PPV");
+                                document.getElementById("paymentButton").click();
+                            }else if(isSubscribed==="false"){
+                                console.log("SUbscribed True PPV");
+                                this.setState({
+                                    amount : this.state.price
+                                })
+                                document.getElementById("paymentButton").click();
+                            }
+                        }
+                    })
+                }
+                break; 
+            }
+            case "paid":{
+                console.log("Case Paid");
+                if(userType === "customer"){
+                    axios({
+                        method: 'get',
+                        url: `${api}/users/${userId}/movie/${this.props.match.params.movieID}/checkifpaymentneeded`,
+                        mode: 'no-cors',
+                        redirect: 'follow',
+                        withCredentials: false,
+                        headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
+                        data: {movieId : this.props.match.params.movieID}
+                    }).then((response) => {
+                        if(response.data.data === "PAYMENTNEEDED"){
+                            if(isSubscribed === "true"){
+                                axios(`${api}/users/play`,{
+                                    method: 'post',
+                                    mode: 'no-cors',
+                                    redirect: 'follow',
+                                    withCredentials: false,
+                                    headers: headers,
+                                    data: obj
+                                }).then((response) => {
+                                    document.getElementById("videoButton").click();
+                                })
+                            }else if(isSubscribed === "false"){
+                                this.setState({
+                                    amount : this.state.price
+                                })
+                                document.getElementById("paymentButton").click();
+                            }
+                        }
+                    })
+                }
+                break;
+            }
+
+            case "subscriptiononly":{
+                console.log("Case Subscription Only");
+                if(userType==="customer"){
+                    if(isSubscribed === "true"){
+                        console.log("All True");
+                        var obj = {
+                            userId : localStorage.getItem("userId"),
+                            movieId : this.props.match.params.movieID,
+                            subscriptionType : movieAvailability
+                        }
+                        console.log("Obj Sent : ", obj);
+                        var headers = new Headers();
+                        headers.append('Accept', 'application/json');
+                        axios(`${api}/users/play`,{
+                            method: 'post',
+                            mode: 'no-cors',
+                            redirect: 'follow',
+                            withCredentials: false,
+                            headers: headers,
+                            data: obj
+                        }).then((response) => {
+                           document.getElementById("videoButton").click();
+                        })
+                    }else if(isSubscribed==="false" ){
+                        console.log("Some False");
+                        document.getElementById("subscribeButton").click();
+                    }
+                }
+                break;
+            }
+        }
     }
     handleReviewText = (e) =>{
         this.setState({
@@ -181,7 +381,16 @@ class movieDetails extends Component{
                             </button>
                             <br/>
                             <br/>
-                            <button href="#playVideoModal" class="delete" data-toggle="modal" style={{alignSelf:"center", width : "33%" ,fontSize : "14pt"}} type="button" class="btn btn-success">
+                            <button onClick = {this.handlePlayCheck} class="delete" data-toggle="modal" style={{alignSelf:"center", width : "33%" ,fontSize : "14pt"}} type="button" class="btn btn-success">
+                                Play
+                            </button>
+                            <button id="videoButton" href="#playVideoModal" class="delete" data-toggle="modal" style={{display : "none"}} type="button" class="btn btn-success">
+                                Play
+                            </button>
+                            <button id="subscribeButton" href="#subscriptionModal" class="delete" data-toggle="modal" style={{display : "none"}} type="button" class="btn btn-success">
+                                Play
+                            </button>
+                            <button id="paymentButton" href="#paymentModel" class="delete" data-toggle="modal" style={{display : "none"}} type="button" class="btn btn-success">
                                 Play
                             </button>
                         </aside>
@@ -223,6 +432,164 @@ class movieDetails extends Component{
                                         </button>        
                                         <div class="embed-responsive embed-responsive-16by9">
                                             <iframe class="embed-responsive-item" src={youTube} id="video"  allowscriptaccess="always" allowFullScreen="true"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="subscriptionModal" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form>
+                                        <div class="modal-header">						
+                                            <h4 class="modal-title">This movie is available Only for Subscribed users</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="paymentModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document" style={{maxWidth: "800px", margin: "30px auto"}}>
+                                <div class="modal-content">
+                                    <div class="modal-body" style={{position:"relative",padding:"0px"}}>
+                                    <div className="container">
+                                            <div className="row">
+                                                <div style={{margin:'auto', width:'30%'}}>
+                                                    <div className="panel panel-default credit-card-box" >
+                                                        <div className="panel-heading display-table">
+                                                            <div className="row display-tr">
+                                                                <h3 className="panel-title display-td" style={{marginLeft:'10px'}}>Payment Details</h3>
+                                                                <br/>
+                                                                <div className="display-td">
+                                                                    <img src="http://i76.imgup.net/accepted_c22e0.png"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="panel-body">
+                                                            <form id="payment-form">
+                                                                <div className="row">
+                                                                    <div className="col-xs-12">
+                                                                        <div className="form-group">
+                                                                            <label htmlFor="cardNumber">CARD NUMBER</label>
+                                                                            <div className="input-group">
+                                                                                <input
+                                                                                    type="tel"
+                                                                                    className="form-control"
+                                                                                    name="cardNumber"
+                                                                                    placeholder="Valid Card Number"
+                                                                                    autoComplete="cc-number"
+                                                                                    onChange={this.handleChange}
+                                                                                    required autoFocus
+                                                                                />
+                                                                                {/*<span className="input-group-addon"><i*/}
+                                                                                    {/*className="fa fa-credit-card"></i></span>*/}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col-xs-12">
+                                                                        <div className="form-group">
+                                                                            <label htmlFor="cardNumber">NAME ON CARD</label>
+                                                                            <div className="input-group">
+                                                                                <input
+                                                                                    type="tel"
+                                                                                    className="form-control"
+                                                                                    name="cardName"
+                                                                                    placeholder="NAME"
+                                                                                    autoComplete="cc-number"
+                                                                                    onChange={this.handleChange}
+                                                                                    required autoFocus
+                                                                                />
+                                                                                {/*<span className="input-group-addon"><i*/}
+                                                                                {/*className="fa fa-credit-card"></i></span>*/}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col-xs-7 col-md-7">
+                                                                        <div className="form-group">
+                                                                            <label htmlFor="cardExpiry"><span
+                                                                                className="hidden-xs">EXPIRATION</span><span
+                                                                                className="visible-xs-inline">EXP</span> DATE</label>
+                                                                            <input
+                                                                                type="tel"
+                                                                                className="form-control"
+                                                                                name="expiryMonth"
+                                                                                placeholder="MM"
+                                                                                autoComplete="cc-exp"
+                                                                                onChange={this.handleChange}
+                                                                                required
+                                                                            />
+                                                                            <input
+                                                                                type="tel"
+                                                                                className="form-control"
+                                                                                name="expiryYear"
+                                                                                placeholder="YY"
+                                                                                autoComplete="cc-exp"
+                                                                                onChange={this.handleChange}
+                                                                                required
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="col-xs-5 col-md-5 pull-right">
+                                                                        <div className="form-group">
+                                                                            <label htmlFor="cardCVC">CV CODE</label>
+                                                                            <input
+                                                                                type="tel"
+                                                                                className="form-control"
+                                                                                name="cardCVC"
+                                                                                placeholder="CVC"
+                                                                                autoComplete="cc-csc"
+                                                                                onChange={this.handleChange}
+                                                                                required
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col-xs-5 col-md-5 pull-right">
+                                                                        <div className="form-group">
+                                                                            <label htmlFor="cardCVC">Amount</label>
+                                                                            <input
+                                                                                type="tel"
+                                                                                className="form-control"
+                                                                                name="amount"
+                                                                                placeholder=""
+                                                                                autoComplete="cc-csc"
+                                                                                value={this.state.amount}
+                                                                                disabled={true}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <br/>
+                                                                <div className="row">
+                                                                    <div className="col-xs-12">
+                                                                        <button className="subscribe btn btn-success btn-lg btn-block"
+                                                                                type="button"
+                                                                                onClick={this.handleSubscription}>Start Subscription
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="row" style={{display:'none'}}>
+                                                                    <div className="col-xs-12">
+                                                                        {/*<p className="payment-errors"></p>*/}
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -152,9 +152,16 @@ public class UserController {
     public OperationStatusModel payForMovie(
             @PathVariable String id,
             @RequestBody UserPaymentRequestModel userPaymentRequestModel) {
+        UserPaymentDto userPaymentDto = new UserPaymentDto();
+        userPaymentDto.setCvv(userPaymentRequestModel.getCvv());
+        userPaymentDto.setAmount(userPaymentRequestModel.getAmount());
+        userPaymentDto.setCardNumber(userPaymentRequestModel.getCardNumber());
+        userPaymentDto.setExpiryMonth(userPaymentRequestModel.getExpiryMonth());
+        userPaymentDto.setExpiryYear(userPaymentRequestModel.getExpiryYear());
+        userPaymentDto.setNameOnCard(userPaymentRequestModel.getNameOnCard());
+        userPaymentDto.setMovieId(userPaymentRequestModel.getMovieId());
+        userPaymentDto.setPaymentType(userPaymentRequestModel.getPaymentType());
 
-        ModelMapper modelMapper = new ModelMapper();
-        UserPaymentDto userPaymentDto = modelMapper.map(userPaymentRequestModel, UserPaymentDto.class);
         OperationStatusModel operationStatusModel = new OperationStatusModel();
         userService.payForMovie(id, userPaymentDto);
         operationStatusModel.setOperationName(RequestOperationName.MOVIEPAYMENT.name());
@@ -196,18 +203,19 @@ public class UserController {
 
 
     @GetMapping(
-            path="/{id}/checkifpaymentneeded",
+            path="/{userid}/movie/{movieid}/checkifpaymentneeded",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public OperationStatusModel checkifPaymentNeeded(
-            @RequestParam("id") String userid,
-            @RequestBody UserPaymentRequestModel userPaymentRequestModel) {
+            @PathVariable String userid,
+            @PathVariable String movieid
+    ) {
 
         OperationStatusModel operationStatusModel = new OperationStatusModel();
         operationStatusModel.setOperationName(RequestOperationName.MOVIEPAYMENT.name());
         operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
-        String result = userService.checkifPaymentNeeded(userid, userPaymentRequestModel.getMovieId());
+        String result = userService.checkifPaymentNeeded(userid,movieid);
         operationStatusModel.setData(result);
 
         return operationStatusModel;

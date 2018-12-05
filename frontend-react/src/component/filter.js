@@ -674,8 +674,10 @@ class Filter extends Component {
         let movieDetails = null;
         movieDetails = this.state.displayArray.map((m,index) => {
             return(
-                <tr key={m.movieId} >
-                    <td><Link to= {`/movieDetails/${m.movieId}`}>{m.title}</Link></td>
+                <tr key={m.movieId}  >
+                    <td ><a style={{color: 'rgb(0, 255, 245)'}} href={`/movieDetails/${m.movieId}`}>{m.title}
+                        </a>
+                    </td>
                     <td>{m.actors}</td>
                     <td>{m.director}</td>
                     <td>{m.genre}</td>
@@ -964,11 +966,13 @@ class Filter extends Component {
                     <br/>
                     <br/>
                     <br/>
-                    <div style={{marginLeft:'12%', marginRight:'12%'}}>
-                        <div className="table-responsive" style={{backgroundColor: "white",
-                                marginTop: '230px'}}>
-                            <table id="myTable" className="table table-striped table-hover">
-                                <thead>
+                    <div style={{marginLeft:'12%', marginRight:'12%', marginTop: '250px'}}>
+                        <div className="table-responsive"
+                             style={{backgroundColor:'black', opacity:'0.85',
+                                 color:'rgb(255, 255, 255)'}}>
+                            <table id="myTable"
+                                   className="table">
+                                <thead style={{fontWeight: '900', fontSize: '20px' }}>
                                 <tr>
                                     <th>Movie Title</th>
                                     <th>Actors</th>
@@ -979,7 +983,7 @@ class Filter extends Component {
                                     <th>Rating</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody style={{fontWeight: '400', fontSize: '16px' }}>
                                 {movieDetails}
                                 </tbody>
                             </table>
@@ -992,7 +996,7 @@ class Filter extends Component {
             return (
                 <div>
                     <Navbar/>
-                    <div className="bg-wrapper" style={{opacity: ".75"}}>
+                    <div className="bg-wrapper" style={{opacity: ".85"}}>
                         <img className="bg-img "
                              src="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg"
                              srcSet="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w"
@@ -1030,8 +1034,8 @@ class Filter extends Component {
                     <div style={{marginLeft:'12%', marginRight:'12%'}}>
                         <div className="table-responsive" style={{backgroundColor:'black', opacity:'0.85', color:'rgb(255, 255, 255)'}}>
                             <table id="myTable"
-                                   className="table table-hover">
-                                <thead>
+                                   className="table">
+                                <thead style={{fontWeight: '900', fontSize: '20px' }}>
                                 <tr>
                                     <th>Movie Title</th>
                                     <th>Actors</th>
@@ -1042,7 +1046,7 @@ class Filter extends Component {
                                     <th>Rating</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody style={{fontWeight: '400', fontSize: '16px' }}>
                                 {movieDetails}
                                 </tbody>
                             </table>

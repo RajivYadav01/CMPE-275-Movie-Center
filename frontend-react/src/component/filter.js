@@ -171,7 +171,7 @@ class Filter extends Component {
         })
     };
 
-    handleSplit(s) {
+    static handleSplit(s) {
         return s.split(",");
     };
 
@@ -271,7 +271,7 @@ class Filter extends Component {
             || !this.state.genreBiography ){
             if(filteredByMPAA!==''){
                  filteredByGenre = this.filterByGenre(filteredByMPAA);
-                 console.log(filteredByGenre);
+                 console.log('filteredByGenre',filteredByGenre);
             }
         }
         else
@@ -319,7 +319,7 @@ class Filter extends Component {
 
         if(num !== ''){
             temp.forEach(i=>{
-                if(i.averageRating>num)
+                if(i.averageRating>=num)
                     set.add(i);
             });
             return Array.from(set);
@@ -350,9 +350,9 @@ class Filter extends Component {
         var flag = false;
 
         if(action){
+            flag = true;
             temp.forEach((i)=>{
                 if(i.genre.toLowerCase().trim() === 'action')   {
-                         flag = true;
                          set.add(i);
                 }
 
@@ -360,9 +360,9 @@ class Filter extends Component {
         }
 
         if(comedy){
+            flag = true;
             temp.forEach((i)=>{
                 if(i.genre.toLowerCase().trim() === 'comedy')    {
-                    flag = true;
                     set.add(i);
                 }
 
@@ -370,9 +370,9 @@ class Filter extends Component {
         }
 
         if(drama){
+            flag = true;
             temp.forEach((i)=>{
                 if(i.genre.toLowerCase().trim() === 'drama') {
-                    flag = true;
                     set.add(i);
                 }
 
@@ -380,9 +380,9 @@ class Filter extends Component {
         }
 
         if(horror){
+            flag = true;
             temp.forEach((i)=>{
                 if(i.genre.toLowerCase().trim() === 'horror') {
-                            flag = true;
                             set.add(i);
                 }
 
@@ -391,8 +391,8 @@ class Filter extends Component {
 
         if(thriller){
             temp.forEach((i)=>{
+                flag = true;
                 if(i.genre.toLowerCase().trim() === 'thriller')    {
-                      flag = true;
                       set.add(i);
                 }
 
@@ -400,9 +400,9 @@ class Filter extends Component {
         }
 
         if(romance){
+            flag = true;
             temp.forEach((i)=>{
                 if(i.genre.toLowerCase().trim() === 'romance')  {
-                    flag = true;
                     set.add(i);
                 }
 
@@ -410,9 +410,9 @@ class Filter extends Component {
         }
 
         if(crime){
+            flag = true;
             temp.forEach((i)=>{
                 if(i.genre.toLowerCase().trim() === 'crime')  {
-                    flag = true;
                     set.add(i);
                 }
 
@@ -420,54 +420,52 @@ class Filter extends Component {
         }
 
         if(fantasy){
+            flag = true;
             temp.forEach((i) => {
                 if(i.genre.toLowerCase().trim() === 'fantasy') {
-                       flag = true;
                        set.add(i);
                 }
-
             })
         }
 
         if(mystery){
+            flag = true;
             temp.forEach((i) => {
                 if(i.genre.toLowerCase().trim() === 'mystery')  {
-                       flag = true;
                        set.add(i);
                 }
-
             })
         }
 
         if(war){
+            flag = true;
             temp.forEach((i) => {
                 if(i.genre.toLowerCase().trim() === 'war'){
-                     flag = true;
                      set.add(i);
                 }
-
             })
         }
 
         if(animation){
+            flag = true;
             temp.forEach((i) => {
                 if(i.genre.toLowerCase().trim() === 'animation')   {
-                      flag = true;
                       set.add(i);
                 }
-
             })
         }
 
         if(biography){
+            flag = true;
             temp.forEach((i) => {
                 if(i.genre.toLowerCase().trim() === 'biography') {
-                     flag = true;
                      set.add(i);
                 }
-
             })
         }
+
+        console.log('set in genre : ', set);
+        console.log('flag in genre : ', flag);
 
         if(flag)
             return Array.from(set);
@@ -493,10 +491,10 @@ class Filter extends Component {
 
         if(g){
             console.log('inside g');
+            flag = true;
             temp.forEach((i)=>{
                 console.log('inside g', i.mpaaRating.toUpperCase().trim());
                 if(i.mpaaRating.toUpperCase().trim() === 'G')  {
-                       flag = true;
                        set.add(i);
                 }
 
@@ -504,6 +502,7 @@ class Filter extends Component {
             })
         }
         if(pg){
+            flag = true;
             console.log('inside pg');
             temp.forEach((i)=>{
                 console.log('inside pg', i.mpaaRating.toUpperCase().trim());
@@ -514,6 +513,7 @@ class Filter extends Component {
             })
         }
         if(pg13){
+            flag = true;
             temp.forEach((i)=>{
                 if(i.mpaaRating.toUpperCase().trim() === 'PG-13')   {
                     flag = true;
@@ -523,6 +523,7 @@ class Filter extends Component {
             })
         }
         if(r){
+            flag = true;
             temp.forEach((i)=>{
                 if(i.mpaaRating.toUpperCase().trim() === 'R')   {
                     flag = true;
@@ -532,6 +533,7 @@ class Filter extends Component {
             })
         }
         if(nc17){
+            flag = true;
             temp.forEach((i)=>{
                 if(i.mpaaRating.toUpperCase().trim() === 'NC-17')     {
                         flag = true;
@@ -554,7 +556,7 @@ class Filter extends Component {
         if(this.state.year === '')
             return [];
 
-        let yearArray = this.handleSplit(this.state.year);
+        let yearArray = Filter.handleSplit(this.state.year);
 
         let set = new Set();
 
@@ -576,7 +578,7 @@ class Filter extends Component {
         if(this.state.director === '')
             return [];
 
-        let directorArray = this.handleSplit(this.state.director);
+        let directorArray = Filter.handleSplit(this.state.director);
         let set = new Set();
 
         arr.forEach((i)=>{
@@ -593,7 +595,7 @@ class Filter extends Component {
         if(this.state.actor === '')
             return [];
 
-        let actorArray = this.handleSplit(this.state.actor);
+        let actorArray = Filter.handleSplit(this.state.actor);
         let set = new Set();
 
         arr.forEach( (i) => {

@@ -14,6 +14,7 @@ import Payment from "./component/payment";
 import UserActivity from './component/UserActivity';
 import UserMoviePlayHistory from './component/UserMoviePlayHistory';
 import MovieActivity from './component/MovieActivity';
+import PaymentPPV from './component/paymentPPV';
 
 class App extends Component {
   render() {
@@ -32,6 +33,7 @@ class App extends Component {
             <Route exact path = '/admin/useractivity' component = {UserActivity} />
             <Route exact path = '/admin/usermovieplayinghistory/:userid' component = {UserMoviePlayHistory} />
             <Route exact path = '/payment' component = {Payment}/>
+            <Route exact path = '/paymentPPV' component = {PaymentPPV}/>
             <Route exact path = '/admin/movieactivity' component = {MovieActivity} />
       </Switch>
     );

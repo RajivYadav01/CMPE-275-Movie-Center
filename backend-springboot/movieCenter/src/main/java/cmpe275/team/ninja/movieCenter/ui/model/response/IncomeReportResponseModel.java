@@ -1,9 +1,9 @@
 package cmpe275.team.ninja.movieCenter.ui.model.response;
 
-public class ReportResponseModel {
+public class IncomeReportResponseModel {
     private String monthName;
     private String key;
-    private int value;
+    private double value;
 
     public String getMonthName() {
         return monthName;
@@ -21,11 +21,11 @@ public class ReportResponseModel {
         this.key = key;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 

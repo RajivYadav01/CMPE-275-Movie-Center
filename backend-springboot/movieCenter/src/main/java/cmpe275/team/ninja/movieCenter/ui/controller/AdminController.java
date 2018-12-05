@@ -140,28 +140,39 @@ public class AdminController {
             path="/monthlyuserreport",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<ReportResponseModel> getMonthlyUserReport(@RequestParam("reporttype") String reportType) {
-        List<ReportResponseModel> reportResponseModels = new ArrayList<>();
+    public List<UserReportResponseModel> getMonthlyUserReport(@RequestParam("reporttype") String reportType) {
+        List<UserReportResponseModel> userReportResponseModels = new ArrayList<>();
 
         Map<String, Integer> map = adminService.getMonthlyUserReport(reportType);
 
         map.forEach((k,v)-> {
-            ReportResponseModel reportResponseModel = new ReportResponseModel();
-            reportResponseModel.setCustomMonthName(k);
-            reportResponseModel.setKey(k);
-            reportResponseModel.setValue(v);
-            reportResponseModels.add(reportResponseModel);
+            UserReportResponseModel userReportResponseModel = new UserReportResponseModel();
+            userReportResponseModel.setCustomMonthName(k);
+            userReportResponseModel.setKey(k);
+            userReportResponseModel.setValue(v);
+            userReportResponseModels.add(userReportResponseModel);
         });
 
-        return reportResponseModels;
+        return userReportResponseModels;
     }
 
     @GetMapping(
             path="/monthlyincomereport",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Map<String, Double> getMonthlyIncomeReport(@RequestParam("reporttype") String reportType) {
-        return adminService.getMonthlyIncomeReport(reportType);
+    public List<IncomeReportResponseModel> getMonthlyIncomeReport(@RequestParam("reporttype") String reportType) {
+        List<IncomeReportResponseModel> incomeReportResponseModels = new ArrayList<>();
+        Map<String, Double> map = adminService.getMonthlyIncomeReport(reportType);
+
+        map.forEach((k,v)-> {
+            IncomeReportResponseModel incomeReportResponseModel = new IncomeReportResponseModel();
+            incomeReportResponseModel.setCustomMonthName(k);
+            incomeReportResponseModel.setKey(k);
+            incomeReportResponseModel.setValue(v);
+            incomeReportResponseModels.add(incomeReportResponseModel);
+        });
+
+        return incomeReportResponseModels;
     }
 
 }

@@ -137,7 +137,7 @@ class Home extends Component{
             display : "none"
         }
         let top = this.state.topTen.map(movie => {
-            console.log("Movie Title : ", movie.title);
+            // console.log("Movie Title : ", movie.title);
             return(
               <TopTen title = {movie.title}/>
             )

@@ -43,7 +43,7 @@ class UserProfile extends Component{
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.status == 'USER_SUCCESS') {
+        if (nextProps.status === 'USER_SUCCESS') {
           this.setState({
             firstName: nextProps.msg.firstName,
             lastName: nextProps.msg.lastName,
@@ -80,17 +80,24 @@ class UserProfile extends Component{
                 email: events.target.value
             });
         }
-    }
+    };
 
     render(){
         let subscription = null;
-        if(this.props.msg.subscribed == false){
+        console.log(this.state);
+        if(this.props.msg.subscribed === false){
             subscription = (
-                 <p><a href={`/payment`} class="btn btn-default btn-lg" >Start Subscription</a></p>
+                 <p>
+                     <Link to='/payment' className="btn btn-default btn-lg btn-success" >
+                         Start Subscription
+                     </Link>
+                 </p>
             );
-        } else if(this.props.msg.subscribed == true){
+        } else if(this.props.msg.subscribed === true){
             subscription = (
-                 <p class="md-text">Subscription ending on: <span class="bold">{this.props.msg.subscriptionEnddate}</span></p>
+                 <p className="md-text">Subscription ending on: <span className="bold">
+                     {this.props.msg.subscriptionEnddate}</span>
+                 </p>
            )
         }
         return(

@@ -211,6 +211,7 @@ export function CreateReview(ReviewDetails){
 }
 
 export function SignInAction(UserDetails){
+    console.log("User Details in ACt : ", UserDetails);
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     
@@ -224,8 +225,9 @@ export function SignInAction(UserDetails){
             data: UserDetails
         }).then((response)=>{
             if(response.status == 200){
-                console.log(response);
+                console.log("Response in Action :",response);
                 var userObj = response.data;
+                console.log("User OBJ : ", userObj);
                 localStorage.setItem("Authorization", response.headers["authorization"]);
                 localStorage.setItem("userId", userObj.userId);
                 localStorage.setItem("firstName", userObj.firstName);

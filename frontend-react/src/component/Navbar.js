@@ -12,15 +12,6 @@ class Navbar extends Component{
             search : '',
         })
     }
-    
-
-    // componentDidMount() {
-    //     document.addEventListener('keydown', function(event) {
-    //         if(event.keyCode === 13 ) {
-    //             document.getElementById('searchbutton').click();
-    //         }
-    //     });
-    // }
 
     handleChange = (e) => {
         e.preventDefault();
@@ -30,6 +21,16 @@ class Navbar extends Component{
         console.log(this.state);
     };
 
+    handleLogout = (e) => {
+        localStorage.removeItem("Authorization");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("firstName");
+        localStorage.removeItem("lastName");
+        localStorage.removeItem("userType");
+        localStorage.removeItem("email");
+        localStorage.removeItem("isSubscribed");
+    }
+
     handleSearch = (e) => {
         e.preventDefault();
         if(this.state.search === '')
@@ -38,8 +39,6 @@ class Navbar extends Component{
             console.log("Search button clicked");
             let keyword = this.state.search;
             console.log(keyword);
-            // this.props.history.push('/filter');
-            // Axios Request to database, Splitting and all will be done at backend
         }
     };
 
@@ -49,7 +48,7 @@ class Navbar extends Component{
             isAdmin = true;
         }
         let isLoggedIn = false;
-        if(localStorage.getItem("userType").length !== 0){
+        if(localStorage.getItem("userType")!== null && localStorage.getItem("userType").length !== 0){
             isLoggedIn = true;
         }
         const styleForUL = {
@@ -78,26 +77,13 @@ class Navbar extends Component{
                 <li style={styleForLi}><a href="/" style = {styleForLiA}>Home</a></li>
                 {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signup/">SignUp</Link></li> : null}
                 {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signin/">SignIn</Link></li> : <li style={StyleFloatRight}><Link to="/signin/">Logout</Link></li>}
-                <li style={StyleFloatRight}><Link to="/profile/">Account</Link></li>
+                {isLoggedIn ? <li style={StyleFloatRight}><Link to="/profile/">Account</Link></li> : null}
                 {isAdmin ? <li style={StyleFloatRight}><Link to="/admin/delete/">Admin Config</Link></li> : null}
-                <li style={StyleFloatRight}>
+                {isLoggedIn ? <li style={StyleFloatRight}>
                     <Link to='/filter'>
                         Search
                     </Link>
-                </li>
-                {/* <li style={StyleFloatRight}>
-                    <div className="form-group">
-                        <input type="text" id='searchbox'
-                               className="form-control"
-                               id="exampleInputTitle"
-                               aria-describedby="emailHelp"
-                               onChange={this.handleChange}
-                               name='search'
-                               placeholder="Search for movie" style={{width:'350px', marginTop : '10px'}} />
-                    </div>
-                </li> */}
-                
-
+                </li>:null}
             </ul>
         )
     }

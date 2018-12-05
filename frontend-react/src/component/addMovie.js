@@ -28,6 +28,7 @@ class AddMovie extends Component {
             availabilityType: '',
             price: 0.00,
             currentTab: 0,
+            yearOfRelease : ''
         }
     }
 
@@ -53,7 +54,8 @@ class AddMovie extends Component {
             country: this.state.country,
             mpaaRating: this.state.mpaaRating,
             availabilityType: this.state.availabilityType,
-            price: this.state.price
+            price: this.state.price,
+            yearOfRelease : this.state.yearOfRelease
         };
         console.log("New Movie Details : ", newMovieDetails);
         if (this.props.match.params.movieID != -1) {
@@ -100,7 +102,8 @@ class AddMovie extends Component {
                     country: response.data.country,
                     mpaaRating: response.data.mpaaRating,
                     availabilityType: response.data.availabilityType,
-                    price: response.data.price
+                    price: response.data.price,
+                    yearOfRelease : response.data.yearOfRelease
                 })
             })
     }

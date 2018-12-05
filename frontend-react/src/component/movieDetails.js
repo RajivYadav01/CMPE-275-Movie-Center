@@ -37,7 +37,8 @@ class movieDetails extends Component{
             cardCVC : '',
             months : '',
             amount : '',
-            paymentSuccess : false
+            paymentSuccess : false,
+            yearOfRelease : ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleMonths = this.handleMonths.bind(this);
@@ -131,7 +132,8 @@ class movieDetails extends Component{
                     mpaaRating : response.data.mpaaRating,
                     availabilityType : response.data.availabilityType,
                     price : response.data.price,
-                    modalName : ''
+                    modalName : '',
+                    yearOfRelease : response.data.yearOfRelease
                 })
         })
         axios.get(`${api}/reviews/?movieid=${movieID}`,{
@@ -386,11 +388,11 @@ class movieDetails extends Component{
                                         <h4 className="h4Label">{this.state.title}</h4>
                                         <br/>
                                         <figure class="post-thumbnail" style={{paddingLeft : "0px"}}>
-                                            <img width="700" height="460" src="https://ld-wp.template-help.com/wordpress_51822/wp-content/uploads/2016/02/img4-770x480.jpg" class="post-thumbnail__img wp-post-image" alt="img4" srcset="https://ld-wp.template-help.com/wordpress_51822/wp-content/uploads/2016/02/img4-770x480.jpg 770w, https://ld-wp.template-help.com/wordpress_51822/wp-content/uploads/2016/02/img4-560x350.jpg 560w" sizes="(max-width: 770px) 100vw, 770px"/> 
+                                            <img width="700" height="460" src={this.state.imageUrl} sizes="(max-width: 770px) 100vw, 770px"/> 
                                         </figure>
                                         <br/>
                                         <div class="entry-content" style={{paddingLeft : "0px", paddingBottom : "30px"}}>
-                                            <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Released in:</span> 2011</h4>
+                                            <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Released in:</span>{this.state.yearOfRelease}</h4>
                                             <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Genre:</span> {this.state.genre}</h4>
                                             <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Directed by:</span> {this.state.director}</h4>
                                             <h4 style={{color: "grey"}}><span style={{color: "#ffffff"}}>Cast:</span>{this.state.actors},{this.state.actresses}</h4>

@@ -3,6 +3,8 @@ import axios from 'axios';
 import {api} from '../store/actions';
 import {Link} from "react-router-dom";
 import PieChart from 'react-minimal-pie-chart';
+import Navbar from '../component/Navbar';
+
 
 class MovieActivity extends Component {
     constructor(props) {
@@ -90,9 +92,9 @@ class MovieActivity extends Component {
         Promise.all([last24hoursPrmoise, lastweekPromise, lastmonthPromise]).then(values => { 
 
             var datatoshowinPieChart = [
-                { title: 'last24hours', value: values[0]+1*10, color: '#E38627' },
-                { title: 'lastweek', value: values[1]+1*10, color: '#C13C37' },
-                { title: 'lastmonth', value: values[2]+1*10, color: '#6A2135' },
+                { title: 'last24hours', value: values[0], color: '#E38627' },
+                { title: 'lastweek', value: values[1], color: '#C13C37' },
+                { title: 'lastmonth', value: values[2], color: '#6A2135' },
               ]
             console.log("After resolving all the promises:",values); 
             this.setState({
@@ -118,7 +120,8 @@ class MovieActivity extends Component {
             if(response.data.length == 0) {
                 console.log("Show message");
                 this.setState({
-                    message: 'No statistics available'
+                    message: 'No statistics available',
+                    toptenmovies: []
                 })    
             } else {
                 this.setState({
@@ -194,13 +197,13 @@ class MovieActivity extends Component {
                         <td>{m.mpaaRating}</td>
                         <td>{m.yearOfRelease}</td>
                         <td>{m.average_rating}</td>
-                        <td>
+                        {/* <td>
                             <button 
                                 type="button" 
                                 className="btn btn-primary"
                                 onClick={(e) => this.handleMoviePlayClick(e, m)}>movie plays
                             </button>
-                        </td>
+                        </td> */}
                     </tr>
                 )
             });
@@ -208,7 +211,19 @@ class MovieActivity extends Component {
 
         return (
             <div className='MovieActivity'>
-                <h1> Hello of Movie Activity</h1>
+                <Navbar/>
+                <div class="bg-wrapper" style={{opacity : "0.25"}}> 
+                    <img class="bg-img " src="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg" srcset="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w" alt="" />
+                </div>
+                <br/>
+                <br/>
+                <div class="table-title" style={{marginLeft:'12%', marginRight:'12%'}}>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Movie Activity</h2>
+                        </div>
+                    </div>
+                </div>
                 <hr />
                 <div style={{marginLeft:'12%', marginRight:'12%'}}>
                     <div className="table-responsive" style={{backgroundColor: "white"}}>
@@ -238,7 +253,13 @@ class MovieActivity extends Component {
                 <br />
                 <br />
 
-                <h1>Select period to view top ten movies...</h1>
+                 <div class="table-title" style={{marginLeft:'12%', marginRight:'12%'}}>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Select period to view top ten movies</h2>
+                        </div>
+                    </div>
+                </div>
                 <hr />
 
                 <div style={{marginLeft:'12%', marginRight:'12%'}}>

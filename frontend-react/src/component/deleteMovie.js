@@ -106,15 +106,23 @@ class DeleteMovie extends Component{
             <div>
                 <Navbar/>
                 <br/><br/>
-                
+                <div class="bg-wrapper" style={{opacity : "0.25"}}> 
+                    <img class="bg-img " src="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg" srcset="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w" alt="" />
+                </div>
                 <br/><br/>
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
                             <h2>Manage Movies</h2>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-2">
                             <Link to = {`/admin/create/-1`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Add New Movie</span></Link>
+                        </div>
+                        <div class="col-sm-2">
+                            <Link to = {`/admin/useractivity`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>User Activity</span></Link>
+                        </div>
+                        <div class="col-sm-2">
+                            <Link to = {`/admin/movieactivity`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Movie Activity</span></Link>
                         </div>
                     </div>
                 </div>

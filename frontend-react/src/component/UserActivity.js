@@ -3,6 +3,7 @@ import axios from 'axios';
 import {api} from '../store/actions';
 import '../css/useractivity.css';
 // import {Link} from "react-router-dom";
+import Navbar from '../component/Navbar';
 
 class UserActivity extends Component {
     constructor(props) {
@@ -58,7 +59,8 @@ class UserActivity extends Component {
             if(response.data.length == 0) {
                 console.log("Show message");
                 this.setState({
-                    message: 'No statistics available'
+                    message: 'No statistics available',
+                    toptenusers: []
                 })    
             } else {
                 this.setState({
@@ -116,8 +118,19 @@ class UserActivity extends Component {
 
         return(
             <div className="UserActivity">
-                <h1>Hello World</h1>
-                <hr/>
+                <Navbar/>
+                <div class="bg-wrapper" style={{opacity : "0.25"}}> 
+                    <img class="bg-img " src="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg" srcset="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w" alt="" />
+                </div>
+                <br/>
+                <br/>
+                <div class="table-title" style={{marginLeft:'12%', marginRight:'12%'}}>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>User Activity</h2>
+                        </div>
+                    </div>
+                </div>
                 <div style={{marginLeft:'12%', marginRight:'12%'}}>
                     <div className="table-responsive" style={{backgroundColor: "white"}}>
                         <table id="myTable" className="table table-striped table-hover">
@@ -139,8 +152,13 @@ class UserActivity extends Component {
                 <br />
                 <br />
 
-                <h1>Select period to view top ten users...</h1>
-                <hr />
+                <div class="table-title" style={{marginLeft : "12%", marginRight : "12%"}}>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Select period to view top ten users</h2>
+                        </div>
+                    </div>
+                </div>
 
                 <div style={{marginLeft:'12%', marginRight:'12%'}}>
                     <div class="btn-group" role="group" aria-label="Basic example">

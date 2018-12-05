@@ -697,10 +697,10 @@ class Filter extends Component {
                              alt=""/>
                     </div>
                     <br/>
-                    <div style={{width:'1400px'}}>
+                    <form className='filterSearch' >
                         <div style={{width:'1100px', float:'left', marginLeft: '-3%'}}>
                             <input type="text" id='searchbox'
-                                   className="form-control"
+                                   className="searchField form-control"
                                    id="exampleInputTitle"
                                    onChange={this.handleChange}
                                    name='searchText'
@@ -708,14 +708,14 @@ class Filter extends Component {
                                    style={{width:'1160px', marginLeft: '20.5%', float:'left'}} />
                         </div>
                         {/*<div style={{width:'150px', float:'left', marginLeft: '2.5%'}}>*/}
-                            {/*<button style={{height:'50px'}} className="form-control"*/}
-                                    {/*id="searchbutton"*/}
-                                    {/*onClick={this.handleSearch}>*/}
-                                {/*<label> Search </label>*/}
-                            {/*</button>*/}
+                        {/*<button className="form-control"*/}
+                        {/*id="exampleInputTitle"*/}
+                        {/*onClick={this.handleSearch}>*/}
+                        {/*<label> Search </label>*/}
+                        {/*</button>*/}
                         {/*</div>*/}
-                    </div>
-                    <br/><br/><br/><br/>
+                    </form>
+                    <br/>
                     <ul>
                         <button className="btn btn-secondary"
                                 style={styleForButton}
@@ -729,27 +729,29 @@ class Filter extends Component {
                         </button>
                     </ul>
                     <br/>
-                    <div className='container' style={{ marginLeft:'15%'}}>
+                    <div style={{ marginLeft:'12%', marginRight:'13%'}}>
                         <form style={{color: "white", width: "115%", alignContent: "center"}}>
                             <div>
-                                <div style={{float: 'left', width: '23%'}}>
+                                <div className='filterField' style={{float: 'left', width: '23%' ,
+                                        height: '266px', paddingRight:'10px', paddingLeft : '35px'}}>
                                     <h4>Actor</h4>
                                     <input type='text' className='form-control'
                                            placeholder='Enter Actor Name'
                                            name='actor'
-                                           onChange={this.handleChange} style={{width: "75%"}}/>
+                                           onChange={this.handleChange} style={{width: "85%"}}/>
                                     <h4>Director</h4>
                                     <input type='text' className='form-control'
                                            placeholder='Enter Director Name'
                                            name='director'
-                                           onChange={this.handleChange} style={{width: "75%"}}/>
+                                           onChange={this.handleChange} style={{width: "85%"}}/>
                                     <h4>Year</h4>
                                     <input type='text' className='form-control'
                                            placeholder='Enter Year'
                                            name='year'
-                                           onChange={this.handleChange} style={{width: "75%"}}/>
+                                           onChange={this.handleChange} style={{width: "85%"}}/>
                                 </div>
-                                <div style={{float: 'left', width: '23%'}}>
+                                <div className='filterField' style={{float: 'left', width: '26%' ,
+                                    height: '266px', paddingRight:'10px'}}>
                                     <h3>
                                         <b>
                                             MPAA Rating
@@ -798,7 +800,8 @@ class Filter extends Component {
                                         </label>
                                     </div>
                                 </div>
-                                <div style={{float: 'left', width: '23%'}}>
+                                <div className='filterField' style={{float: 'left', width: '28%' ,
+                                    height: '266px', paddingRight:'10px'}}>
                                     <h3>
                                         <b>
                                             Genre
@@ -903,7 +906,8 @@ class Filter extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div style={{float: 'left', width: '15%'}}>
+                                <div className='filterField' style={{float: 'left', width: '11%' ,
+                                    height: '266px', paddingRight:'10px', paddingLeft : '0px'}}>
                                     <h3>
                                         <b>
                                             Ratings
@@ -959,8 +963,10 @@ class Filter extends Component {
                     </div>
                     <br/>
                     <br/>
+                    <br/>
                     <div style={{marginLeft:'12%', marginRight:'12%'}}>
-                        <div className="table-responsive" style={{backgroundColor: "white"}}>
+                        <div className="table-responsive" style={{backgroundColor: "white",
+                                marginTop: '230px'}}>
                             <table id="myTable" className="table table-striped table-hover">
                                 <thead>
                                 <tr>
@@ -993,10 +999,10 @@ class Filter extends Component {
                              alt=""/>
                     </div>
                     <br/>
-                    <div style={{width:'1400px'}}>
+                    <form className='filterSearch' >
                         <div style={{width:'1100px', float:'left', marginLeft: '-3%'}}>
                             <input type="text" id='searchbox'
-                                   className="inputField form-control"
+                                   className="searchField form-control"
                                    id="exampleInputTitle"
                                    onChange={this.handleChange}
                                    name='searchText'
@@ -1010,21 +1016,21 @@ class Filter extends Component {
                                 {/*<label> Search </label>*/}
                             {/*</button>*/}
                         {/*</div>*/}
-                    </div>
-                    <br/><br/><br/><br/>
+                    </form>
+                    <br/>
                     <ul>
-                        <button className="btn btn-secondary"
+                        <button className="searchbutton btn btn-secondary"
                                 style={styleForButton}
                                 onClick={this.handleFilterToggle}>
                             <a href="/" style={styleForLiA}>All Filters</a>
                         </button>
                     </ul>
-                    <br/><br/>
+                    <br/>
                     <br/>
                     <div style={{marginLeft:'12%', marginRight:'12%'}}>
-                        <div className="table-responsive" style={{backgroundColor: "white"}}>
+                        <div className="table-responsive" style={{backgroundColor:'black', opacity:'0.85', color:'rgb(255, 255, 255)'}}>
                             <table id="myTable"
-                                   className="table table-striped table-hover">
+                                   className="table table-hover">
                                 <thead>
                                 <tr>
                                     <th>Movie Title</th>

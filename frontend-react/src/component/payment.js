@@ -76,6 +76,7 @@ class Payment extends Component {
                 let endDate = new Date(response.data.endDate);
 
                 if(currDate<endDate){
+                    localStorage.setItem("isSubscribed", "true");
                     this.props.history.push('/');
                 }
                 // if(response.data.endDate)

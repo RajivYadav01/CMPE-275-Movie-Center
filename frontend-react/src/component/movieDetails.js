@@ -467,7 +467,7 @@ class movieDetails extends Component{
                                             <span aria-hidden="true">&times;</span>
                                         </button>        
                                         <div class="embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" src={youTube} id="video"  allowscriptaccess="always" allowFullScreen="true"></iframe>
+                                            <iframe class="embed-responsive-item" src={youTube} id="video"  allowscriptaccess="always" allowFullScreen="allowFullScreen"></iframe>
                                         </div>
                                     </div>
                                 </div>

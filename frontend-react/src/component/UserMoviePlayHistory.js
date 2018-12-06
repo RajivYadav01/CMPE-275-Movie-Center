@@ -3,6 +3,7 @@ import axios from 'axios';
 import {api} from '../store/actions';
 import '../css/usermovieplayhistory.css';
 import {Link} from "react-router-dom";
+import Navbar from '../component/Navbar';
 
 class UserMoviePlayHistory extends Component {
     constructor(props) {
@@ -54,8 +55,14 @@ class UserMoviePlayHistory extends Component {
 
         return (
             <div className='UserMoviePlayHistory'>
-                <h1 style={{color: 'white'}}>User movie play history</h1>
-                <hr/>
+                <Navbar/><br/><br/><br/>
+                <div class="table-title" style={{marginLeft:'12%', marginRight:'12%'}}>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>User movie play history</h2>
+                        </div>
+                    </div>
+                </div>
                 <div style={{marginLeft:'12%', marginRight:'12%'}}>
                     <div className="table-responsive" style={{backgroundColor: "white"}}>
                         <table id="myTable" className="table table-striped table-hover">

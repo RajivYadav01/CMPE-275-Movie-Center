@@ -6,6 +6,7 @@ import TopTen from './TopTen';
 import Navbar from './/Navbar';
 import axios from 'axios';
 import {api} from '../store/actions';
+import {Link} from 'react-router-dom';
 
 class Home extends Component{
     constructor(props){
@@ -97,6 +98,23 @@ class Home extends Component{
             )
         })
 
+        let movieDetails = null;
+        movieDetails = this.state.trendingNow.map((m,index) => {
+            return(
+                <tr>
+                    <td><Link to= {`/movieDetails/${m.movieId}`}>{m.title}</Link></td>
+                    <td>{m.actors}</td>
+                    <td>{m.actresses}</td>
+                    <td>{m.director}</td>
+                    <td>{m.price}</td>
+                    <td>
+                        <Link to= {`/admin/create/${m.movieId}`} class="edit"><i className="material-icons"><span class="glyphicon glyphicon-pencil"></span></i></Link>
+                        <a onClick={(e) => this.handleMovieToDelete(e,m.movieId)} href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></a>
+                    </td>
+                </tr>
+            )
+        })
+
         return(
             <div>
                 <Navbar/>
@@ -117,11 +135,30 @@ class Home extends Component{
                         </div>
                     </div>
                 </div>
-                <h1 style = {{color : "white"}}>Top Ten Movies of the Week</h1>
-                <div class="img-container"> {top}</div>
-               
-                <h1 style = {{color : "white"}}>Trending now</h1>
-                <div class="img-container">{trending}</div>
+                <div class="main-img-content"><h1 style = {{color : "white"}}>Top Ten Movies of the Month</h1>
+                 <div class="img-container"> {top}</div></div>
+             
+                 {/* <div><h1 style = {{color : "white"}}>Trending Now</h1></div><br/>
+                 <div className="table-responsive" style = {{backgroundColor : "white"}}>
+                    <br/>
+                    <table id="myTable"  class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Movie Title</th>
+                                <th>Actors</th>
+                                <th>Actresses</th>
+                                <th>Director</th>
+                                <th>Year of Release</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {movieDetails}
+                        </tbody>
+                    </table>
+                   
+                </div> */}
+                
             </div>
         )
     }

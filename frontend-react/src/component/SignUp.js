@@ -70,7 +70,8 @@ class SignUp extends Component{
             lastName: this.state.lastName,
             email: this.state.email,
             password: this.state.password,
-            userType: this.state.userType
+            userType: this.state.userType,
+            displayName : this.state.displayName
         }
         console.log("New User Deatils : ", newUserDetails);
         this.props.onSubmitClicked(newUserDetails);
@@ -118,7 +119,7 @@ class SignUp extends Component{
 			    			</div>
 
                             <div className="form-group">
-			    				<input onChange = {this.handleChange} className="inputField form-control" type="text" name="displayName" id="displayName" required="required" placeholder="Display Name"/>
+			    				<input onChange = {this.handleChange} className="inputField form-control" type="text" name="displayname" id="displayname" required="required" placeholder="Display Name"/>
 			    			</div>
 
                             <div className="form-group">

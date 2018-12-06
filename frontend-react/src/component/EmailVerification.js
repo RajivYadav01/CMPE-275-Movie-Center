@@ -20,9 +20,9 @@ class EmailVerification extends Component{
 
     render(){
         let message = null;
-        if(this.props.status == "SUCCESS"){
+        if(this.props.status == "USER_SUCCESS"){
             message = (
-                <div>
+                <div className = "full-body conf-body">
                     <img id="imgTag"  class="verify-img" src={verifyIcon} alt=""/>
                    <h1>Your email has been verified</h1>
                    <a href= {`/signin`} class="btn btn-success btn-lg">Sign In</a>
@@ -30,9 +30,9 @@ class EmailVerification extends Component{
                 
             );
         }
-        if(this.props.status == "ERROR"){
+        if(this.props.status == "USER_ERROR"){
             message = (
-                <div>
+                <div className = "full-body conf-body">
                       <h1>Something went wrong</h1>
                 </div>
             );
@@ -45,7 +45,7 @@ class EmailVerification extends Component{
                         Movie Center
                     </a>
                 </div>
-                <div className = "conf-body">
+                <div >
                 {message}
                 </div>
             </div> 

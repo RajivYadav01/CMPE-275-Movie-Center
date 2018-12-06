@@ -85,21 +85,25 @@ class UserProfile extends Component{
     render(){
         let subscription = null;
         console.log(this.state);
-        if(this.props.msg.subscribed === false){
-            subscription = (
-                 <p>
-                     <Link to='/payment' className="btn btn-default btn-lg btn-success" >
-                         Start Subscription
-                     </Link>
-                 </p>
-            );
-        } else if(this.props.msg.subscribed === true){
-            subscription = (
-                 <p className="md-text">Subscription ending on: <span className="bold">
-                     {this.props.msg.subscriptionEnddate}</span>
-                 </p>
-           )
+        let userType = localStorage.getItem("userType");
+        if(userType != "admin"){
+            if(this.props.msg.subscribed === false){
+                subscription = (
+                     <p>
+                         <Link to='/payment' className="btn btn-default btn-lg btn-success" >
+                             Start Subscription
+                         </Link>
+                     </p>
+                );
+            } else if(this.props.msg.subscribed === true){
+                subscription = (
+                     <p className="md-text">Subscription ending on: <span className="bold">
+                         {this.props.msg.subscriptionEnddate}</span>
+                     </p>
+               )
+            }
         }
+        
         return(
             <div >
                 <Navbar/>

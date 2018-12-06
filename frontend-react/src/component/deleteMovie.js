@@ -97,7 +97,7 @@ class DeleteMovie extends Component{
                     <td>{m.yearOfRelease}</td>
                     <td>
                         <Link to= {`/admin/create/${m.movieId}`} class="edit"><i className="material-icons"><span class="glyphicon glyphicon-pencil"></span></i></Link>
-                        <button onClick={(e) => this.handleMovieToDelete(e,m.movieId)} href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></button>
+                        <Link onClick={(e) => this.handleMovieToDelete(e,m.movieId)} to="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></Link>
                     </td>
                 </tr>
             )

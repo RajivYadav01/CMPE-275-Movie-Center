@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import {api} from '../store/actions';
+import Navbar from '../component/Navbar';
 import {BarChart, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ComposedChart, Area, Line, AreaChart, LineChart} from 'recharts';
 
 class Financialreporting extends Component {
@@ -100,13 +101,24 @@ class Financialreporting extends Component {
     render() {
         return (
             <div className="Financialreporting">
-                <h1>Financial Reporting...</h1>
-                <hr/>
-                
-
-                <h1>User Reporting...</h1>
-                <hr/>
-                
+                <Navbar/>
+                <br/><br/>
+                <div class="table-title" style={{marginLeft:'12%', marginRight:'12%'}}>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Financial Reporting...</h2>
+                        </div>
+                    </div>
+                </div>
+                <br/><br/>
+                <div class="table-title" style={{marginLeft:'12%', marginRight:'12%', background : "grey"}}>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>User Reporting...</h2>
+                        </div>
+                    </div>
+                </div>
+                <br/>
                 <div style={{marginLeft:'12%', marginRight:'12%'}}>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-secondary" onClick={() => this.handleReportType('monthlyuserreport','uniquesubscriptionusers')}>Unique Subscription Users</button>
@@ -132,11 +144,17 @@ class Financialreporting extends Component {
                     <Area type='monotone' dataKey='users' stroke='#8884d8' fill='#8884d8' />
                 </AreaChart>
                 </div>
-
-
-                <h1>Income Reporting...</h1>
                 <hr/>
+                <br/><br/>
+                <div class="table-title" style={{marginLeft:'12%', marginRight:'12%', background : "grey"}}>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Income Reporting...</h2>
+                        </div>
+                    </div>
+                </div>
                 
+                <br/>
                 <div style={{marginLeft:'12%', marginRight:'12%'}}>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-secondary" onClick={() => this.handleReportType('monthlyincomereport','usersubscription')}>Income from user Subscription</button>

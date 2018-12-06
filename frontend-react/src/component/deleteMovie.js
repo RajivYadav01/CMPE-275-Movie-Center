@@ -116,14 +116,17 @@ class DeleteMovie extends Component{
                         <div class="col-sm-6">
                             <h2>Manage Movies</h2>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1.5">
                             <Link to = {`/admin/create/-1`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Add New Movie</span></Link>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1.5">
                             <Link to = {`/admin/useractivity`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>User Activity</span></Link>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1.5">
                             <Link to = {`/admin/movieactivity`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Movie Activity</span></Link>
+                        </div>
+                        <div class="col-sm-1.5">
+                            <Link to = {`/admin/financialreporting`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Financial Reporting</span></Link>
                         </div>
                     </div>
                 </div>

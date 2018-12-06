@@ -63,7 +63,7 @@ public class MovieServiceImpl implements MovieService {
 
         for(String s : temp){
             String text = "%"+s+"%" ;
-            List<MovieEntity> movieEntities = movieRepository.findAllByTitleLikeOrActorsLikeOrDirectorLikeOrSynopsisLike(text, text, text, text);
+            List<MovieEntity> movieEntities = movieRepository.findAllByTitleLikeOrActorsLikeOrDirectorLikeOrSynopsisLikeOrActressesLikeOrGenreLikeOrStudioNameLikeOrCountryLikeOrAvailabilityTypeLike(text, text, text, text,text, text, text, text, text);
             for(MovieEntity m : movieEntities)
                 set.add(m);
         }

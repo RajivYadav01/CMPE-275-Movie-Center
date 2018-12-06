@@ -49,7 +49,7 @@ class Financialreporting extends Component {
     handleReportType = (report, reporttype) => {
         console.log(report, reporttype);
         
-        axios.get(`http://localhost:8080/admin/${report}?reporttype=${reporttype}`, {
+        axios.get(`${api}/admin/${report}?reporttype=${reporttype}`, {
             headers: {"Authorization" : localStorage.getItem("Authorization")}
         })
         .then((response)=>{
@@ -106,7 +106,7 @@ class Financialreporting extends Component {
                 <div class="table-title" style={{marginLeft:'12%', marginRight:'12%'}}>
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Financial Reporting...</h2>
+                            <h2>Financial Reporting</h2>
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,7 @@ class Financialreporting extends Component {
                 <div class="table-title" style={{marginLeft:'12%', marginRight:'12%', background : "grey"}}>
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>User Reporting...</h2>
+                            <h2>User Reporting</h2>
                         </div>
                     </div>
                 </div>
@@ -144,12 +144,12 @@ class Financialreporting extends Component {
                     <Area type='monotone' dataKey='users' stroke='#8884d8' fill='#8884d8' />
                 </AreaChart>
                 </div>
-                <hr/>
+                <hr style={{marginLeft:'12%', marginRight:'12%'}}/>
                 <br/><br/>
                 <div class="table-title" style={{marginLeft:'12%', marginRight:'12%', background : "grey"}}>
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Income Reporting...</h2>
+                            <h2>Income Reporting</h2>
                         </div>
                     </div>
                 </div>

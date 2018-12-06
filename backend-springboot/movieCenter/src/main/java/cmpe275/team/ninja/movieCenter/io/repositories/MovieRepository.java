@@ -9,6 +9,14 @@ import java.util.List;
 @Repository
 public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
     MovieEntity findByMovieId(String publicMovieId);
-    List<MovieEntity> findAllByTitleLikeOrActorsLikeOrDirectorLikeOrSynopsisLike(String a, String b, String c, String d);
+    List<MovieEntity> findAllByTitleLikeOrActorsLikeOrDirectorLikeOrSynopsisLikeOrActressesLikeOrGenreLikeOrStudioNameLikeOrCountryLikeOrAvailabilityTypeLike(String title,
+            String actor,
+            String director,
+            String synopsis,
+            String actress,
+            String genre,
+            String studio,
+            String country,
+            String availability);    
 
 }

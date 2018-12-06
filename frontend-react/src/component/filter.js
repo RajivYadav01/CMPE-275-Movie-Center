@@ -5,6 +5,7 @@ import axios from 'axios';
 import Navbar from "./Navbar";
 import {Link} from "react-router-dom";
 import '../App.css';
+import {api} from '../store/actions';
 
 
 class Filter extends Component {
@@ -48,7 +49,7 @@ class Filter extends Component {
 
     componentWillMount() {
 
-        axios.get('http://localhost:8080/movies/',{
+        axios.get(`${api}/movies/`,{
             headers: {"Authorization" : localStorage.getItem("Authorization")}
         })
             .then((response)=>{
@@ -617,7 +618,7 @@ class Filter extends Component {
         let keyword = this.state.searchText;
 
         if(keyword === ''){
-            axios.get('http://localhost:8080/movies/',{
+            axios.get(`${api}/movies/`,{
                 headers: {"Authorization" : localStorage.getItem("Authorization")}
             })
                 .then((response)=>{
@@ -629,7 +630,7 @@ class Filter extends Component {
                 })
         }
         else if(keyword !== ''){
-            axios.get('http://localhost:8080/movies/search/'+keyword,{
+            axios.get(`${api}/movies/search/`+keyword,{
                 headers: {"Authorization" : localStorage.getItem("Authorization")}
             })
                 .then((response)=>{

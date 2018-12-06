@@ -183,7 +183,6 @@ class UserProfile extends Component{
 const mapStateToProps = state => {
     if(state.status == 'USER_UPDATE_SUCCESS'){
         alert("Updated user");
-        window.location.href="/admin/delete"
     }
     return {
         status: state.status,

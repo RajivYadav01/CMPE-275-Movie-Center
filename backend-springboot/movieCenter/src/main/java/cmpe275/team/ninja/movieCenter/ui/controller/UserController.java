@@ -221,6 +221,24 @@ public class UserController {
         return operationStatusModel;
     }
 
+    @GetMapping(
+            path="/{userId}/movie/{movieId}/checkifplayed",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public OperationStatusModel checkIfUserHasPlayedThisMovie(@PathVariable String userId, @PathVariable String movieId) {
+        OperationStatusModel operationStatusModel = new OperationStatusModel();
+        operationStatusModel.setOperationName(RequestOperationName.CHECKIFMOVIEPLAYEDBYUSER.name());
+
+        String result = userService.checkIfUserHasPlayedThisMovie(userId, movieId);
+        if(result.equalsIgnoreCase("User not found") || result.equalsIgnoreCase("Movie not found")) {
+            operationStatusModel.setOperationResult(RequestOperationStatus.ERROR.name());
+        } else {
+            operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        }
+        operationStatusModel.setData(result);
+        return operationStatusModel;
+    }
+
 
 
 }

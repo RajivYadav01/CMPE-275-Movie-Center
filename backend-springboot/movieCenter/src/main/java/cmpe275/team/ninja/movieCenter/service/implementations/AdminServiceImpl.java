@@ -65,7 +65,7 @@ public class AdminServiceImpl implements AdminService {
         try {
             UserEntity updatedUserEntity = userRepository.save(foundUser);
             if(updatedUserEntity == null)
-                return "Error in disbaling user while saving with repository in try";
+                return "Error in disabling user while saving with repository in try";
             return "User disabled successfully";
         } catch (Exception e) {
             return "Error in database operation by JPA in disableUser AdminServiceImpl";

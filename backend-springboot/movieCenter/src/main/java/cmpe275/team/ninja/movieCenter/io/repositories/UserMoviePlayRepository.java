@@ -74,4 +74,5 @@ public interface UserMoviePlayRepository extends JpaRepository<UserMoviePlayEnti
     Object getUniqueActiveUsers(@Param("startdate") Date startDate,
                                 @Param("enddate") Date endDate);
 
+    UserMoviePlayEntity findByUserAndMovie(UserEntity userEntity, MovieEntity movieEntity);
 }

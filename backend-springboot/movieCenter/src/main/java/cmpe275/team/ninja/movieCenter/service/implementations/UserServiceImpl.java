@@ -79,6 +79,22 @@ public class UserServiceImpl implements UserService {
     Util util;
 
     @Override
+    public String checkIfUserHasPlayedThisMovie(String userid, String movieid) {
+        UserEntity foundUser = userRepository.findByUserId(userid);
+        if(foundUser == null)
+            return "User not found";
+
+        MovieEntity foundMovie = movieRepository.findByMovieId(movieid);
+        if(foundMovie == null)
+            return "Movie not found";
+
+        UserMoviePlayEntity foundMoviePlayForUser = userMoviePlayRepository.findByUserAndMovie(foundUser,foundMovie);
+        if(foundMoviePlayForUser == null)
+            return "Movie not played by the user yet";
+        return "Movie played by user earlier";
+    }
+
+    @Override
     public UserDto createUser(UserDto userDto) {
         if (userRepository.findByEmail(userDto.getEmail()) != null)
             throw new UserServiceException("User already exists");

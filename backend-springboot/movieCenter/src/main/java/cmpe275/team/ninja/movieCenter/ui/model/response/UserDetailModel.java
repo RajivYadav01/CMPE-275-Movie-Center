@@ -8,6 +8,7 @@ public class UserDetailModel {
 	private String userType;
     private boolean isSubscribed;
     private String displayName;
+    private boolean isActive;
 
 
 	public String getUserId() {
@@ -66,4 +67,11 @@ public class UserDetailModel {
 		this.displayName = displayName;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean active) {
+		isActive = active;
+	}
 }

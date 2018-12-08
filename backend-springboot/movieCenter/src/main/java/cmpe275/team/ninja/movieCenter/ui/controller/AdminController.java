@@ -25,40 +25,25 @@ public class AdminController {
     AdminService adminService;
 
     @PatchMapping(
-            path="/user/{userId}/disable",
+            path="/user/{userId}/toggleuseractivation",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public OperationStatusModel disableUser(@PathVariable String userId) {
-        OperationStatusModel operationStatusModel = new OperationStatusModel();
-        operationStatusModel.setOperationName(RequestOperationName.USERDISABLING.name());
-
-        String result = adminService.disableUser(userId);
-        if(result.equalsIgnoreCase("User disabled successfully"))
-            operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
-        else
-            operationStatusModel.setOperationResult(RequestOperationStatus.ERROR.name());
-
-        operationStatusModel.setData(result);
-        return operationStatusModel;
-    }
-
-    @PatchMapping(
-            path="/user/{userId}/activate",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public OperationStatusModel activateUser(@PathVariable String userId) {
+    public OperationStatusModel toggleUserActivation(@PathVariable String userId) {
         OperationStatusModel operationStatusModel = new OperationStatusModel();
         operationStatusModel.setOperationName(RequestOperationName.USERACTIVATION.name());
 
-        String result = adminService.activateUser(userId);
-        if(result.equalsIgnoreCase("User activated successfully"))
+        String result = adminService.toggleUserActivation(userId);
+        if(result.equalsIgnoreCase("User updated successfully")) {
             operationStatusModel.setOperationResult(RequestOperationStatus.SUCCESS.name());
-        else
+        } else {
             operationStatusModel.setOperationResult(RequestOperationStatus.ERROR.name());
+        }
 
         operationStatusModel.setData(result);
         return operationStatusModel;
     }
+
+
 
     @PostMapping(
             path="/create_movie",

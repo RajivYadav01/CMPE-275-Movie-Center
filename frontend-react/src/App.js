@@ -16,6 +16,7 @@ import UserMoviePlayHistory from './component/UserMoviePlayHistory';
 import MovieActivity from './component/MovieActivity';
 import PaymentPPV from './component/paymentPPV';
 import Financialreporting from './component/Financialreporting';
+import ManageSubscription  from './component/manageSubscriptions';
 
 class App extends Component {
   render() {
@@ -37,6 +38,7 @@ class App extends Component {
             <Route exact path = '/paymentPPV' component = {PaymentPPV}/>
             <Route exact path = '/admin/movieactivity' component = {MovieActivity} />
             <Route exact path = '/admin/financialreporting' component = {Financialreporting} />
+            <Route exact path = '/admin/manageUserSub' component = {ManageSubscription} />
       </Switch>
     );
   }

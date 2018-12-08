@@ -113,20 +113,23 @@ class DeleteMovie extends Component{
                 <br/><br/>
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <h2>Manage Movies</h2>
+                        <div class="col-sm-3">
+                            <h2>Manage Movies & Users</h2>
                         </div>
-                        <div class="col-sm-1.5">
+                        <div class="col-sm-2" style={{width : "15%"}}>
                             <Link to = {`/admin/create/-1`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Add New Movie</span></Link>
                         </div>
-                        <div class="col-sm-1.5">
+                        <div class="col-sm-2" style={{width : "15%"}}>
                             <Link to = {`/admin/useractivity`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>User Activity</span></Link>
                         </div>
-                        <div class="col-sm-1.5">
+                        <div class="col-sm-2" style={{width : "15%"}}>
                             <Link to = {`/admin/movieactivity`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Movie Activity</span></Link>
                         </div>
-                        <div class="col-sm-1.5">
+                        <div class="col-sm-2" style={{width : "15%"}}>
                             <Link to = {`/admin/financialreporting`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Financial Reporting</span></Link>
+                        </div>
+                        <div class="col-sm-2" style={{width : "15%"}}>
+                            <Link to = {`/admin/manageUserSub`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Users Subscription</span></Link>
                         </div>
                     </div>
                 </div>

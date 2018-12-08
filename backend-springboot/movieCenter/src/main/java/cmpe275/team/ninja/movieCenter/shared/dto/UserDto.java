@@ -19,6 +19,7 @@ public class UserDto implements Serializable {
     private boolean isSubscribed = false;
     private Date createdDate;
     private String displayName;
+    private boolean isActive;
 
 	public long getId() {
         return id;
@@ -130,4 +131,11 @@ public class UserDto implements Serializable {
 		this.displayName = displayName;
 	}
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }

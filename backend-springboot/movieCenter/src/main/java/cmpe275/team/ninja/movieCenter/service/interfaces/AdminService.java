@@ -9,6 +9,8 @@ import cmpe275.team.ninja.movieCenter.shared.dto.UserDto;
 import java.util.Map;
 
 public interface AdminService {
+    String disableUser(String userId);
+    String activateUser(String userId);
 	MovieDto createMovie(MovieDto movieDto);
     MovieDto updateMovie(String publicMovieId, MovieDto movieDtoToUpdate);
     void deleteMovie(String id);

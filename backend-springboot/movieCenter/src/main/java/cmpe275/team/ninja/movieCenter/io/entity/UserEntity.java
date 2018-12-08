@@ -58,6 +58,9 @@ public class UserEntity implements Serializable {
     
     @Column(length = 50)
     private String displayName;
+
+    @Column(name="is_active")
+    private boolean isActive = true;
     
     public String getUserType() {
 		return userType;
@@ -150,6 +153,14 @@ public class UserEntity implements Serializable {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @Override

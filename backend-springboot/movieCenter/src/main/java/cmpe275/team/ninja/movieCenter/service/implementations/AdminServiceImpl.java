@@ -56,6 +56,37 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     Util util;
 
+    @Override
+    public String disableUser(String userId) {
+        UserEntity foundUser = userRepository.findByUserId(userId);
+        if(foundUser == null)
+            return "User not found";
+        foundUser.setActive(false);
+        try {
+            UserEntity updatedUserEntity = userRepository.save(foundUser);
+            if(updatedUserEntity == null)
+                return "Error in disbaling user while saving with repository in try";
+            return "User disabled successfully";
+        } catch (Exception e) {
+            return "Error in database operation by JPA in disableUser AdminServiceImpl";
+        }
+    }
+
+    @Override
+    public String activateUser(String userId) {
+        UserEntity foundUser = userRepository.findByUserId(userId);
+        if(foundUser == null)
+            return "User not found";
+        foundUser.setActive(true);
+        try {
+            UserEntity updatedUserEntity = userRepository.save(foundUser);
+            if(updatedUserEntity == null)
+                return "Error in activating user while saving with repository in try";
+            return "User activated successfully";
+        } catch (Exception e) {
+            return "Error in database operation by JPA in disableUser AdminServiceImpl";
+        }
+    }
 
     @Override
     public MovieDto updateMovie(String id, MovieDto movieDtoToUpdate) {

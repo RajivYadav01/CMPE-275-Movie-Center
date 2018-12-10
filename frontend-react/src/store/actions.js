@@ -232,25 +232,32 @@ export function SignInAction(UserDetails){
                 console.log("Response in Action :",response);
                 var userObj = response.data;
                 console.log("User OBJ : ", userObj);
-                localStorage.setItem("Authorization", response.headers["authorization"]);
-                localStorage.setItem("userId", userObj.userId);
-                localStorage.setItem("firstName", userObj.firstName);
-                localStorage.setItem("lastName", userObj.lastName);
-                localStorage.setItem("userType", userObj.userType);
-                localStorage.setItem("email", userObj.email);
-                localStorage.setItem("isSubscribed", userObj.isSubscribed);
-                var obj = {
-                    lastName : 'puttest',
-                    firstName : 'verifyput'
+                if(userObj.isActive){
+                    localStorage.setItem("Authorization", response.headers["authorization"]);
+                    localStorage.setItem("userId", userObj.userId);
+                    localStorage.setItem("firstName", userObj.firstName);
+                    localStorage.setItem("lastName", userObj.lastName);
+                    localStorage.setItem("userType", userObj.userType);
+                    localStorage.setItem("email", userObj.email);
+                    localStorage.setItem("isSubscribed", userObj.isSubscribed);
+                    var obj = {
+                        lastName : 'puttest',
+                        firstName : 'verifyput'
+                    }
+                    UpdateUser(obj);
+                    dispatch(LoginSuccess(response.data));
+                } else {
+                    dispatch(LoginFailure('User is Inactive'));
                 }
-                UpdateUser(obj);
-                dispatch(LoginSuccess(response.data));
+                
             }else{
-                dispatch(LoginFailure(response));
+                console.log(response);
+                dispatch(LoginFailure('Something went wrong'));
             }
         })
         .catch(function (error) {
-            dispatch(LoginFailure(error));
+            console.log(error);
+            dispatch(LoginFailure('Something went wrong'));
         });
     }  
     

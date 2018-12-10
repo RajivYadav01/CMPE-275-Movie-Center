@@ -53,7 +53,7 @@ class SignIn extends Component{
         if(this.props.status == "LOGIN_ERROR"){
             errorMsg = (
                 <div className="error-msg">
-                   Something went wrong
+                   {this.props.msg}
                 </div>
             );
         }

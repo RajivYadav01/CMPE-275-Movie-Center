@@ -120,7 +120,7 @@ public class UserDto implements Serializable {
 	@Override
 	public String toString() {
 		
-		return "{\"email\":\""+email+"\", \"userType\":\""+userType+"\", \"userId\":\""+userId+"\", \"firstName\": \""+firstName+"\", \"lastName\": \""+lastName+"\", \"isSubscribed\": \""+isSubscribed+"\"}";
+		return "{\"isActive\":\""+isActive+"\", \"email\":\""+email+"\", \"userType\":\""+userType+"\", \"userId\":\""+userId+"\", \"firstName\": \""+firstName+"\", \"lastName\": \""+lastName+"\", \"isSubscribed\": \""+isSubscribed+"\"}";
 		}
 
 	public String getDisplayName() {

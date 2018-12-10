@@ -298,14 +298,14 @@ class AddMovie extends Component {
                                 <select className="inputField form-control" name='availabilityType'
                                         onChange={this.handleChange} >
                                     <option value="" disabled selected>Availability Type</option>
-                                    <option value="free" selected={this.state.availabilityType === "free" ? "selected" : null}> Free </option>
+                                    <option value="free" selected={this.state.availabilityType === "free" || this.state.availabilityType === "Free" ? "selected" : null}> Free </option>
                                     <option value="subscriptiononly" selected={this.state.availabilityType === "subscriptiononly" ? "selected" : null} > Subscription Only </option>
                                     <option value="payperview" selected={this.state.availabilityType === "payperview" ? "selected" : null} > Pay-Per-View </option>
-                                    <option value="paid"  selected={this.state.availabilityType === "paid" ? "selected" : null} > Paid </option>
+                                    <option value="paid"  selected={this.state.availabilityType === "paid" || this.state.availabilityType === "Paid" ? "selected" : null} > Paid </option>
                                 </select>
                             </p>
                             <p><input className="inputField form-control" onChange={this.handleChange}
-                                      placeholder="Price" name="price" type="text" required/>
+                                      placeholder="Price" name="price" type="text" value={this.state.price}  required/>
                             </p>
                         </div>
 
@@ -335,8 +335,11 @@ class AddMovie extends Component {
 const mapStateToProps = state => {
     if(state.status == 'MOVIE_UPDATE_SUCCESS'){
         alert("Movie Updated Successfully");
-        history.push("/admin/delete");
-        
+        history.push("/admin/delete"); 
+    }
+    if(state.status == 'MOVIE_CREATE_SUCCESS'){
+        alert("Movie Created Successfully");
+        history.push("/admin/delete"); 
     }
     return {
         status: state.status,

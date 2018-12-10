@@ -146,7 +146,7 @@ class MovieActivity extends Component {
                         <td>{m.genre}</td>
                         <td>{m.mpaaRating}</td>
                         <td>{m.yearOfRelease}</td>
-                        <td>{m.average_rating}</td>
+                        <td>{m.averageRating}</td>
                         <td>
                             <button 
                                 type="button" 
@@ -196,7 +196,7 @@ class MovieActivity extends Component {
                         <td>{m.genre}</td>
                         <td>{m.mpaaRating}</td>
                         <td>{m.yearOfRelease}</td>
-                        <td>{m.average_rating}</td>
+                        <td>{m.averageRating}</td>
                         {/* <td>
                             <button 
                                 type="button" 

@@ -12,18 +12,21 @@ const reducer = (state = initialState, action) => {
         case actionTypes.MOVIE_CREATE_SUCCESS:
             return{
                 ...state,
-                msg : action.payload.msg
+                msg : action.payload.msg,
+                status : action.type
             }
         case actionTypes.MOVIE_CREATE_FAIL:
             console.log("Movie Create Failed");
             return{
                 ...state,
-                msg : action.payload.msg
+                msg : action.payload.msg,
+                status : action.type
             }
-            case actionTypes.REVIEW_CREATE_SUCCESS:
+        case actionTypes.REVIEW_CREATE_SUCCESS:
             return{
                 ...state,
-                msg : action.payload.msg
+                msg : action.payload.msg,
+                status : action.type
             }
         case actionTypes.REVIEW_CREATE_FAIL:
             console.log("Movie Create Failed");

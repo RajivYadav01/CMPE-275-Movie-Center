@@ -23,11 +23,21 @@ class Financialreporting extends Component {
         console.log("In createDateForAreaChart:", array);
         array.map((element)=>{
             console.log(element);
-            var obj = {
-                name: element.key,
-                users: element.value
+            
+            if(report == 'monthlyuserreport') {
+                var obj = {
+                    name: element.key,
+                    users: element.value
+                }
+                data.push(obj);
+            } else {
+                var obj = {
+                    name: element.key,
+                    income: element.value
+                }
+                data.push(obj);
             }
-            data.push(obj);
+            
         })
         if(report == 'monthlyuserreport') {
             this.setState({
@@ -174,9 +184,9 @@ class Financialreporting extends Component {
                         margin={{top: 10, right: 30, left: 0, bottom: 0}}>
                     {/* <CartesianGrid strokeDasharray="3 3"/> */}
                     <XAxis dataKey="name"/>
-                    <YAxis dataKey="users"/>
+                    <YAxis dataKey="income"/>
                     <Tooltip/>
-                    <Area type='monotone' dataKey='users' stroke='#8884d8' fill='#8884d8' />
+                    <Area type='monotone' dataKey='income' stroke='#8884d8' fill='#8884d8' />
                 </AreaChart>
                 </div>
             </div>

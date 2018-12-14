@@ -7,27 +7,24 @@ import axios from 'axios';
 import {api} from '../store/actions';
 import {connect} from 'react-redux';
 import {DeleteMovieFunc} from '../store/actions';
+import Pagination from './Pagination';
+
 
 class DeleteMovie extends Component{
     constructor(props){
         super(props);
 
         this.state = {
-            movies : [
-                // {
-                //     "title" : "Title 1",
-                //     "genre" : "Comedy"
-                // },
-                // {
-                //     "title" : "Title 2",
-                //     "genre" : "Comedy"
-                // }
-                
-            ],
-            deleteMovieId : null
+            movies : [],
+            deleteMovieId : null,
+            pageOfItems: []
         }
+        this.onChangePage = this.onChangePage.bind(this);
     }
 
+    onChangePage(pageOfItems) {
+        this.setState({ pageOfItems: pageOfItems});
+    }
     handleDelete = (e) =>{
         this.props.onSubmitDeleteClicked(this.state.deleteMovieId);
     }
@@ -190,7 +187,7 @@ class DeleteMovie extends Component{
             marginBottom: "12px"
         }
         let movieDetails = null;
-        movieDetails = this.state.movies.map((m,index) => {
+        movieDetails = this.state.pageOfItems.map((m,index) => {
             return(
                 <tr>
                     <td><Link to= {`/movieDetails/${m.movieId}`}>{m.title}</Link></td>
@@ -258,18 +255,8 @@ class DeleteMovie extends Component{
                             {movieDetails}
                         </tbody>
                     </table>
-                    {/* <ReactPaginate previousLabel={"previous"}
-                        nextLabel={"next"}
-                        breakLabel={"..."}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} /> */}
                 </div>
+                <Pagination items={this.state.movies} onChangePage={this.onChangePage} />
                 <div id="deleteEmployeeModal" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">

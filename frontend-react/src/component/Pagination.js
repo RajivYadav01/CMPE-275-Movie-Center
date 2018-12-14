@@ -101,33 +101,39 @@ class Pagination extends React.Component {
             return null;
         }
 
-        return (
-            <div className = "Pagination">
+        const styleA = {
+            color: "black",
+            float: "left",
+            padding: "8px 16px",
+            textDecoration: "none"
+        }
 
+        return (
+            <div style={{display : "inline-block", marginLeft : "40%"}} className = "Pagination">
                     <nav aria-label="Page navigation example">
                         <ul className="pagination">
                             <li id = "li1" className={pager.currentPage === 1 ? 'disabled' : ''} className = "page-item">
-                                <a className="page-link" onClick={() => this.setPage(1)}>First</a>
+                                <a style = {styleA} className="page-link" onClick={() => this.setPage(1)}>First</a>
                             </li>
                             <li id = "li1" className={pager.currentPage === 1 ? 'disabled' : ''} className = "page-item">
-                                <a className="page-link" onClick={() => this.setPage(pager.currentPage - 1)}>
+                                <a style = {styleA} className="page-link" onClick={() => this.setPage(pager.currentPage - 1)}>
                                     <span aria-hidden="true">&laquo;</span>
                                     <span className="sr-only">Previous</span>
                                 </a>
                             </li>
                             {pager.pages.map((page, index) =>
                                 <li id = "li1" key={index} className={pager.currentPage === page ? 'active' : ''} className = "page-item">
-                                    <a className="page-link" onClick={() => this.setPage(page)}>{page}</a>
+                                    <a style = {styleA} className="page-link" onClick={() => this.setPage(page)}>{page}</a>
                                 </li>
                             )}
                             <li id = "li1" className={pager.currentPage === pager.totalPages ? 'disabled' : ''} className = "page-item">
-                                <a className="page-link" onClick={() => this.setPage(pager.currentPage + 1)}>
+                                <a style={styleA} className="page-link" onClick={() => this.setPage(pager.currentPage + 1)}>
                                     <span aria-hidden="true">&raquo;</span>
                                     <span className="sr-only">Next</span>
                                 </a>
                             </li>
                             <li id = "li1" className={pager.currentPage === pager.totalPages ? 'disabled' : ''} className = "page-item">
-                                <a  className="page-link" onClick={() => this.setPage(pager.totalPages)}>Last</a>
+                                <a style={styleA} className="page-link" onClick={() => this.setPage(pager.totalPages)}>Last</a>
                             </li>
                         </ul>
                     </nav>

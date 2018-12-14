@@ -653,3 +653,10 @@ table.table td:last-child i {
   .slider.round:before {
     border-radius: 50%;
   }
+
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}

@@ -8,7 +8,9 @@ import StarRatingComponent from 'react-star-rating-component';
 import {CreateReview} from '../store/actions';
 import {connect} from 'react-redux';
 import { createBrowserHistory } from 'history';
+import $ from 'jquery'; 
 const history = createBrowserHistory();
+
 class movieDetails extends Component{
     constructor(props){
         super(props);
@@ -340,7 +342,22 @@ class movieDetails extends Component{
         this.props.onSubmitReviewClicked(newReviewDetails);
     
     }
+    reviewSection
+    // handleScroll = (e) => {
+    //     e.preventDefault();
+    //     // var section = $(this).attr("href");
+    //     // $("html, body").animate({
+    //     //     scrollTop: $(section).offset().top
+    //     // });
+
+    //     var section = document.getElementById("moreReviews").getAttribute("href"); 
+    //     document.getElementsByTagName("html,body").animate({
+    //         scrollTop : $(section).offset().top
+    //     })
+  
+    //}
     render(){
+        console.log("Reviews : ", this.state.reviews);
         let actorCast = null;
         let actressCast = null;
         var actorsArr = this.state.actors.split(',');
@@ -362,6 +379,9 @@ class movieDetails extends Component{
                 )
             })
         }
+        if(localStorage.getItem("userType") === "admin"){
+            showReviewButton = true;
+        }
         if(this.state.moviePlayed){
             showReviewButton = true;
         }
@@ -370,6 +390,28 @@ class movieDetails extends Component{
                 showReviewButton = true;
             }
         })
+        let moreReviews = null;
+        moreReviews = this.state.reviews.map((review,index) => {
+            if(index >= 3){
+                return(
+                    <div style = {{width : "20%"}}>
+                        <li style = {{color : "white", width:"100%"}}>
+                            <div style = {{float : "left", paddingLeft : "20px"}}>
+                                <h4>{review.userFirstName}&nbsp;&nbsp;{review.userLastName}</h4>    
+                            </div>
+                            <div style={{float : "right", paddingRight : "20px"}}>
+                                <h5>{review.rating}/5</h5>
+                            </div>
+                            <br/><br/>
+                            <p style={{float : "left", paddingLeft : "20px"}}>{review.comments}</p>
+                            <br/>
+                        </li>
+                    <br/><br/>
+                    </div>
+                )
+            }
+        })
+
         if(actressArr.length > 0){
             actressCast = actressArr.map((actress,index) => {
                 return(
@@ -386,22 +428,24 @@ class movieDetails extends Component{
         actorCast =  actorCast.concat(actressCast);
         let reviewDetails = null;
         reviewDetails = this.state.reviews.map((review,index) => {
-            return(
-                <div>
-                    <li style = {{color : "white", width:"100%"}}>
-                        <div style = {{float : "left", paddingLeft : "20px"}}>
-                            <h4>{review.userFirstName}&nbsp;&nbsp;{review.userLastName}</h4>    
-                        </div>
-                        <div style={{float : "right", paddingRight : "20px"}}>
-                            <h5>{review.rating}/5</h5>
-                        </div>
-                        <br/><br/>
-                        <p style={{float : "left", paddingLeft : "20px"}}>{review.comments}</p>
-                        <br/>
-                    </li>
-                <br/><br/>
-                </div>
-            )
+            if(index < 3){
+                return(
+                    <div>
+                        <li style = {{color : "white", width:"100%"}}>
+                            <div style = {{float : "left", paddingLeft : "20px"}}>
+                                <h4>{review.userFirstName}&nbsp;&nbsp;{review.userLastName}</h4>    
+                            </div>
+                            <div style={{float : "right", paddingRight : "20px"}}>
+                                <h5>{review.rating}/5</h5>
+                            </div>
+                            <br/><br/>
+                            <p style={{float : "left", paddingLeft : "20px"}}>{review.comments}</p>
+                            <br/>
+                        </li>
+                    <br/><br/>
+                    </div>
+                )
+            }
         })
         const { rating } = this.state.rating;
         return(
@@ -438,6 +482,8 @@ class movieDetails extends Component{
                             <ul style={{color : "white"}}>
                                 {reviewDetails}
                             </ul>
+                            <br/>
+                            <a id="moreReviews"  style={{float : "right", fontSize : "14pt"}} href="#reviewSection" >See More Reviews</a>
                             <br/>
                             <br/>
                             {showReviewButton ? <button href="#reviewModal" class="delete" data-toggle="modal" style={{alignSelf:"center", width : "33%" ,fontSize : "14pt"}} type="button" class="btn btn-primary">
@@ -661,6 +707,11 @@ class movieDetails extends Component{
                             </div>
                         </div>
                     </div>
+                </div>
+                <div style={{paddingTop : "20px", paddingLeft : "170px"}} id="reviewSection" class="main-img-content">
+                    <h1 style={{paddingTop : "20px", paddingLeft : "170px"}} style = {{color : "white"}}>More Reviews</h1>
+                    
+                         {moreReviews}
                 </div>
             </div>
         )

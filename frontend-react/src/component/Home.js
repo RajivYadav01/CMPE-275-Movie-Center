@@ -135,8 +135,12 @@ class Home extends Component{
                         </div>
                     </div>
                 </div>
-                <div class="main-img-content"><h1 style = {{color : "white"}}>Top Ten Movies of the Month</h1>
-                 <div class="img-container"> {top}</div></div>
+                <div class="main-img-content">
+                    <h1 style = {{color : "white"}}>Top Ten Movies of the Month</h1>
+                    <div class="img-container">
+                         {top}
+                    </div>
+                </div>
              
                  {/* <div><h1 style = {{color : "white"}}>Trending Now</h1></div><br/>
                  <div className="table-responsive" style = {{backgroundColor : "white"}}>

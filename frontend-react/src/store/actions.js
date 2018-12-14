@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { createBrowserHistory } from 'history';
 export const MOVIE_CREATE_SUCCESS = 'MOVIE_CREATE_SUCCESS';
 export const MOVIE_CREATE_FAIL = 'MOVIE_CREATE_FAIL';
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -13,6 +14,8 @@ export const REVIEW_CREATE_SUCCESS = 'REVIEW_CREATE_SUCCESS';
 export const REVIEW_CREATE_FAIL = 'REVIEW_CREATE_FAIL';
 export const MOVIE_DELETE_SUCCESS = 'MOVIE_DELETE_SUCCESS';
 export const MOVIE_DELETE_FAIL = 'MOVIE_DELETE_FAIL';
+
+export const history = createBrowserHistory();
 
 //export const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://ec2-34-215-125-205.us-west-2.compute.amazonaws.com:8080/movieCenter';
 export const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://localhost:8080';

@@ -10,6 +10,7 @@ class ManageSubscription extends Component{
         super(props);
         this.state = {
             users : [],
+            deleteFlag : false
         }
     }
 
@@ -27,6 +28,29 @@ class ManageSubscription extends Component{
             })
         })
     }
+
+    handleChange = (e,userId) => {
+        //e.preventDefault();
+        // var headers = new Headers();
+        axios({
+            method:'patch',
+            url: `${api}/admin/user/${userId}/toggleuseractivation`,
+            headers: {"Authorization" : localStorage.getItem("Authorization")},
+        })
+        .then((response) => {
+            document.getElementById("subscribeButton").click();
+            axios({
+                method:'get',
+                url: `${api}/users/`,
+                headers: {"Authorization" : localStorage.getItem("Authorization")}
+            })
+            .then((response) => {
+                this.setState({
+                    users : this.state.users.concat(response.data)
+                })
+            })
+        })
+    }
     
     render(){
         let userDetails = null;
@@ -39,12 +63,12 @@ class ManageSubscription extends Component{
                     <td>
                         
                         {/* <Link onClick={(e) => this.handleMovieToDelete(e,u.movieId)} to="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></Link> */}
-                        {u.subscribed ? <label class="switch">
-                            <input type="checkbox" defaultChecked/>
+                        {u.active ? <label class="switch">
+                            <input type="checkbox" defaultChecked onChange={(e) => this.handleChange(e,u.userId)}/>
                             <span class="slider round"></span>
                         </label> : 
                             <label class="switch">
-                            <input type="checkbox"/>
+                            <input type="checkbox" onChange={(e) => this.handleChange(e,u.userId)}/>
                             <span class="slider round"></span>
                         </label>
                         }
@@ -84,6 +108,23 @@ class ManageSubscription extends Component{
                             {userDetails}
                         </tbody>
                     </table>
+                </div>
+                <button id="subscribeButton" href="#subscriptionModal" class="delete" data-toggle="modal" style={{display : "none"}} type="button" class="btn btn-success">
+                    Play
+                </button>
+                <div id="subscriptionModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form>
+                                <div class="modal-header">						
+                                    <h4 class="modal-title">User Subscription changed Successfully</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

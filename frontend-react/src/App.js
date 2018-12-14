@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Home from './component/Home';
-import {Switch,Route} from 'react-router-dom';
+import {Switch,Route, Router} from 'react-router-dom';
 import AddMovie from './component/addMovie';
 import SignUp from './component/SignUp';
 import SignUpConfirmation from './component/SignUpConfirmation';

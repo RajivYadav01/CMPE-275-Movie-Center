@@ -8,8 +8,8 @@ import '../App.css';
 import axios from 'axios';
 
 import {api} from '../store/actions';
-import { createBrowserHistory } from 'history';
-const history = createBrowserHistory();
+import {history} from '../store/actions'
+
 
 class AddMovie extends Component {
     constructor(props) {
@@ -30,7 +30,8 @@ class AddMovie extends Component {
             availabilityType: '',
             price: 0.00,
             currentTab: 0,
-            yearOfRelease : ''
+            yearOfRelease : '',
+            redirectVar : false
         }
     }
 
@@ -63,8 +64,10 @@ class AddMovie extends Component {
         if (this.props.match.params.movieID != -1) {
             console.log("Movie ID : ", this.props.match.params.movieID);
             this.props.onUpdateClicked(newMovieDetails, this.props.match.params.movieID);
+            document.getElementById("subscribeButton").click();
         } else {
             this.props.onSubmitClicked(newMovieDetails);
+
         }
 
     };
@@ -110,6 +113,11 @@ class AddMovie extends Component {
             })
     }
 
+    handleRedirect = (e) => {
+        document.getElementById("modelCloseBtn").click();
+        history.push("/admin/delete");
+        window.location.reload();
+    }
     render() {
         console.log("State : ", this.state);
         console.log("Params : ", this.props.match.params.movieID);
@@ -327,20 +335,40 @@ class AddMovie extends Component {
 
                     </form>
                 </div>
+                <button id="subscribeButton" href="#subscriptionModal" class="delete" data-toggle="modal" style={{display : "none"}} type="button" class="btn btn-success">
+                    Play
+                </button>
+                <div id="subscriptionModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form>
+                                <div class="modal-header">						
+                                    <h4 class="modal-title">Movie Updated Successfully</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <input id="modelCloseBtn" onClick={this.handleRedirect} type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"/>
+                                </div>
+                                {/* <div class="modal-footer">
+                                    <Link to = {`/admin/delete/`} data-dismiss="modal" class="btn btn-success" value="Cancel"></Link>
+                                </div> */}
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
 }
 
 const mapStateToProps = state => {
-    if(state.status == 'MOVIE_UPDATE_SUCCESS'){
-        alert("Movie Updated Successfully");
-        history.push("/admin/delete"); 
-    }
-    if(state.status == 'MOVIE_CREATE_SUCCESS'){
-        alert("Movie Created Successfully");
-        history.push("/admin/delete"); 
-    }
+    // if(state.status == 'MOVIE_UPDATE_SUCCESS'){
+    //     //alert("Movie Updated Successfully");
+    //     history.push("/admin/delete"); 
+    // }
+    // if(state.status == 'MOVIE_CREATE_SUCCESS'){
+    //     //alert("Movie Created Successfully");
+    //     history.push("/admin/delete"); 
+    // }
     return {
         status: state.status,
         msg: state.msg,

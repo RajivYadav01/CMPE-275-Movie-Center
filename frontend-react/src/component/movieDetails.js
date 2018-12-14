@@ -8,7 +8,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import {CreateReview} from '../store/actions';
 import {connect} from 'react-redux';
 import { createBrowserHistory } from 'history';
-import $ from 'jquery'; 
+
 const history = createBrowserHistory();
 
 class movieDetails extends Component{

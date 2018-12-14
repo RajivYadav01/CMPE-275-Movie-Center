@@ -47,7 +47,7 @@ class UserMoviePlayHistory extends Component {
                         <td>{m.genre}</td>
                         <td>{m.mpaaRating}</td>
                         <td>{m.yearOfRelease}</td>
-                        <td>{m.averageRating}</td>
+                        <td>{m.averageRating} <br/> {m.userRatingCount} votes</td>
                     </tr>
                 )
             });

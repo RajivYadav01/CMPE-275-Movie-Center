@@ -84,9 +84,11 @@ class UserProfile extends Component{
 
     render(){
         let subscription = null;
+        let customerSince = false;
         console.log(this.state);
         let userType = localStorage.getItem("userType");
         if(userType != "admin"){
+            customerSince = true;
             if(this.props.msg.subscribed === false){
                 subscription = (
                      <p>
@@ -148,7 +150,7 @@ class UserProfile extends Component{
 			    				<input onChange = {this.handleChange} value={this.state.displayName} className="inputField form-control" type="text" name="displayname" id="displayname" required="required" />
 			    			</div>
 
-                            <label>Email address:</label>
+                            <label>Email Address:</label>
 			    				<input onChange = {this.handleChange} value={this.state.email} className="inputField form-control" type="email" name="email" id="email" required="required" />
 			    			</div>
 
@@ -162,7 +164,6 @@ class UserProfile extends Component{
 			    				<input onChange = {this.handleChange} value={this.state.lastName} className="inputField form-control" type="text" name="lastname" id="lastname" required="required" />
 			    			</div>
 
-                        
                             <br/>
 			    			<input type="submit" value="Update " className=" signUpBtn btn btn-primary form-control"/>
 			    		</form>

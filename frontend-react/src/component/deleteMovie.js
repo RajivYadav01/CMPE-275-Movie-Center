@@ -56,24 +56,127 @@ class DeleteMovie extends Component{
         })
     }
     handleChange = (e) => {
+        var flag = 0;
         var filter, table, tr, td, i, txtValue;
         filter = e.target.value.toUpperCase();
-        console.log("Filter : ", filter);
         table = document.getElementById("myTable");
-        console.log("Table : ", table);
         tr = table.getElementsByTagName("tr");
-        console.log("TR : ", tr);
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
             if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    flag = 1;
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
             }       
         }
+        if(flag == 0){
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        flag = 1;
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }       
+            }
+        }
+        if(flag == 0){
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2];
+                if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    flag = 1;
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+                }       
+            }
+        }
+        if(flag == 0){
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[3];
+                if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    flag = 1;
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+                }       
+            }
+        }
+        if(flag == 0){
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[4];
+                if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    flag = 1;
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+                }       
+            }
+        }
+        if(flag == 0){
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[5];
+                if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    flag = 1;
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+                }       
+            }
+        }
+        
+        // for (i = 0; i < tr.length; i++) {
+        //     td = tr[i].getElementsByTagName("td")[3];
+        //     if (td) {
+        //     txtValue = td.textContent || td.innerText;
+        //     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        //         tr[i].style.display = "";
+        //     } else {
+        //         tr[i].style.display = "none";
+        //     }
+        //     }       
+        // }
+        // for (i = 0; i < tr.length; i++) {
+        //     td = tr[i].getElementsByTagName("td")[4];
+        //     if (td) {
+        //     txtValue = td.textContent || td.innerText;
+        //     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        //         tr[i].style.display = "";
+        //     } else {
+        //         tr[i].style.display = "none";
+        //     }
+        //     }       
+        // }
+        // for (i = 0; i < tr.length; i++) {
+        //     td = tr[i].getElementsByTagName("td")[5];
+        //     if (td) {
+        //     txtValue = td.textContent || td.innerText;
+        //     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        //         tr[i].style.display = "";
+        //     } else {
+        //         tr[i].style.display = "none";
+        //     }
+        //     }       
+        // }
     }
     render(){
         console.log("Movies : ", this.state.movies);
@@ -92,8 +195,9 @@ class DeleteMovie extends Component{
                 <tr>
                     <td><Link to= {`/movieDetails/${m.movieId}`}>{m.title}</Link></td>
                     <td>{m.actors}</td>
-                    <td>{m.actresses}</td>
                     <td>{m.director}</td>
+                    <td>{m.genre}</td>
+                    <td>{m.mpaaRating}</td>
                     <td>{m.yearOfRelease}</td>
                     <td>
                         <Link to= {`/admin/create/${m.movieId}`} class="edit"><i className="material-icons"><span class="glyphicon glyphicon-pencil"></span></i></Link>
@@ -143,8 +247,9 @@ class DeleteMovie extends Component{
                             <tr>
                                 <th>Movie Title</th>
                                 <th>Actors</th>
-                                <th>Actresses</th>
                                 <th>Director</th>
+                                <th>Genre</th>
+                                <th>MPAA Rating</th>
                                 <th>Year of Release</th>
                                 <th>Action</th>
                             </tr>

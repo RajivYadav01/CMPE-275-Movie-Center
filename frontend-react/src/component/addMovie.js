@@ -67,7 +67,7 @@ class AddMovie extends Component {
             document.getElementById("subscribeButton").click();
         } else {
             this.props.onSubmitClicked(newMovieDetails);
-
+            document.getElementById("subscribeButton").click();
         }
 
     };
@@ -343,7 +343,7 @@ class AddMovie extends Component {
                         <div class="modal-content">
                             <form>
                                 <div class="modal-header">						
-                                    <h4 class="modal-title">Movie Updated Successfully</h4>
+                                    <h4 class="modal-title">Movie Added/Updated Successfully</h4>
                                 </div>
                                 <div class="modal-footer">
                                     <input id="modelCloseBtn" onClick={this.handleRedirect} type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"/>

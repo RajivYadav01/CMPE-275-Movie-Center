@@ -31,7 +31,7 @@ public class ReviewController {
 	
 	@GetMapping(produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
     public List<ReviewResponseModel> getRatingsByUserOrMovie(@RequestParam(value = "userid", required = false) String userId, @RequestParam(value = "movieid", required = false) String movieId, @RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "limit", defaultValue = "4") int limit) throws Exception{
+			@RequestParam(value = "limit", defaultValue = "200") int limit) throws Exception{
     	List<ReviewResponseModel> returnValue = new ArrayList<>();
     	List<ReviewDto> reviewDto = new ArrayList<>();
     	if(userId != null && movieId == null) {

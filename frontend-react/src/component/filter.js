@@ -59,19 +59,7 @@ class Filter extends Component {
                     displayArray : response.data
                 })
             })
-
     }
-
-    // componentDidMount() {
-    //     document.addEventListener('keydown', function(event) {
-    //         if(event.keyCode === 13 ) {
-    //             console.log('after clicking enter on keyboard : ', this.state.searchText);
-    //             console.log(document.getElementById('searchbutton'));
-    //             // document.getElementById('searchbutton').click();
-    //         }
-    //     });
-    // }
-
     handleFilterToggle = (e) => {
         e.preventDefault();
         this.setState({

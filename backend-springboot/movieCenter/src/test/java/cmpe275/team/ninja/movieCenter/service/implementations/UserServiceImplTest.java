@@ -3,11 +3,13 @@ package cmpe275.team.ninja.movieCenter.service.implementations;
 import cmpe275.team.ninja.movieCenter.io.entity.MovieEntity;
 import cmpe275.team.ninja.movieCenter.io.entity.UserEntity;
 import cmpe275.team.ninja.movieCenter.io.repositories.UserRepository;
+import cmpe275.team.ninja.movieCenter.shared.Utility;
 import cmpe275.team.ninja.movieCenter.shared.dto.MovieDto;
 import cmpe275.team.ninja.movieCenter.shared.dto.UserDto;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import org.mockito.InjectMocks;
@@ -20,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 class UserServiceImplTest {
 
@@ -28,8 +31,17 @@ class UserServiceImplTest {
 
     @Mock
     UserRepository userRepository;
+
+    @Mock
+    Utility utility;
+
+    @Mock
+    BCryptPasswordEncoder bCryptPasswordEncoder;
     
     UserEntity userEntity;
+    String userId = "vjvjvcddufc8fcfe88";
+    String encryptedPassword = "ksbdcybdci";
+    String emailVerificationToken = "hvciacigasgi";
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
@@ -40,6 +52,9 @@ class UserServiceImplTest {
         userEntity.setFirstName("Venkatesh");
         userEntity.setLastName("Devale");
         userEntity.setDisplayName("VenkateshD");
+        userEntity.setUserId(userId);
+        userEntity.setEncryptedPassword(encryptedPassword);
+        userEntity.setEmailVerificationToken(emailVerificationToken);
     }
     
 
@@ -67,7 +82,12 @@ class UserServiceImplTest {
     
     @Test
     void createUser() {
-      
+        when(userRepository.findByEmail(anyString())).thenReturn(null);
+        when(utility.generateUserId(anyInt())).thenReturn(userId);
+        when(bCryptPasswordEncoder.encode(anyString())).thenReturn(encryptedPassword);
+        when(utility.generateEmailVerificationToken(userId)).thenReturn(emailVerificationToken);
+        when(userRepository.save(any(UserEntity.class))).thenReturn(userEntity);
+
         UserDto userDto = new UserDto();
         UserDto storedUserDetails = userService.createUser(userDto);
         assertNotNull(storedUserDetails);

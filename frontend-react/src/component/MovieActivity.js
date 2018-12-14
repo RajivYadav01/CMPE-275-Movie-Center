@@ -4,6 +4,7 @@ import {api} from '../store/actions';
 import {Link} from "react-router-dom";
 import PieChart from 'react-minimal-pie-chart';
 import Navbar from '../component/Navbar';
+import Pagination from './Pagination';
 
 
 class MovieActivity extends Component {
@@ -16,10 +17,12 @@ class MovieActivity extends Component {
             last24hours: 0,
             lastweek: 0,
             lastmonth: 0,
-            datatoshowinPieChart: []
+            datatoshowinPieChart: [],
+            pageOfItems: []
         }
         this.handleMoviePlayClick = this.handleMoviePlayClick.bind(this);
         this.handlePeriodClick = this.handlePeriodClick.bind(this);
+        this.onChangePage = this.onChangePage.bind(this);
     }
 
     componentWillMount() {
@@ -41,8 +44,12 @@ class MovieActivity extends Component {
         })
     }
 
-    
+    onChangePage(pageOfItems) {
+        // update state with new page of items
+        this.setState({ pageOfItems: pageOfItems});
+    }
 
+    
     handleMoviePlayClick = (e, movie) => {
         let last24hours = 0;
         let lastweek= 0;
@@ -55,7 +62,7 @@ class MovieActivity extends Component {
                     headers: {"Authorization" : localStorage.getItem("Authorization")}
                 })
                 .then((response)=>{
-                    console.log("lastmonth in promise p1",response.data);
+                    console.log("last24hours in promise p1",response.data);
                     resolve(response.data.data);
                 })
               
@@ -68,7 +75,7 @@ class MovieActivity extends Component {
                 headers: {"Authorization" : localStorage.getItem("Authorization")}
             })
             .then((response)=>{
-                console.log("lastmonth in promise p1",response.data);
+                console.log("lastweek in promise p1",response.data);
                 resolve(response.data.data);
             })
             
@@ -92,9 +99,9 @@ class MovieActivity extends Component {
         Promise.all([last24hoursPrmoise, lastweekPromise, lastmonthPromise]).then(values => { 
 
             var datatoshowinPieChart = [
-                { title: 'last24hours', value: values[0], color: '#E38627' },
-                { title: 'lastweek', value: values[1], color: '#C13C37' },
-                { title: 'lastmonth', value: values[2], color: '#6A2135' },
+                { title: 'Last 24 hours', value: values[0], color: '#E38627' },
+                { title: 'Last Week', value: values[1], color: '#C13C37' },
+                { title: 'Last Month', value: values[2], color: '#6A2135' },
               ]
             console.log("After resolving all the promises:",values); 
             this.setState({
@@ -137,7 +144,7 @@ class MovieActivity extends Component {
 
         let movieDetails = null;
         if(this.state.movies.length != 0) {
-            movieDetails = this.state.movies.map((m,index) => {
+            movieDetails = this.state.pageOfItems.map((m,index) => {
                 return(
                     <tr key={m.movieId} >
                         <td><Link to= {`/movieDetails/${m.movieId}`}>{m.title}</Link></td>
@@ -248,6 +255,7 @@ class MovieActivity extends Component {
                     {/* <div>
                         <p style={{color: 'white', font: '20px'}}>{ this.state.message }</p>
                     </div> */}
+                    <Pagination items={this.state.movies} onChangePage={this.onChangePage} />
                 </div>
 
                 <br />

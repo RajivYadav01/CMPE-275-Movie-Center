@@ -6,7 +6,7 @@ import Navbar from "./Navbar";
 import {Link} from "react-router-dom";
 import '../App.css';
 import {api} from '../store/actions';
-
+import Pagination from './Pagination';
 
 class Filter extends Component {
 
@@ -38,13 +38,15 @@ class Filter extends Component {
             ratingsRadio : '',
             movies : [],
             displayArray : [],
-            arr : []
+            arr : [],
+            pageOfItems: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleFilterToggle = this.handleFilterToggle.bind(this);
         this.handleFlag = this.handleFlag.bind(this);
         this.handleRating = this.handleRating.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.onChangePage = this.onChangePage.bind(this);
     }
 
     componentWillMount() {
@@ -60,6 +62,12 @@ class Filter extends Component {
                 })
             })
     }
+
+    onChangePage(pageOfItems) {
+        // update state with new page of items
+        this.setState({ pageOfItems: pageOfItems});
+    }
+
     handleFilterToggle = (e) => {
         e.preventDefault();
         this.setState({
@@ -661,7 +669,7 @@ class Filter extends Component {
         };
 
         let movieDetails = null;
-        movieDetails = this.state.displayArray.map((m,index) => {
+        movieDetails = this.state.pageOfItems.map((m,index) => {
             return(
                 <tr key={m.movieId}  >
                     <td ><a style={{color: 'rgb(0, 255, 245)'}} href={`/movieDetails/${m.movieId}`}>{m.title}
@@ -979,6 +987,7 @@ class Filter extends Component {
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination items={this.state.displayArray} onChangePage={this.onChangePage} />
                     </div>
                 </div>
             )
@@ -1044,6 +1053,7 @@ class Filter extends Component {
                                 </tbody>
                             </table>
                         </div>
+                        <Pagination items={this.state.displayArray} onChangePage={this.onChangePage} />
                     </div>
                 </div>
             )

@@ -4,6 +4,7 @@ import {api} from '../store/actions';
 import '../css/useractivity.css';
 // import {Link} from "react-router-dom";
 import Navbar from '../component/Navbar';
+import Pagination from './Pagination';
 
 class UserActivity extends Component {
     constructor(props) {
@@ -13,10 +14,12 @@ class UserActivity extends Component {
             moviePlayingHistory: [],
             periodToShow: "",
             toptenusers: [],
-            message: ''
+            message: '',
+            pageOfItems: []
         }
         this.handleMoviePlayHistoryClick = this.handleMoviePlayHistoryClick.bind(this);
         this.handlePeriodClick = this.handlePeriodClick.bind(this);
+        this.onChangePage = this.onChangePage.bind(this);
     }
 
     componentWillMount() {
@@ -38,6 +41,11 @@ class UserActivity extends Component {
                 })
             }
         })
+    }
+
+    onChangePage(pageOfItems) {
+        // update state with new page of items
+        this.setState({ pageOfItems: pageOfItems});
     }
 
     handleMoviePlayHistoryClick = (e, user) => {
@@ -76,7 +84,7 @@ class UserActivity extends Component {
 
         let userDetails = null;
         if(this.state.users.length != 0) {
-            userDetails = this.state.users.map((user)=>{
+            userDetails = this.state.pageOfItems.map((user)=>{
                 return (
                     <tr key={user.userId}>
                         <td>{user.firstName}</td>
@@ -147,6 +155,7 @@ class UserActivity extends Component {
                             </tbody>
                         </table>
                     </div>
+                    <Pagination items={this.state.users} onChangePage={this.onChangePage} />
                 </div>
 
                 <br />

@@ -15,9 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -30,11 +27,18 @@ class AdminServiceImplTest {
     @Mock
     MovieRepository movieRepository;
 
+    @Mock
+    UserRepository userRepository;
+
 
     @Mock
     Util util;
 
     MovieEntity movieEntity;
+
+    UserEntity userEntity;
+
+    final String userId = "vdwguvuw";
 
 
     @BeforeEach
@@ -46,6 +50,13 @@ class AdminServiceImplTest {
         movieEntity.setTitle("Gone With Wind");
         movieEntity.setYearOfRelease("2018");
         movieEntity.setAvailabilityType("Paid");
+
+        userEntity = new UserEntity();
+        userEntity.setId(1L);
+        userEntity.setFirstName("Venkatesh");
+        userEntity.setLastName("Devale");
+        userEntity.setUserId(userId);
+        userEntity.setActive(true);
 
     }
 
@@ -60,6 +71,18 @@ class AdminServiceImplTest {
         assertEquals(movieEntity.getTitle(), storedMovieDetails.getTitle());
         assertEquals(movieEntity.getYearOfRelease(), storedMovieDetails.getYearOfRelease());
         assertEquals(movieEntity.getAvailabilityType(), storedMovieDetails.getAvailabilityType());
+    }
+
+    @Test
+    void toggleUserActivation() {
+        when(userRepository.findByUserId(anyString())).thenReturn(userEntity);
+        when(userRepository.save(any(UserEntity.class))).thenReturn(userEntity);
+        String ans = adminService.toggleUserActivation(userId);
+        System.out.println(ans);
+        assertNotNull(ans);
+        assertEquals("User updated successfully", ans);
+        assertEquals(userEntity.isActive(), false);
+
     }
 
 

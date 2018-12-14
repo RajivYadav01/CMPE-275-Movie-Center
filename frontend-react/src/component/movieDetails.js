@@ -472,6 +472,8 @@ class movieDetails extends Component{
                                             <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Genre:</span> {this.state.genre}</h4>
                                             <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Directed by:</span> {this.state.director}</h4>
                                             <h4 style={{color: "grey"}}><span style={{color: "#ffffff"}}>Cast:</span> {this.state.actors},{this.state.actresses}</h4>
+                                            <h4 style={{color: "grey"}}><span style={{color: "#ffffff"}}>Movie Type:</span> {this.state.availabilityType}</h4>
+                                            <h4 style={{color: "grey"}}><span style={{color: "#ffffff"}}>Price: {this.state.availabilityType === "free" ? "$0.00" : this.state.price}</span></h4>
                                         </div>
                                     </header>
                                 </article>

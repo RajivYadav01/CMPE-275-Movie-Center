@@ -392,9 +392,9 @@ class movieDetails extends Component{
         })
         let moreReviews = null;
         moreReviews = this.state.reviews.map((review,index) => {
-            if(index >= 3){
+            if(index >= 0){
                 return(
-                    <div style = {{width : "20%"}}>
+                    <div style = {{width : "10%", display : "inline-block", width : "33%", paddingRight : "20px"}}>
                         <li style = {{color : "white", width:"100%",listStyleType : "none"}}>
                             <div style = {{float : "left", paddingLeft : "20px"}}>
                                 {console.log("User : ", review.userFirstName + " ", review.userLastName)}
@@ -709,8 +709,10 @@ class movieDetails extends Component{
                         </div>
                     </div>
                 </div>
-                <div style={{paddingTop : "20px", paddingLeft : "170px"}} id="reviewSection" class="main-img-content">
+                <div style={{paddingTop : "20px", paddingLeft : "170px", paddingRight : "50px"}} id="reviewSection" class="main-img-content">
+
                     <h1 style={{paddingTop : "20px", paddingLeft : "170px"}} style = {{color : "white"}}>More Reviews</h1>
+                    <br/>
                     
                          {moreReviews}
                 </div>

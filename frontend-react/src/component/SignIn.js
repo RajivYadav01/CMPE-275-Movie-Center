@@ -75,7 +75,7 @@ class SignIn extends Component{
                         {errorMsg}
                         <form onSubmit = {this.handleSubmit.bind(this)}>
 			    			<div className="form-group">
-			    				<input onChange = {this.handleChange} className="inputField form-control" type="email" name="email" id="email" required="required" placeholder="Email Address"/>
+			    				<input onChange = {this.handleChange} className="inputField form-control" type="email" name="email" id="email" required="required" placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
 			    			</div>
                             <div className="form-group">
 			    				<input onChange = {this.handleChange} className="inputField form-control" type="password" name="password" id="password" required="required" placeholder="Password"/>

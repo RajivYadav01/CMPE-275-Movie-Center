@@ -38,7 +38,7 @@ class App extends Component {
             <Route exact path = '/paymentPPV' component = {PaymentPPV}/>
             <Route exact path = '/admin/movieactivity' component = {MovieActivity} />
             <Route exact path = '/admin/financialreporting' component = {Financialreporting} />
-            <Route exact path = '/admin/manageUserSub' component = {ManageSubscription} />
+            <Route exact path = '/admin/manageuser' component = {ManageSubscription} />
       </Switch>
     );
   }

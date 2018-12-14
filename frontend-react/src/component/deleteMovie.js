@@ -129,7 +129,7 @@ class DeleteMovie extends Component{
                             <Link to = {`/admin/financialreporting`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Financial Reporting</span></Link>
                         </div>
                         <div class="col-sm-2" style={{width : "15%"}}>
-                            <Link to = {`/admin/manageUserSub`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Users Subscription</span></Link>
+                            <Link to = {`/admin/manageuser`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Users Details</span></Link>
                         </div>
                     </div>
                 </div>

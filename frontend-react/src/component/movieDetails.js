@@ -467,10 +467,10 @@ class movieDetails extends Component{
                                         </figure>
                                         <br/>
                                         <div class="entry-content" style={{paddingLeft : "0px", paddingBottom : "30px"}}>
-                                            <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Released in:</span>{this.state.yearOfRelease}</h4>
+                                            <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Released in:</span> {this.state.yearOfRelease}</h4>
                                             <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Genre:</span> {this.state.genre}</h4>
                                             <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Directed by:</span> {this.state.director}</h4>
-                                            <h4 style={{color: "grey"}}><span style={{color: "#ffffff"}}>Cast:</span>{this.state.actors},{this.state.actresses}</h4>
+                                            <h4 style={{color: "grey"}}><span style={{color: "#ffffff"}}>Cast:</span> {this.state.actors},{this.state.actresses}</h4>
                                         </div>
                                     </header>
                                 </article>

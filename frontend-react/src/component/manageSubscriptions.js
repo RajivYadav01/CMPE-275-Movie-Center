@@ -19,7 +19,7 @@ class ManageSubscription extends Component{
         var headers = new Headers();
         axios({
             method:'get',
-            url: `${api}/users/`,
+            url: `${api}/users`,
             headers: {"Authorization" : localStorage.getItem("Authorization")}
         })
         .then((response) => {
@@ -59,7 +59,9 @@ class ManageSubscription extends Component{
                 <tr>
                     <td>{u.firstName}</td>
                     <td>{u.lastName}</td>
+                    <td>{u.displayName}</td>
                     <td>{u.email}</td>
+                    <td>{u.subscribed ? <span>Subscribed</span> : <span>Not Subscribed</span>}</td>
                     <td>
                         
                         {/* <Link onClick={(e) => this.handleMovieToDelete(e,u.movieId)} to="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></Link> */}
@@ -88,7 +90,7 @@ class ManageSubscription extends Component{
                 <div class="table-title" style={{marginLeft:'12%', marginRight:'12%'}}>
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Manage User Subscription</h2>
+                            <h2>User Details</h2>
                         </div>
                     </div>
                 </div>
@@ -100,8 +102,10 @@ class ManageSubscription extends Component{
                             <tr>
                                 <th>First Name</th>
                                 <th>Last Name</th>
+                                <th>Display Name</th>
                                 <th>Email</th>
-                                <th>Manage Subscription</th>
+                                <th>Subscription Status</th>
+                                <th>Activate/Disable User</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -117,7 +121,7 @@ class ManageSubscription extends Component{
                         <div class="modal-content">
                             <form>
                                 <div class="modal-header">						
-                                    <h4 class="modal-title">User Subscription changed Successfully</h4>
+                                    <h4 class="modal-title">User status changed Successfully</h4>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"/>

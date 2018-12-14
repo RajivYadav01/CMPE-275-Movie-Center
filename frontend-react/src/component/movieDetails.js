@@ -38,7 +38,8 @@ class movieDetails extends Component{
             months : '',
             amount : '',
             paymentSuccess : false,
-            yearOfRelease : ''
+            yearOfRelease : '',
+            moviePlayed : false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleMonths = this.handleMonths.bind(this);
@@ -177,6 +178,9 @@ class movieDetails extends Component{
                         data: obj
                     }).then((response) => {
                         document.getElementById("videoButton").click();
+                        this.setState({
+                            moviePlayed : true
+                        })
                     })
                 }
                 if(userType==="admin"){
@@ -212,12 +216,18 @@ class movieDetails extends Component{
                                 document.getElementById("paymentButton").click();
                             }
                         }else{
-                            document.getElementById("videoButton").click();   
+                            document.getElementById("videoButton").click(); 
+                            this.setState({
+                                moviePlayed : true
+                            })  
                         }
                     })
                 }
                 if(userType==="admin"){
                     document.getElementById("videoButton").click();
+                    this.setState({
+                        moviePlayed : true
+                    })
                 }
                 break; 
             }
@@ -249,6 +259,9 @@ class movieDetails extends Component{
                                     data: obj
                                 }).then((response) => {
                                     document.getElementById("videoButton").click();
+                                    this.setState({
+                                        moviePlayed : true
+                                    })
                                 })
                             }else if(isSubscribed === "false"){
                                 this.setState({
@@ -258,6 +271,9 @@ class movieDetails extends Component{
                             }
                         }else{
                             document.getElementById("videoButton").click();  
+                            this.setState({
+                                moviePlayed : true
+                            })
                         }
                     })
                 }
@@ -289,6 +305,9 @@ class movieDetails extends Component{
                             data: obj
                         }).then((response) => {
                            document.getElementById("videoButton").click();
+                           this.setState({
+                               moviePlayed : true
+                           })
                         })
                     }else if(isSubscribed==="false" ){
                         console.log("Some False");
@@ -329,6 +348,8 @@ class movieDetails extends Component{
         var youtubeUrlSplit = this.state.youtubeUrl.split('/');
         var youTube = `https://www.youtube.com/embed/${youtubeUrlSplit[youtubeUrlSplit.length - 1]}` ; 
         console.log("You SRC : ", youTube);
+        let showReviewButton = false;
+        let userId = localStorage.getItem("userId")
         if(actorsArr.length > 0){
             actorCast = actorsArr.map((actor,index) => {
                 return(
@@ -341,6 +362,14 @@ class movieDetails extends Component{
                 )
             })
         }
+        if(this.state.moviePlayed){
+            showReviewButton = true;
+        }
+        this.state.reviews.map((review)=>{
+            if(review.userId === userId){
+                showReviewButton = true;
+            }
+        })
         if(actressArr.length > 0){
             actressCast = actressArr.map((actress,index) => {
                 return(
@@ -411,9 +440,9 @@ class movieDetails extends Component{
                             </ul>
                             <br/>
                             <br/>
-                            <button href="#reviewModal" class="delete" data-toggle="modal" style={{alignSelf:"center", width : "33%" ,fontSize : "14pt"}} type="button" class="btn btn-primary">
+                            {showReviewButton ? <button href="#reviewModal" class="delete" data-toggle="modal" style={{alignSelf:"center", width : "33%" ,fontSize : "14pt"}} type="button" class="btn btn-primary">
                                 Add a Review
-                            </button>
+                            </button> : null}
                             <br/>
                             <br/>
                             <button onClick = {this.handlePlayCheck} class="delete" data-toggle="modal" style={{alignSelf:"center", width : "33%" ,fontSize : "14pt"}} type="button" class="btn btn-success">

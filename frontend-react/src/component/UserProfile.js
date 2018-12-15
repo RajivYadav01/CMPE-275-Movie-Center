@@ -84,11 +84,9 @@ class UserProfile extends Component{
 
     render(){
         let subscription = null;
-        let customerSince = false;
         console.log(this.state);
         let userType = localStorage.getItem("userType");
         if(userType != "admin"){
-            customerSince = true;
             if(this.props.msg.subscribed === false){
                 subscription = (
                      <p>

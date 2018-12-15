@@ -86,6 +86,7 @@ class Home extends Component{
                     if(movie.genre && filterList['genre'].indexOf(movie.genre) == -1 && filterList['genre'].length < 3){
                         var obj = new Object();
                         obj.display_name = movie.title;
+                        obj.movie_title = movie.title;
                         obj.search_type = 'genre';
                         obj.search_string = movie.genre;
                         obj.movies = [];
@@ -93,10 +94,11 @@ class Home extends Component{
                         searchString = searchString.concat(movie.genre + " ");
                         recommededList.push(obj);
                     }
-                    if(movie.director && filterList['genre'].indexOf(movie.director) == -1 && filterList['director'].length < 2){
+                    if(movie.director && filterList['genre'].indexOf(movie.director) == -1 && filterList['director'].length < 3){
                         var obj = new Object();
                         obj.display_name = movie.director;
                         obj.search_type = 'director';
+                        obj.movie_title = movie.title;
                         obj.search_string = movie.director;
                         obj.movies = [];
                         filterList['director'].push(movie.director);
@@ -116,12 +118,12 @@ class Home extends Component{
                         var movie = response1.data[i];
                             for(var j in recommededList){
                                 if(recommededList[j]['search_type'] == 'genre'){
-                                   if(movie.genre.includes(recommededList[j]['search_string']) && recommededList[j]['display_name'] != movie.title){
+                                   if(movie.genre.includes(recommededList[j]['search_string']) && recommededList[j]['movie_title'] != movie.title){
                                     recommededList[j]['movies'].push(movie);
                                    }
                                 }
                                 if(recommededList[j]['search_type'] == 'director'){
-                                    if(movie.director.includes(recommededList[j]['search_string']) && recommededList[j]['display_name'] != movie.director){
+                                    if(movie.director.includes(recommededList[j]['search_string']) && recommededList[j]['movie_title'] != movie.title){
                                      recommededList[j]['movies'].push(movie);
                                     }
                                  }

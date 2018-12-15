@@ -76,7 +76,7 @@ class Navbar extends Component{
 
                 <li style={styleForLi}><a href="/" style = {styleForLiA}>Home</a></li>
                 {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signup/">SignUp</Link></li> : null}
-                {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signin/">SignIn</Link></li> : <li style={StyleFloatRight}>
+                {!isLoggedIn ? <li style={StyleFloatRight}><Link to="/signin">SignIn</Link></li> : <li style={StyleFloatRight}>
                     <Link onClick={this.handleLogout} to="/signin/">Logout</Link>
                 </li>}
                 {isLoggedIn ? <li style={StyleFloatRight}><Link to="/profile/">Account</Link></li> : null}

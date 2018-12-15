@@ -5,9 +5,13 @@ Team Ninja (Term Group Project - 06)
 
 Members:
 Pradnyesh Patil - pradnyesh.patil@sjsu.edu (012530544)
+
 Rajiv Yadav - rajivramesh.yadav@sjsu.edu (012411841)
+
 Shraddha Kabade - shraddha.kabade@sjsu.edu (012434409)
+
 Venkatesh.devale - venkatesh.devale@sjsu.edu (012420148)
+
 
 URL to access the web application:
 Front-End AWS EC2 URL : http://34.229.46.49:3000/

@@ -224,7 +224,7 @@ class Payment extends Component {
                                             <div className="col-xs-12">
                                                 <button className="subscribe btn btn-success btn-lg btn-block"
                                                         type="button"
-                                                        onClick={this.handleSubscription}>Start Subscription
+                                                        onClick={this.handleSubscription}>Make Payment
                                                 </button>
                                             </div>
                                         </div>

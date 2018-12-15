@@ -99,8 +99,8 @@ class UserProfile extends Component{
                 );
             } else if(this.props.msg.subscribed === true){
                 subscription = (
-                     <p className="md-text">Subscription ending on: <span className="bold">
-                         {this.props.msg.subscriptionEnddate}</span>
+                     <p style = {{width : "100%"}} className="md-text">Subscription ending on: <span className="bold">
+                         {this.props.msg.subscriptionEnddate} 00:00 AM</span>
                      </p>
                )
             }
@@ -114,7 +114,7 @@ class UserProfile extends Component{
                    <h1>Account</h1>
                    <div class="row profile-content">
                         <div class="col-sm-3 profile-label">
-                            <p>Display name:</p>
+                            <p>Screen name:</p>
                             <p>First name:</p>
                             <p>Last name:</p>
                             <p>Email:</p>
@@ -146,7 +146,7 @@ class UserProfile extends Component{
                         <form onSubmit = {this.handleSubmit.bind(this)}>
 			    			<div className="form-group">
                             <div className="form-group">
-                            <label>Display Name:</label>
+                            <label>Screen Name:</label>
 			    				<input onChange = {this.handleChange} value={this.state.displayName} className="inputField form-control" type="text" name="displayname" id="displayname" required="required" />
 			    			</div>
 

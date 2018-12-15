@@ -226,7 +226,7 @@ class UserActivity extends Component {
                                     <h4 class="modal-title">Last Name</h4>
                                     <h4 style = {{fontWeight : "300"}}>{this.state.selectedUser.lastName}</h4>
                                     <br/>
-                                    <h4 class="modal-title">User Display Name</h4>
+                                    <h4 class="modal-title">Screen Name</h4>
                                     <h4 style = {{fontWeight : "300"}}>{this.state.selectedUser.displayName}</h4>
                                     <br/>
                                     <h4 class="modal-title">Email</h4>

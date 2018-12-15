@@ -218,10 +218,23 @@ class UserActivity extends Component {
                                 <div class="modal-header">						
                                     <h4 class="modal-title">User Details</h4>
                                 </div>
-                                {/* {this.state.selectedUser === null ?
+                                {this.state.selectedUser !== null ?
                                 <div class="modal-body">						
-                                    <h4 class="modal-title">User Name : {this.state.selectedUser.firstName}</h4>
-                                </div>:null} */}
+                                    <h4 class="modal-title">First Name</h4>
+                                    <h4 style = {{fontWeight : "300"}}>{this.state.selectedUser.firstName}</h4>
+                                    <br/>
+                                    <h4 class="modal-title">Last Name</h4>
+                                    <h4 style = {{fontWeight : "300"}}>{this.state.selectedUser.lastName}</h4>
+                                    <br/>
+                                    <h4 class="modal-title">User Display Name</h4>
+                                    <h4 style = {{fontWeight : "300"}}>{this.state.selectedUser.displayName}</h4>
+                                    <br/>
+                                    <h4 class="modal-title">Email</h4>
+                                    <h4 style = {{fontWeight : "300"}}>{this.state.selectedUser.email}</h4>
+                                    <br/>
+                                    <h4 class="modal-title">Is User Subscribed : {this.state.selectedUser.subscribed ? "Yes" : "No"}</h4>
+                                    <br/>
+                                </div>:null}
                                 <div class="modal-footer">
                                     <input id="modelCloseBtn" onClick={this.handleRedirect} type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"/>
                                 </div>

@@ -31,7 +31,7 @@ class movieDetails extends Component{
             currentTab : 0,
             reviews : [],
             reviewText : '',
-            rating : 1,
+            rating : 0,
             cardNumber : '',
             expiryYear : '',
             expiryMonth : '',
@@ -41,7 +41,8 @@ class movieDetails extends Component{
             amount : '',
             paymentSuccess : false,
             yearOfRelease : '',
-            moviePlayed : false
+            moviePlayed : false,
+            averageRating : ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleMonths = this.handleMonths.bind(this);
@@ -138,7 +139,8 @@ class movieDetails extends Component{
                     availabilityType : response.data.availabilityType,
                     price : response.data.price,
                     modalName : '',
-                    yearOfRelease : response.data.yearOfRelease
+                    yearOfRelease : response.data.yearOfRelease,
+                    averageRating : response.data.averageRating
                 })
         })
         axios.get(`${api}/reviews/?movieid=${movieID}`,{
@@ -149,6 +151,19 @@ class movieDetails extends Component{
                     reviews : response.data
                 })
         })
+        var userId = localStorage.getItem("userId");
+        axios.get(`${api}/users/${userId}/movie/${movieID}/checkifplayed`,{
+            headers: {"Authorization" : localStorage.getItem("Authorization")}})
+            .then((response) => {
+                console.log("Response of checkIfPlayed : ", response);
+
+                if(response.data.data === "Movie played by user earlier"){
+                    this.setState({
+                        moviePlayed : true
+                    })
+                }
+        })
+
         
     }
     handlePlayCheck = (e) => {
@@ -342,22 +357,9 @@ class movieDetails extends Component{
         this.props.onSubmitReviewClicked(newReviewDetails);
     
     }
-    reviewSection
-    // handleScroll = (e) => {
-    //     e.preventDefault();
-    //     // var section = $(this).attr("href");
-    //     // $("html, body").animate({
-    //     //     scrollTop: $(section).offset().top
-    //     // });
-
-    //     var section = document.getElementById("moreReviews").getAttribute("href"); 
-    //     document.getElementsByTagName("html,body").animate({
-    //         scrollTop : $(section).offset().top
-    //     })
-  
-    //}
     render(){
         console.log("Reviews : ", this.state.reviews);
+        console.log("MOvie Played  : ", this.state.moviePlayed);
         let actorCast = null;
         let actressCast = null;
         var actorsArr = this.state.actors.split(',');
@@ -379,17 +381,17 @@ class movieDetails extends Component{
                 )
             })
         }
-        if(localStorage.getItem("userType") === "admin"){
-            showReviewButton = true;
-        }
-        if(this.state.moviePlayed){
-            showReviewButton = true;
-        }
-        this.state.reviews.map((review)=>{
-            if(review.userId === userId){
-                showReviewButton = true;
-            }
-        })
+        // if(localStorage.getItem("userType") === "admin"){
+        //     showReviewButton = false;
+        // }
+        // if(this.state.moviePlayed && localStorage.getItem("userType") === "customer"){
+        //     showReviewButton = true;
+        // }
+        // this.state.reviews.map((review)=>{
+        //     if(review.userId === userId){
+        //         showReviewButton = true;
+        //     }
+        // })
         let moreReviews = null;
         moreReviews = this.state.reviews.map((review,index) => {
             if(index >= 0){
@@ -397,8 +399,7 @@ class movieDetails extends Component{
                     <div style = {{width : "10%", display : "inline-block", width : "33%", paddingRight : "20px"}}>
                         <li style = {{color : "white", width:"100%",listStyleType : "none"}}>
                             <div style = {{float : "left", paddingLeft : "20px"}}>
-                                {console.log("User : ", review.userFirstName + " ", review.userLastName)}
-                                <h4>{review.userFirstName}&nbsp;&nbsp;{review.userLastName}</h4>    
+                                <h4>{review.userDisplayName}</h4>    
                             </div>
                             <div style={{float : "right", paddingRight : "20px"}}>
                                 <h5>{review.rating}/5</h5>
@@ -474,6 +475,7 @@ class movieDetails extends Component{
                                             <h4 style={{color: "grey"}}><span style={{color: "#ffffff"}}>Cast:</span> {this.state.actors},{this.state.actresses}</h4>
                                             <h4 style={{color: "grey"}}><span style={{color: "#ffffff"}}>Movie Type:</span> {this.state.availabilityType}</h4>
                                             <h4 style={{color: "grey"}}><span style={{color: "#ffffff"}}>Price: {this.state.availabilityType === "free" ? "$0.00" : this.state.price}</span></h4>
+                                            <h4 style={{color: "grey"}} ><span style={{color: "#ffffff"}}>Average Rating :</span> {this.state.averageRating}</h4>
                                         </div>
                                     </header>
                                 </article>
@@ -489,7 +491,7 @@ class movieDetails extends Component{
                             <a id="moreReviews"  style={{float : "right", fontSize : "14pt"}} href="#reviewSection" >See More Reviews</a>
                             <br/>
                             <br/>
-                            {showReviewButton ? <button href="#reviewModal" class="delete" data-toggle="modal" style={{alignSelf:"center", width : "33%" ,fontSize : "14pt"}} type="button" class="btn btn-primary">
+                            {this.state.moviePlayed ? <button href="#reviewModal" class="delete" data-toggle="modal" style={{alignSelf:"center", width : "33%" ,fontSize : "14pt"}} type="button" class="btn btn-primary">
                                 Add a Review
                             </button> : null}
                             <br/>
@@ -527,6 +529,7 @@ class movieDetails extends Component{
                                                 starCount={5}
                                                 value={rating}
                                                 onStarClick={this.onStarClick.bind(this)}
+                                                required = "required"
                                             />
                                         </div>
                                         <div class="modal-footer">
@@ -574,138 +577,138 @@ class movieDetails extends Component{
                                             <button id="paymentClose" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                     </div>
                                     <div className="panel panel-default credit-card-box" >
-                                                        <div className="panel-heading display-table">
-                                                            <div className="row display-tr">
-                                                                <h3 className="panel-title display-td" style={{marginLeft:'10px'}}>Payment Details</h3>
-                                                                <br/>
-                                                                <div className="display-td">
-                                                                    <img src="http://i76.imgup.net/accepted_c22e0.png"/>
-                                                                </div>
+                                        <div className="panel-heading display-table">
+                                            <div className="row display-tr">
+                                                <h3 className="panel-title display-td" style={{marginLeft:'10px'}}>Payment Details</h3>
+                                                <br/>
+                                                <div className="display-td">
+                                                    <img src="http://i76.imgup.net/accepted_c22e0.png"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="panel-body">
+                                            <form id="payment-form">
+                                                <div className="row">
+                                                    <div className="col-xs-12">
+                                                        <div className="form-group">
+                                                            <label htmlFor="cardNumber">CARD NUMBER</label>
+                                                            <div className="input-group" style={{width:"100%"}}>
+                                                                <input
+                                                                    type="tel"
+                                                                    className="form-control"
+                                                                    name="cardNumber"
+                                                                    placeholder="Valid Card Number"
+                                                                    autoComplete="cc-number"
+                                                                    onChange={this.handleChange}
+                                                                    required autoFocus
+                                                                />
+                                                                {/*<span className="input-group-addon"><i*/}
+                                                                    {/*className="fa fa-credit-card"></i></span>*/}
                                                             </div>
                                                         </div>
-                                                        <div className="panel-body">
-                                                            <form id="payment-form">
-                                                                <div className="row">
-                                                                    <div className="col-xs-12">
-                                                                        <div className="form-group">
-                                                                            <label htmlFor="cardNumber">CARD NUMBER</label>
-                                                                            <div className="input-group" style={{width:"100%"}}>
-                                                                                <input
-                                                                                    type="tel"
-                                                                                    className="form-control"
-                                                                                    name="cardNumber"
-                                                                                    placeholder="Valid Card Number"
-                                                                                    autoComplete="cc-number"
-                                                                                    onChange={this.handleChange}
-                                                                                    required autoFocus
-                                                                                />
-                                                                                {/*<span className="input-group-addon"><i*/}
-                                                                                    {/*className="fa fa-credit-card"></i></span>*/}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                    </div>
+                                                </div>
 
-                                                                <div className="row">
-                                                                    <div className="col-xs-12">
-                                                                        <div className="form-group">
-                                                                            <label htmlFor="cardNumber">NAME ON CARD</label>
-                                                                            <div className="input-group" style={{width:"100%"}}>
-                                                                                <input
-                                                                                    type="tel"
-                                                                                    className="form-control"
-                                                                                    name="cardName"
-                                                                                    placeholder="NAME"
-                                                                                    autoComplete="cc-number"
-                                                                                    onChange={this.handleChange}
-                                                                                    required autoFocus
-                                                                                />
-                                                                                {/*<span className="input-group-addon"><i*/}
-                                                                                {/*className="fa fa-credit-card"></i></span>*/}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div className="row">
-                                                                    <div className="col-xs-7 col-md-7">
-                                                                        <div className="form-group">
-                                                                            <label htmlFor="cardExpiry"><span
-                                                                                className="hidden-xs">EXPIRATION MONTH</span>
-                                                                            </label>
-                                                                            <input
-                                                                                type="tel"
-                                                                                className="form-control col-xs-2 col-md-2"
-                                                                                name="expiryMonth"
-                                                                                placeholder="MM"
-                                                                                autoComplete="cc-exp"
-                                                                                onChange={this.handleChange}
-                                                                                required
-                                                                            />
-                                                                            <br/>
-                                                                            <label htmlFor="cardExpiry"><span
-                                                                                className="hidden-xs">EXPIRATION YEAR</span>
-                                                                            </label>
-                                                                            <input
-                                                                                type="tel"
-                                                                                className="form-control col-xs-2 col-md-2 pull-right"
-                                                                                name="expiryYear"
-                                                                                placeholder="YY"
-                                                                                autoComplete="cc-exp"
-                                                                                onChange={this.handleChange}
-                                                                                required
-                                                                            />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="col-xs-5 col-md-5 pull-right">
-                                                                        <div className="form-group">
-                                                                            <label htmlFor="cardCVC">CV CODE</label>
-                                                                            <input
-                                                                                type="tel"
-                                                                                className="form-control"
-                                                                                name="cardCVC"
-                                                                                placeholder="CVC"
-                                                                                autoComplete="cc-csc"
-                                                                                onChange={this.handleChange}
-                                                                                required
-                                                                            />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div className="row">
-                                                                    <div className="col-xs-5 col-md-5 pull-right">
-                                                                        <div className="form-group">
-                                                                            <label htmlFor="cardCVC">Amount</label>
-                                                                            <input
-                                                                                type="tel"
-                                                                                className="form-control"
-                                                                                name="amount"
-                                                                                placeholder=""
-                                                                                autoComplete="cc-csc"
-                                                                                value={this.state.amount}
-                                                                                disabled={true}
-                                                                            />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <br/>
-                                                                <div className="row">
-                                                                    <div className="col-xs-12">
-                                                                        <button className="subscribe btn btn-success btn-lg btn-block"
-                                                                                type="button"
-                                                                                onClick={this.handleSubscription}>Start Subscription
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="row" style={{display:'none'}}>
-                                                                    <div className="col-xs-12">
-                                                                        {/*<p className="payment-errors"></p>*/}
-                                                                    </div>
-                                                                </div>
-                                                            </form>
+                                                <div className="row">
+                                                    <div className="col-xs-12">
+                                                        <div className="form-group">
+                                                            <label htmlFor="cardNumber">NAME ON CARD</label>
+                                                            <div className="input-group" style={{width:"100%"}}>
+                                                                <input
+                                                                    type="tel"
+                                                                    className="form-control"
+                                                                    name="cardName"
+                                                                    placeholder="NAME"
+                                                                    autoComplete="cc-number"
+                                                                    onChange={this.handleChange}
+                                                                    required autoFocus
+                                                                />
+                                                                {/*<span className="input-group-addon"><i*/}
+                                                                {/*className="fa fa-credit-card"></i></span>*/}
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                </div>
+
+                                                <div className="row">
+                                                    <div className="col-xs-7 col-md-7">
+                                                        <div className="form-group">
+                                                            <label htmlFor="cardExpiry"><span
+                                                                className="hidden-xs">EXPIRATION MONTH</span>
+                                                            </label>
+                                                            <input
+                                                                type="tel"
+                                                                className="form-control col-xs-2 col-md-2"
+                                                                name="expiryMonth"
+                                                                placeholder="MM"
+                                                                autoComplete="cc-exp"
+                                                                onChange={this.handleChange}
+                                                                required
+                                                            />
+                                                            <br/>
+                                                            <label htmlFor="cardExpiry"><span
+                                                                className="hidden-xs">EXPIRATION YEAR</span>
+                                                            </label>
+                                                            <input
+                                                                type="tel"
+                                                                className="form-control col-xs-2 col-md-2 pull-right"
+                                                                name="expiryYear"
+                                                                placeholder="YY"
+                                                                autoComplete="cc-exp"
+                                                                onChange={this.handleChange}
+                                                                required
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-xs-5 col-md-5 pull-right">
+                                                        <div className="form-group">
+                                                            <label htmlFor="cardCVC">CV CODE</label>
+                                                            <input
+                                                                type="tel"
+                                                                className="form-control"
+                                                                name="cardCVC"
+                                                                placeholder="CVC"
+                                                                autoComplete="cc-csc"
+                                                                onChange={this.handleChange}
+                                                                required
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="row">
+                                                    <div className="col-xs-5 col-md-5 pull-right">
+                                                        <div className="form-group">
+                                                            <label htmlFor="cardCVC">Amount</label>
+                                                            <input
+                                                                type="tel"
+                                                                className="form-control"
+                                                                name="amount"
+                                                                placeholder=""
+                                                                autoComplete="cc-csc"
+                                                                value={this.state.amount}
+                                                                disabled={true}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div className="row">
+                                                    <div className="col-xs-12">
+                                                        <button className="subscribe btn btn-success btn-lg btn-block"
+                                                                type="button"
+                                                                onClick={this.handleSubscription}>Start Subscription
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div className="row" style={{display:'none'}}>
+                                                    <div className="col-xs-12">
+                                                        {/*<p className="payment-errors"></p>*/}
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

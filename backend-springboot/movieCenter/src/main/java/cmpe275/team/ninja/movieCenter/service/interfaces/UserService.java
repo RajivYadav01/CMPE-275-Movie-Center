@@ -31,4 +31,5 @@ public interface UserService extends UserDetailsService{
     List<MovieDto> getTopTenMoviesByPeriod(String period);
     String checkifPaymentNeeded(String userid, String movieid);
     String checkIfUserHasPlayedThisMovie(String userid, String movieid);
+    List<MovieDto> getMoviePlayingActivityForUser(String id);
 }

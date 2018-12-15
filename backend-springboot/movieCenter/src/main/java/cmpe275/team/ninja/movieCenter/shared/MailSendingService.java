@@ -25,6 +25,9 @@ public class MailSendingService {
 		// The subject line for the email.
 		final String SUBJECT = "Verify your email";
 		
+		// The subject line for the email.
+		final String VERIFIED_EMAIL_SUBJECT = "Your email is verified";
+		
 
 		// The HTML body for the email.
 		final String HTMLBODY = "<h1>Please verify your email address</h1>"
@@ -40,6 +43,16 @@ public class MailSendingService {
 				+ " open then the following URL in your browser window: "
 				+ " http://localhost:3000/verifyemail?token=$tokenValue"
 				+ " Thank you! And we are waiting for you inside!";
+		
+		// The HTML body for the email.
+		final String VERIFIED_HTMLBODY = "<h1>Your email has been verified</h1>"
+						+ "<p>Thank you for registering with Movie Center. Your email has been verified."
+						+ " And we are waiting for you inside!";
+
+				// The email body for recipients with non-HTML email clients.
+		final String VERIFIED_TEXTBODY = "Your email has been verified."
+						+ "Thank you for registering with our mobile app. Your email has been verified."
+						+ " And we are waiting for you inside!";
 		
 	
 	public void verifyEmail(UserDto userDto) {
@@ -59,6 +72,31 @@ public class MailSendingService {
 						.withBody(new Body().withHtml(new Content().withCharset("UTF-8").withData(htmlBodyWithToken))
 								.withText(new Content().withCharset("UTF-8").withData(textBodyWithToken)))
 						.withSubject(new Content().withCharset("UTF-8").withData(SUBJECT)))
+				.withSource(FROM);
+
+		client.sendEmail(request);
+
+		System.out.println("Email sent!");
+
+	}
+	
+	public void verificationConfirmation(UserDto userDto) {
+
+		BasicAWSCredentials awsCreds = new BasicAWSCredentials("xxxx", "xxxx/");
+		AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard()
+				.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+				.withRegion(Regions.US_WEST_2)
+				.build();
+		
+		String htmlBody = VERIFIED_HTMLBODY;
+		String textBody = VERIFIED_TEXTBODY;
+
+		SendEmailRequest request = new SendEmailRequest()
+				.withDestination(new Destination().withToAddresses(userDto.getEmail()))
+				.withMessage(new Message()
+						.withBody(new Body().withHtml(new Content().withCharset("UTF-8").withData(htmlBody))
+								.withText(new Content().withCharset("UTF-8").withData(textBody)))
+						.withSubject(new Content().withCharset("UTF-8").withData(VERIFIED_EMAIL_SUBJECT)))
 				.withSource(FROM);
 
 		client.sendEmail(request);

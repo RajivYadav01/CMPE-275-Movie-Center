@@ -3,6 +3,7 @@ import movieImg from '../image.webp';
 import movieMeta from '../movie-meta.webp';
 import videoSrc from '../sabrina-crop.mp4';
 import TopTen from './TopTen';
+import Recommended from './Recommended';
 import Navbar from './/Navbar';
 import axios from 'axios';
 import {api} from '../store/actions';
@@ -23,9 +24,7 @@ class Home extends Component{
                 // }
                 
             ],
-            trendingNow : [
-
-            ]
+            recommeded : []
         }
     }
     handleLoad = (e) => {
@@ -38,6 +37,18 @@ class Home extends Component{
     handleMouseLeave = (e) => {
         document.getElementById('imgTag').style.display='block';
         document.getElementById('videoTag').style.display = 'none'
+    }
+
+    getRecommededTitle(type, displayName){
+        if(type == 'genre'){
+            return(
+                <span>Because you watched {displayName}</span>
+            )
+        } else if(type == 'director'){
+            return(
+                <span>Because you watched movies directed by {displayName}</span>
+            )
+        }
     }
 
     componentWillMount(){
@@ -53,20 +64,74 @@ class Home extends Component{
                 topMovies : this.state.topMovies.concat(response.data)
             })
         })
+        var recommededList = [];
 
         axios({
             method:'get',
-            url: `${api}/movies/`,
+            url: `${api}/users/useractivity/`+localStorage.getItem('userId'),
             headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')}
         })
         .then((response) => {
-            console.log(response.data);
+            console.log(response);
+            if(response.status = 200 && response.data.length != 0){
+               var searchString = ''
+               for(var i in response.data){
+                console.log(response.data[i])
+                var movie  = response.data[i];
+                    if(movie.genre){
+                        var obj = new Object();
+                        obj.display_name = movie.title;
+                        obj.search_type = 'genre';
+                        obj.search_string = movie.genre;
+                        obj.movies = [];
+                        searchString = searchString.concat(movie.genre + " ");
+                        recommededList.push(obj);
+                    }
+                    if(movie.director){
+                        var obj = new Object();
+                        obj.display_name = movie.director;
+                        obj.search_type = 'director';
+                        obj.search_string = movie.director;
+                        obj.movies = [];
+                        searchString = searchString.concat(movie.director + " ");
+                        recommededList.push(obj);
+                    }
+                   
+                    console.log(searchString);
+               }
+               axios({
+                    method:'get',
+                    url: `${api}/movies/search/`+searchString,
+                    headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')}
+                })
+                .then((response1) => {
+                    console.log(response1.data);
+                    for(var i in response1.data){
+                        var movie = response1.data[i];
+                            for(var j in recommededList){
+                                if(recommededList[j]['search_type'] == 'genre'){
+                                   if(movie.genre.includes(recommededList[j]['search_string']) && recommededList[j]['display_name'] != movie.title){
+                                    recommededList[j]['movies'].push(movie);
+                                   }
+                                }
+                                if(recommededList[j]['search_type'] == 'director'){
+                                    if(movie.director.includes(recommededList[j]['search_string'])){
+                                     recommededList[j]['movies'].push(movie);
+                                    }
+                                 }
+                            }
+                    }
+                    console.log(recommededList);
+                })
+    
+            }
             this.setState({
-                trendingNow : this.state.trendingNow.concat(response.data)
+                recommeded : recommededList
             })
-        })
+        });
     }
     render(){
+        //let recommededMovies = null
         const videoContainer = {
             position: "relative",
         }
@@ -91,28 +156,20 @@ class Home extends Component{
               <TopTen title = {movie.title} imageUrl = {movie.imageUrl} movieId = {movie.movieId}/>
             )
         })
-        let trending = this.state.trendingNow.map(movie => {
-            console.log("Movie Title : ", movie.title);
-            return(
-              <TopTen title = {movie.title} imageUrl = {movie.imageUrl} movieId = {movie.movieId}/>
-            )
-        })
 
-        let movieDetails = null;
-        movieDetails = this.state.trendingNow.map((m,index) => {
-            return(
-                <tr>
-                    <td><Link to= {`/movieDetails/${m.movieId}`}>{m.title}</Link></td>
-                    <td>{m.actors}</td>
-                    <td>{m.actresses}</td>
-                    <td>{m.director}</td>
-                    <td>{m.price}</td>
-                    <td>
-                        <Link to= {`/admin/create/${m.movieId}`} class="edit"><i className="material-icons"><span class="glyphicon glyphicon-pencil"></span></i></Link>
-                        <a onClick={(e) => this.handleMovieToDelete(e,m.movieId)} href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></a>
-                    </td>
-                </tr>
-            )
+        let recommededMovies = this.state.recommeded.map(item =>{
+            console.log(item.movies)
+            if(item.movies.length != 0){
+                return(
+                <div class="main-img-content">
+                    <h1 style = {{color : "white"}}>{this.getRecommededTitle(item.search_type, item.display_name)}</h1>
+                    <div class="img-container">
+                    <Recommended movies = {item.movies} />
+                    </div>
+                </div>
+                )
+            }
+            
         })
 
         return(
@@ -141,28 +198,7 @@ class Home extends Component{
                          {top}
                     </div>
                 </div>
-             
-                 {/* <div><h1 style = {{color : "white"}}>Trending Now</h1></div><br/>
-                 <div className="table-responsive" style = {{backgroundColor : "white"}}>
-                    <br/>
-                    <table id="myTable"  class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Movie Title</th>
-                                <th>Actors</th>
-                                <th>Actresses</th>
-                                <th>Director</th>
-                                <th>Year of Release</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {movieDetails}
-                        </tbody>
-                    </table>
-                   
-                </div> */}
-                
+               {recommededMovies}
             </div>
         )
     }

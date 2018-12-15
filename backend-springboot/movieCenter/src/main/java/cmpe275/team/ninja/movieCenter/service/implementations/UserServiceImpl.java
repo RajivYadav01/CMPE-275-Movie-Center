@@ -239,7 +239,10 @@ public class UserServiceImpl implements UserService {
                 returnValue = true;
             }
         }
+        UserDto returnedUserDto = new UserDto();
 
+        BeanUtils.copyProperties(userEntity,returnedUserDto);
+        //mailSendingService.verificationConfirmation(returnedUserDto);
         return returnValue;
     }
     
@@ -450,4 +453,24 @@ public class UserServiceImpl implements UserService {
             return "PAYMENTNEEDED";
         }
     }
+
+	@Override
+	public List<MovieDto> getMoviePlayingActivityForUser(String id) {
+		UserEntity foundUser = userRepository.findByUserId(id);
+        if(foundUser == null)
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        ModelMapper modelMapper = new ModelMapper();
+        List<UserMoviePlayEntity> userMoviePlayEntities = userMoviePlayRepository.findByUserOrderByStartTimeDesc(foundUser);
+
+        if (userMoviePlayEntities == null || userMoviePlayEntities.size() == 0)
+            return null;
+
+        List<MovieDto> movieDtos = new ArrayList<>();
+
+        userMoviePlayEntities.forEach(userMoviePlayEntity -> {
+            movieDtos.add(modelMapper.map(userMoviePlayEntity.getMovie(), MovieDto.class));
+        });
+
+        return movieDtos;
+	}
 }

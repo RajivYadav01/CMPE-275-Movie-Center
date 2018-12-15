@@ -220,6 +220,23 @@ public class UserController {
 
         return operationStatusModel;
     }
+    
+    @GetMapping(
+            path= "/useractivity/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<MovieDetailsResponseModel> getMoviePlayingHistoryForUser(@PathVariable String id) {
+        List<MovieDetailsResponseModel> movieDetailsResponseModels = new ArrayList<>();
+        List<MovieDto> movieDtos = userService.getMoviePlayingActivityForUser(id);
+        ModelMapper modelMapper = new ModelMapper();
+        if (movieDtos == null)
+            return new ArrayList<>();
+        movieDtos.forEach(movieDto -> {
+            movieDetailsResponseModels.add(modelMapper.map(movieDto, MovieDetailsResponseModel.class));
+        });
+
+        return movieDetailsResponseModels;
+    }
 
     @GetMapping(
             path="/{userId}/movie/{movieId}/checkifplayed",

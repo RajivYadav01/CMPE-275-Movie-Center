@@ -65,6 +65,10 @@ class Home extends Component{
             })
         })
         var recommededList = [];
+        var filterList = {
+            'genre': [],
+            'director' : []
+        }
 
         axios({
             method:'get',
@@ -76,29 +80,31 @@ class Home extends Component{
             if(response.status = 200 && response.data.length != 0){
                var searchString = ''
                for(var i in response.data){
+
                 console.log(response.data[i])
                 var movie  = response.data[i];
-                    if(movie.genre){
+                    if(movie.genre && filterList['genre'].indexOf(movie.genre) == -1 && filterList['genre'].length < 3){
                         var obj = new Object();
                         obj.display_name = movie.title;
                         obj.search_type = 'genre';
                         obj.search_string = movie.genre;
                         obj.movies = [];
+                        filterList['genre'].push(movie.genre);
                         searchString = searchString.concat(movie.genre + " ");
                         recommededList.push(obj);
                     }
-                    if(movie.director){
+                    if(movie.director && filterList['genre'].indexOf(movie.director) == -1 && filterList['director'].length < 2){
                         var obj = new Object();
                         obj.display_name = movie.director;
                         obj.search_type = 'director';
                         obj.search_string = movie.director;
                         obj.movies = [];
+                        filterList['director'].push(movie.director);
                         searchString = searchString.concat(movie.director + " ");
                         recommededList.push(obj);
-                    }
-                   
-                    console.log(searchString);
+                    }  
                }
+               console.log(searchString);
                axios({
                     method:'get',
                     url: `${api}/movies/search/`+searchString,
@@ -115,19 +121,19 @@ class Home extends Component{
                                    }
                                 }
                                 if(recommededList[j]['search_type'] == 'director'){
-                                    if(movie.director.includes(recommededList[j]['search_string'])){
+                                    if(movie.director.includes(recommededList[j]['search_string']) && recommededList[j]['display_name'] != movie.director){
                                      recommededList[j]['movies'].push(movie);
                                     }
                                  }
                             }
                     }
                     console.log(recommededList);
-                })
+                    this.setState({
+                        recommeded : recommededList
+                    });
+                });
     
             }
-            this.setState({
-                recommeded : recommededList
-            })
         });
     }
     render(){
@@ -158,8 +164,8 @@ class Home extends Component{
         })
 
         let recommededMovies = this.state.recommeded.map(item =>{
-            console.log(item.movies)
             if(item.movies.length != 0){
+                console.log(item.movies)
                 return(
                 <div class="main-img-content">
                     <h1 style = {{color : "white"}}>{this.getRecommededTitle(item.search_type, item.display_name)}</h1>

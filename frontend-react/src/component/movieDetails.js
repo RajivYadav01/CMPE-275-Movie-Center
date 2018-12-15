@@ -248,9 +248,6 @@ class movieDetails extends Component{
                         }
                         if(userType==="admin"){
                             document.getElementById("videoButton").click();
-                            this.setState({
-                                moviePlayed : true
-                            })
                         }
                         break; 
                     }

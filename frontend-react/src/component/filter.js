@@ -742,14 +742,14 @@ class Filter extends Component {
                     </div>
                     <br/>
                     <form className='filterSearch' >
-                        <div style={{width:'1100px', float:'left', marginLeft: '-3%'}}>
+                        <div style={{float:'left', marginLeft: '-3%'}}>
                             <input type="text" id='searchbox'
                                    className="searchField form-control"
                                    id="exampleInputTitle"
                                    onChange={this.handleChange}
                                    name='searchText'
                                    placeholder="Search for movie by title, people, genre, availability, etc."
-                                   style={{width:'1160px', marginLeft: '20.5%', float:'left'}} />
+                                   style={{width : "1100px", marginLeft: '14%', float:'left'}} />
                         </div>
                         {/*<div style={{width:'150px', float:'left', marginLeft: '2.5%'}}>*/}
                         {/*<button className="form-control"*/}
@@ -1077,14 +1077,14 @@ class Filter extends Component {
                     </div>
                     <br/>
                     <form className='filterSearch' >
-                        <div style={{width:'1100px', float:'left', marginLeft: '-3%'}}>
+                        <div style={{float:'left', marginLeft: '-3%'}}>
                             <input type="text" id='searchbox'
                                    className="searchField form-control"
                                    id="exampleInputTitle"
                                    onChange={this.handleChange}
                                    name='searchText'
                                    placeholder="Search for movie by title, people, genre, availability, etc."
-                                   style={{width:'1160px', marginLeft: '20.5%', float:'left'}} />
+                                   style={{width : "1100px", marginLeft: '14%', float:'left'}} />
                         </div>
                         {/*<div style={{width:'150px', float:'left', marginLeft: '2.5%'}}>*/}
                             {/*<button className="form-control"*/}

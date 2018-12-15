@@ -17,7 +17,7 @@ export const MOVIE_DELETE_FAIL = 'MOVIE_DELETE_FAIL';
 
 export const history = createBrowserHistory();
 
-//export const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://ec2-34-215-125-205.us-west-2.compute.amazonaws.com:8080/movieCenter';
+//export const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://ec2-34-219-0-194.us-west-2.compute.amazonaws.com:8080/movieCenter';
 export const api = process.env.REACT_APP_CONTACTS_API_URL || 'http://localhost:8080';
 
 function MovieCreateSuccess(response){

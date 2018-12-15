@@ -79,8 +79,10 @@ public class MovieServiceImpl implements MovieService {
 //        }
 
         for(MovieEntity m : set){
-            MovieDto movieDto = modelMapper.map(m,MovieDto.class);
-            movieDtos.add(movieDto);
+            if(m.isStatus()) {
+                MovieDto movieDto = modelMapper.map(m,MovieDto.class);
+                movieDtos.add(movieDto);
+            }
         }
 
         return movieDtos;

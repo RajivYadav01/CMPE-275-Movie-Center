@@ -266,6 +266,8 @@ public class UserServiceImpl implements UserService {
         cal.set(Calendar.HOUR_OF_DAY, 00);
         cal.set(Calendar.MINUTE, 00);
         cal.set(Calendar.SECOND, 00);
+        cal.set(Calendar.MILLISECOND, 00);
+        System.out.println(cal.getTime());
         return cal.getTime();
     }
 

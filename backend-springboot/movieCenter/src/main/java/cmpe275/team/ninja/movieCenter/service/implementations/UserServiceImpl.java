@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import cmpe275.team.ninja.movieCenter.io.entity.*;
+import cmpe275.team.ninja.movieCenter.io.repositories.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +21,6 @@ import org.springframework.stereotype.Service;
 
 import cmpe275.team.ninja.movieCenter.exceptions.MovieServiceException;
 import cmpe275.team.ninja.movieCenter.exceptions.UserServiceException;
-import cmpe275.team.ninja.movieCenter.io.entity.CardEntity;
-import cmpe275.team.ninja.movieCenter.io.entity.MovieEntity;
-import cmpe275.team.ninja.movieCenter.io.entity.PaymentEntity;
-import cmpe275.team.ninja.movieCenter.io.entity.UserEntity;
-import cmpe275.team.ninja.movieCenter.io.entity.UserMoviePlayEntity;
-import cmpe275.team.ninja.movieCenter.io.entity.UserSubscriptionEntity;
-import cmpe275.team.ninja.movieCenter.io.repositories.CardRepository;
-import cmpe275.team.ninja.movieCenter.io.repositories.MovieRepository;
-import cmpe275.team.ninja.movieCenter.io.repositories.PaymentRepository;
-import cmpe275.team.ninja.movieCenter.io.repositories.UserMoviePlayRepository;
-import cmpe275.team.ninja.movieCenter.io.repositories.UserRepository;
-import cmpe275.team.ninja.movieCenter.io.repositories.UserSubscriptionRepository;
 import cmpe275.team.ninja.movieCenter.service.interfaces.UserService;
 import cmpe275.team.ninja.movieCenter.shared.MailSendingService;
 import cmpe275.team.ninja.movieCenter.shared.Utility;
@@ -77,6 +67,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     Util util;
+
+    @Autowired
+    UserMoviePlayHistoryRepository userMoviePlayHistoryRepository;
 
     @Override
     public String checkIfUserHasPlayedThisMovie(String userid, String movieid) {
@@ -396,6 +389,20 @@ public class UserServiceImpl implements UserService {
             userMoviePlayRepository.save(userMoviePlayEntity);
 
             //UserMoviePlayDto storedUserMoviePlayDto = modelMapper.map(storedUserMoviePlayEntity, UserMoviePlayDto.class);
+        }
+
+        UserMoviePlayHistoryEntity foundUserMoviePlayHistoryEntity = userMoviePlayHistoryRepository.findByUserAndMovie(foundUser, foundMovie);
+        if(foundUserMoviePlayHistoryEntity == null) {
+            UserDto foundUserDto = modelMapper.map(foundUser, UserDto.class);
+            MovieDto foundMovieDto = modelMapper.map(foundMovie, MovieDto.class);
+
+            userMoviePlayDto.setMovie(foundMovieDto);
+            userMoviePlayDto.setUser(foundUserDto);
+            UserMoviePlayHistoryEntity userMoviePlayHistoryEntity = modelMapper.map(userMoviePlayDto, UserMoviePlayHistoryEntity.class);
+            userMoviePlayHistoryRepository.save(userMoviePlayHistoryEntity);
+        } else {
+            foundUserMoviePlayHistoryEntity.setStartTime(startTime);
+            userMoviePlayHistoryRepository.save(foundUserMoviePlayHistoryEntity);
         }
     }
 

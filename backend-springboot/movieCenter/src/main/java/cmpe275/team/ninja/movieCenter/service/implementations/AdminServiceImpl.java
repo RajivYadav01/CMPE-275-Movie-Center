@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import cmpe275.team.ninja.movieCenter.io.entity.UserMoviePlayHistoryEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     UserMoviePlayRepository userMoviePlayRepository;
+
+    @Autowired
+    UserMoviePlayHistoryRepository userMoviePlayHistoryRepository;
 
     @Autowired
     UserSubscriptionRepository userSubscriptionRepository;
@@ -140,15 +144,16 @@ public class AdminServiceImpl implements AdminService {
         if(foundUser == null)
             throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
         ModelMapper modelMapper = new ModelMapper();
-        List<UserMoviePlayEntity> userMoviePlayEntities = userMoviePlayRepository.findByUserOrderByStartTimeDesc(foundUser);
+        List<UserMoviePlayHistoryEntity> userMoviePlayHistoryEntities = userMoviePlayHistoryRepository.findDistinctByUserOrderByStartTimeDesc(foundUser);
+        //List<UserMoviePlayEntity> userMoviePlayEntities = userMoviePlayRepository.findByUserOrderByStartTimeDesc(foundUser);
 
-        if (userMoviePlayEntities == null || userMoviePlayEntities.size() == 0)
+        if (userMoviePlayHistoryEntities == null || userMoviePlayHistoryEntities.size() == 0)
             return null;
 
         List<MovieDto> movieDtos = new ArrayList<>();
 
-        userMoviePlayEntities.forEach(userMoviePlayEntity -> {
-            movieDtos.add(modelMapper.map(userMoviePlayEntity.getMovie(), MovieDto.class));
+        userMoviePlayHistoryEntities.forEach(userMoviePlayHistoryEntity -> {
+            movieDtos.add(modelMapper.map(userMoviePlayHistoryEntity.getMovie(), MovieDto.class));
         });
 
         return movieDtos;
@@ -225,7 +230,7 @@ public class AdminServiceImpl implements AdminService {
         if(reportType.equalsIgnoreCase("uniquesubscriptionusers"))
             return userSubscriptionRepository.getUniqueSubscriptionUserByMonth(newStartDate, newEndDate);
         if(reportType.equalsIgnoreCase("uniquepayperviewusers"))
-            return userMoviePlayRepository.getUniquePayPerViewUsersByMonth("payperviewonly", newStartDate, newEndDate);
+            return userMoviePlayRepository.getUniquePayPerViewUsersByMonth("payperview", newStartDate, newEndDate);
         if(reportType.equalsIgnoreCase("uniqueactiveusers"))
             return userMoviePlayRepository.getUniqueActiveUsers(newStartDate, newEndDate);
         if(reportType.equalsIgnoreCase("uniqueregisteredusers"))

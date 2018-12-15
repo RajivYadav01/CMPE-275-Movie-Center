@@ -649,7 +649,9 @@ class Filter extends Component {
             deleteMovieId : movieID
         })
     }
-
+    handleDelete = (e) =>{
+        this.props.onSubmitDeleteClicked(this.state.deleteMovieId);
+    }
     render() {
         let userType = localStorage.getItem("userType");
         console.log("state in Render : ", this.state);
@@ -1127,6 +1129,26 @@ class Filter extends Component {
                         </div>
                         <Pagination items={this.state.displayArray} onChangePage={this.onChangePage} />
                     </div>
+                    <div id="deleteEmployeeModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form>
+                                <div class="modal-header">						
+                                    <h4 class="modal-title">Delete Movie</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">					
+                                    <p>Are you sure you want to delete this Record?</p>
+                                    <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"/>
+                                    <input onClick={this.handleDelete} type="submit" class="btn btn-danger" value="Delete"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 </div>
             )
         }

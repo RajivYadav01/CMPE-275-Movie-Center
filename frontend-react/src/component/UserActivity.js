@@ -15,7 +15,8 @@ class UserActivity extends Component {
             periodToShow: "",
             toptenusers: [],
             message: '',
-            pageOfItems: []
+            pageOfItems: [],
+            selectedUser : null
         }
         this.handleMoviePlayHistoryClick = this.handleMoviePlayHistoryClick.bind(this);
         this.handlePeriodClick = this.handlePeriodClick.bind(this);
@@ -79,7 +80,13 @@ class UserActivity extends Component {
 
         })
     }
-
+    handleUserDetails = (e,user) => {
+        e.preventDefault();
+        this.setState({
+            selectedUser : user
+        })
+        document.getElementById("userDetailsButton").click();
+    }
     render() {
 
         let userDetails = null;
@@ -87,7 +94,7 @@ class UserActivity extends Component {
             userDetails = this.state.pageOfItems.map((user)=>{
                 return (
                     <tr key={user.userId}>
-                        <td>{user.firstName}</td>
+                        <td><a style = {{cursor : "pointer"}} onClick={(e) => this.handleUserDetails(e,user)}>{user.firstName}</a></td>
                         <td>{user.lastName}</td>
                         <td>{user.email}</td>
                         <td>
@@ -108,7 +115,7 @@ class UserActivity extends Component {
             topTenUsersByPeriod = this.state.toptenusers.map((user)=>{
                 return (
                     <tr key={user.userId}>
-                        <td>{user.firstName}</td>
+                        <td><a style={{cursor : "pointer"}} onClick={this.handleUserDetails}>{user.firstName}</a></td>
                         <td>{user.lastName}</td>
                         <td>{user.email}</td>
                         <td>
@@ -201,7 +208,30 @@ class UserActivity extends Component {
                         <p style={{color: 'white', font: '20px'}}>{ this.state.message }</p>
                     </div>
                 </div>
-
+                <button id="userDetailsButton" href="#userDetailsModal" class="delete" data-toggle="modal" style={{display : "none"}} type="button" class="btn btn-success">
+                    Show User Details
+                </button>
+                <div id="userDetailsModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form>
+                                <div class="modal-header">						
+                                    <h4 class="modal-title">User Details</h4>
+                                </div>
+                                {/* {this.state.selectedUser === null ?
+                                <div class="modal-body">						
+                                    <h4 class="modal-title">User Name : {this.state.selectedUser.firstName}</h4>
+                                </div>:null} */}
+                                <div class="modal-footer">
+                                    <input id="modelCloseBtn" onClick={this.handleRedirect} type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"/>
+                                </div>
+                                {/* <div class="modal-footer">
+                                    <Link to = {`/admin/delete/`} data-dismiss="modal" class="btn btn-success" value="Cancel"></Link>
+                                </div> */}
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

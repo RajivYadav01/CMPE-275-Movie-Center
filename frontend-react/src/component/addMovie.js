@@ -115,7 +115,7 @@ class AddMovie extends Component {
 
     handleRedirect = (e) => {
         document.getElementById("modelCloseBtn").click();
-        history.push("/admin/delete");
+        history.push("/filter");
         window.location.reload();
     }
     render() {

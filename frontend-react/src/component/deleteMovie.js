@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import Navbar from '../component/Navbar';
 import {Link} from 'react-router-dom';
-import ReactPaginate from 'react-paginate';
 import '../App.css';
 import axios from 'axios';
 import {api} from '../store/actions';

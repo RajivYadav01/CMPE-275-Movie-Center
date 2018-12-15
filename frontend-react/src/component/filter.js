@@ -7,6 +7,8 @@ import {Link} from "react-router-dom";
 import '../App.css';
 import {api} from '../store/actions';
 import Pagination from './Pagination';
+import {DeleteMovieFunc} from '../store/actions';
+import {connect} from 'react-redux';
 
 class Filter extends Component {
 
@@ -39,7 +41,8 @@ class Filter extends Component {
             movies : [],
             displayArray : [],
             arr : [],
-            pageOfItems: []
+            pageOfItems: [],
+            deleteMovieId : null,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleFilterToggle = this.handleFilterToggle.bind(this);
@@ -640,8 +643,15 @@ class Filter extends Component {
         }
     };
 
-    render() {
+    handleMovieToDelete = (e,movieID) => {
+        // document.getElementById("deleteModal").click();
+        this.setState({
+            deleteMovieId : movieID
+        })
+    }
 
+    render() {
+        let userType = localStorage.getItem("userType");
         console.log("state in Render : ", this.state);
         const styleForLiA = {
             float: "right",
@@ -681,6 +691,12 @@ class Filter extends Component {
                     <td>{m.mpaaRating}</td>
                     <td>{m.yearOfRelease}</td>
                     <td>{m.averageRating} <br/>{m.userRatingCount} votes</td>
+                    {userType === "admin" ? 
+                        <td>
+                        <Link to= {`/admin/create/${m.movieId}`} class="edit"><i className="material-icons"><span class="glyphicon glyphicon-pencil"></span></i></Link>
+                        <Link onClick={(e) => this.handleMovieToDelete(e,m.movieId)} to="#deleteEmployeeModal" class="delete" data-toggle="modal"><i className="material-icons" data-toggle="tooltip" title="Delete"><span class="glyphicon glyphicon-trash"></span></i></Link>
+                    </td> : null
+                    }
                 </tr>
             )
         });
@@ -689,6 +705,33 @@ class Filter extends Component {
             return (
                 <div>
                     <Navbar/>
+                    <br/><br/>
+                    <div>
+                    {userType == "admin"? 
+                        <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h2>Manage Movies & Users</h2>
+                            </div>
+                            <div class="col-sm-2" style={{width : "15%"}}>
+                                <Link to = {`/admin/create/-1`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Add New Movie</span></Link>
+                            </div>
+                            <div class="col-sm-2" style={{width : "15%"}}>
+                                <Link to = {`/admin/useractivity`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>User Activity</span></Link>
+                            </div>
+                            <div class="col-sm-2" style={{width : "15%"}}>
+                                <Link to = {`/admin/movieactivity`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Movie Activity</span></Link>
+                            </div>
+                            <div class="col-sm-2" style={{width : "15%"}}>
+                                <Link to = {`/admin/financialreporting`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Financial Reporting</span></Link>
+                            </div>
+                            <div class="col-sm-2" style={{width : "15%"}}>
+                                <Link to = {`/admin/manageuser`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Users Details</span></Link>
+                            </div>
+                        </div>
+                    </div>
+                    : null}
+                    </div>
                     <div className="bg-wrapper" style={{opacity: ".75"}}>
                         <img className="bg-img "
                              src="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg"
@@ -980,6 +1023,7 @@ class Filter extends Component {
                                     <th>MPAA Rating</th>
                                     <th>Year of Release</th>
                                     <th>Rating</th>
+                                    {userType === "admin" ? <th>Action</th> : null}
                                 </tr>
                                 </thead>
                                 <tbody style={{fontWeight: '400', fontSize: '16px' }}>
@@ -996,6 +1040,33 @@ class Filter extends Component {
             return (
                 <div>
                     <Navbar/>
+                    <br/><br/>
+                    <div>
+                    {userType == "admin"? 
+                        <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h2>Manage Movies & Users</h2>
+                            </div>
+                            <div class="col-sm-2" style={{width : "15%"}}>
+                                <Link to = {`/admin/create/-1`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Add New Movie</span></Link>
+                            </div>
+                            <div class="col-sm-2" style={{width : "15%"}}>
+                                <Link to = {`/admin/useractivity`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>User Activity</span></Link>
+                            </div>
+                            <div class="col-sm-2" style={{width : "15%"}}>
+                                <Link to = {`/admin/movieactivity`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Movie Activity</span></Link>
+                            </div>
+                            <div class="col-sm-2" style={{width : "15%"}}>
+                                <Link to = {`/admin/financialreporting`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Financial Reporting</span></Link>
+                            </div>
+                            <div class="col-sm-2" style={{width : "15%"}}>
+                                <Link to = {`/admin/manageuser`}  class="btn btn-success"><i class="material-icons"><span class="glyphicon glyphicon-plus"></span></i> <span>Users Details</span></Link>
+                            </div>
+                        </div>
+                    </div>
+                    : null}
+                    </div>
                     <div className="bg-wrapper" style={{opacity: ".85"}}>
                         <img className="bg-img "
                              src="https://assets.nflxext.com/ffe/siteui/vlv3/ce576f63-f84d-4d38-ba8c-2034ffd002f5/e048a956-ef72-45c7-b620-ad084eba25c3/US-en-20181126-popsignuptwoweeks-perspective_alpha_website_small.jpg"
@@ -1046,6 +1117,7 @@ class Filter extends Component {
                                     <th>MPAA Rating</th>
                                     <th>Year of Release</th>
                                     <th>Rating</th>
+                                    {userType === "admin" ? <th>Action</th> : null}
                                 </tr>
                                 </thead>
                                 <tbody style={{fontWeight: '400', fontSize: '16px' }}>
@@ -1061,6 +1133,13 @@ class Filter extends Component {
     }
 }
 
+const mapDispatchToProps = dispatch => {
+    console.log("Inside map dipatch to props");
+    return{
+        onSubmitDeleteClicked : (details) => dispatch(DeleteMovieFunc(details)),
+    }
+}
+
 //
 // const mapDispatchToProps = dispatch => {
 //     console.log('inside mapdispatchtoprops')
@@ -1069,4 +1148,4 @@ class Filter extends Component {
 //     }
 // };
 
-export default Filter;
+export default connect(null,mapDispatchToProps)(Filter);

@@ -42,11 +42,13 @@ class movieDetails extends Component{
             paymentSuccess : false,
             yearOfRelease : '',
             moviePlayed : false,
-            averageRating : ''
+            averageRating : '',
+            status : false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleMonths = this.handleMonths.bind(this);
         this.handleSubscription = this.handleSubscription.bind(this);
+        this.handleRedirect = this.handleRedirect.bind(this);
     }
 
     handleChange = (e) => {
@@ -140,7 +142,8 @@ class movieDetails extends Component{
                     price : response.data.price,
                     modalName : '',
                     yearOfRelease : response.data.yearOfRelease,
-                    averageRating : response.data.averageRating
+                    averageRating : response.data.averageRating,
+                    status : response.data.status
                 })
         })
         axios.get(`${api}/reviews/?movieid=${movieID}`,{
@@ -156,7 +159,6 @@ class movieDetails extends Component{
             headers: {"Authorization" : localStorage.getItem("Authorization")}})
             .then((response) => {
                 console.log("Response of checkIfPlayed : ", response);
-
                 if(response.data.data === "Movie played by user earlier"){
                     this.setState({
                         moviePlayed : true
@@ -172,101 +174,151 @@ class movieDetails extends Component{
         var userType = localStorage.getItem("userType");
         var isSubscribed = localStorage.getItem("isSubscribed");
         var userId = localStorage.getItem("userId");
+        var movieID = this.props.match.params.movieID;
+        axios.get(`${api}/movies/${movieID}`,{
+            headers: {"Authorization" : localStorage.getItem("Authorization")}})
+        .then((response) => {
+            if(response.data.status){
+                console.log("A : ", movieAvailability.toLowerCase() , " UT : ", userType, " iS : ", isSubscribed);
 
-        console.log("A : ", movieAvailability.toLowerCase() , " UT : ", userType, " iS : ", isSubscribed);
-
-        switch(movieAvailability.toLowerCase()){
-            case "free":{
-                var headers = new Headers();
-                headers.append('Content-Type', 'application/json');
-                console.log("Case Free");
-                if(userType==="customer"){
-                    var obj = {
-                        userId : localStorage.getItem("userId"),
-                        movieId : this.props.match.params.movieID,
-                        subscriptionType : this.state.availabilityType
-                    }
-                    axios(`${api}/users/play`,{
-                        method: 'post',
-                        mode: 'no-cors',
-                        redirect: 'follow',
-                        withCredentials: false,
-                        headers: headers,
-                        data: obj
-                    }).then((response) => {
-                        document.getElementById("videoButton").click();
-                        this.setState({
-                            moviePlayed : true
-                        })
-                    })
-                }
-                if(userType==="admin"){
-                    document.getElementById("videoButton").click();
-                }
-                break;
-            }
-            case "payperview":{
-                console.log("Case PayPerView");
-                if(userType === "customer"){
-                    axios({
-                        method: 'get',
-                        url: `${api}/users/${userId}/movie/${this.props.match.params.movieID}/checkifpaymentneeded`,
-                        mode: 'no-cors',
-                        redirect: 'follow',
-                        withCredentials: false,
-                        headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
-                        data: {movieId : this.props.match.params.movieID}
-                    }).then((response) => {
-                        if(response.data.data === "PAYMENTNEEDED"){
-                            if(isSubscribed==="true"){     
-                                console.log("Inside PPV True")
-                                this.setState({
-                                    amount : this.state.price * .5
-                                })       
-                                console.log("SUbscribed False PPV");
-                                document.getElementById("paymentButton").click();
-                            }else if(isSubscribed==="false"){
-                                console.log("SUbscribed True PPV");
-                                this.setState({
-                                    amount : this.state.price
-                                })
-                                document.getElementById("paymentButton").click();
-                            }
-                        }else{
-                            document.getElementById("videoButton").click(); 
-                            this.setState({
-                                moviePlayed : true
-                            })  
-                        }
-                    })
-                }
-                if(userType==="admin"){
-                    document.getElementById("videoButton").click();
-                    this.setState({
-                        moviePlayed : true
-                    })
-                }
-                break; 
-            }
-            case "paid":{
-                console.log("Case Paid");
-                if(userType === "customer"){
-                    axios({
-                        method: 'get',
-                        url: `${api}/users/${userId}/movie/${this.props.match.params.movieID}/checkifpaymentneeded`,
-                        mode: 'no-cors',
-                        redirect: 'follow',
-                        withCredentials: false,
-                        headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
-                        data: {movieId : this.props.match.params.movieID}
-                    }).then((response) => {
-                        if(response.data.data === "PAYMENTNEEDED"){
+                switch(movieAvailability.toLowerCase()){
+                    case "free":{
+                        var headers = new Headers();
+                        headers.append('Content-Type', 'application/json');
+                        console.log("Case Free");
+                        if(userType==="customer"){
                             var obj = {
                                 userId : localStorage.getItem("userId"),
                                 movieId : this.props.match.params.movieID,
                                 subscriptionType : this.state.availabilityType
                             }
+                            axios(`${api}/users/play`,{
+                                method: 'post',
+                                mode: 'no-cors',
+                                redirect: 'follow',
+                                withCredentials: false,
+                                headers: headers,
+                                data: obj
+                            }).then((response) => {
+                                document.getElementById("videoButton").click();
+                                this.setState({
+                                    moviePlayed : true
+                                })
+                            })
+                        }
+                        if(userType==="admin"){
+                            document.getElementById("videoButton").click();
+                        }
+                        break;
+                    }
+                    case "payperview":{
+                        console.log("Case PayPerView");
+                        if(userType === "customer"){
+                            axios({
+                                method: 'get',
+                                url: `${api}/users/${userId}/movie/${this.props.match.params.movieID}/checkifpaymentneeded`,
+                                mode: 'no-cors',
+                                redirect: 'follow',
+                                withCredentials: false,
+                                headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
+                                data: {movieId : this.props.match.params.movieID}
+                            }).then((response) => {
+                                if(response.data.data === "PAYMENTNEEDED"){
+                                    if(isSubscribed==="true"){     
+                                        console.log("Inside PPV True")
+                                        this.setState({
+                                            amount : this.state.price * .5
+                                        })       
+                                        console.log("SUbscribed False PPV");
+                                        document.getElementById("paymentButton").click();
+                                    }else if(isSubscribed==="false"){
+                                        console.log("SUbscribed True PPV");
+                                        this.setState({
+                                            amount : this.state.price
+                                        })
+                                        document.getElementById("paymentButton").click();
+                                    }
+                                }else{
+                                    document.getElementById("videoButton").click(); 
+                                    this.setState({
+                                        moviePlayed : true
+                                    })  
+                                }
+                            })
+                        }
+                        if(userType==="admin"){
+                            document.getElementById("videoButton").click();
+                            this.setState({
+                                moviePlayed : true
+                            })
+                        }
+                        break; 
+                    }
+                    case "paid":{
+                        console.log("Case Paid");
+                        if(userType === "customer"){
+                            axios({
+                                method: 'get',
+                                url: `${api}/users/${userId}/movie/${this.props.match.params.movieID}/checkifpaymentneeded`,
+                                mode: 'no-cors',
+                                redirect: 'follow',
+                                withCredentials: false,
+                                headers: {'Accept': 'application/json', 'Authorization' :localStorage.getItem('Authorization')},
+                                data: {movieId : this.props.match.params.movieID}
+                            }).then((response) => {
+                                if(response.data.data === "PAYMENTNEEDED"){
+                                    var obj = {
+                                        userId : localStorage.getItem("userId"),
+                                        movieId : this.props.match.params.movieID,
+                                        subscriptionType : this.state.availabilityType
+                                    }
+                                    if(isSubscribed === "true"){
+                                        axios(`${api}/users/play`,{
+                                            method: 'post',
+                                            mode: 'no-cors',
+                                            redirect: 'follow',
+                                            withCredentials: false,
+                                            headers: headers,
+                                            data: obj
+                                        }).then((response) => {
+                                            document.getElementById("videoButton").click();
+                                            this.setState({
+                                                moviePlayed : true
+                                            })
+                                        })
+                                    }else if(isSubscribed === "false"){
+                                        this.setState({
+                                            amount : this.state.price
+                                        })
+                                        document.getElementById("paymentButton").click();
+                                    }
+                                }else{
+                                    document.getElementById("videoButton").click();  
+                                    this.setState({
+                                        moviePlayed : true
+                                    })
+                                }
+                            })
+                        }
+                        if(userType==="admin"){
+                            document.getElementById("videoButton").click();
+                        }
+                        break;
+                    }
+
+                    case "subscriptiononly":{
+                        console.log("Case Subscription Only");
+                        if(userType==="customer"){
                             if(isSubscribed === "true"){
+                                console.log("All True");
+                                var obj = {
+                                    userId : localStorage.getItem("userId"),
+                                    movieId : this.props.match.params.movieID,
+                                    subscriptionType : movieAvailability
+                                }
+                                console.log("Obj Sent : ", obj);
+                                var headers = new Headers();
+                                headers.append('Accept', 'application/json');
                                 axios(`${api}/users/play`,{
                                     method: 'post',
                                     mode: 'no-cors',
@@ -275,74 +327,40 @@ class movieDetails extends Component{
                                     headers: headers,
                                     data: obj
                                 }).then((response) => {
-                                    document.getElementById("videoButton").click();
-                                    this.setState({
-                                        moviePlayed : true
-                                    })
-                                })
-                            }else if(isSubscribed === "false"){
+                                document.getElementById("videoButton").click();
                                 this.setState({
-                                    amount : this.state.price
+                                    moviePlayed : true
                                 })
-                                document.getElementById("paymentButton").click();
+                                })
+                            }else if(isSubscribed==="false" ){
+                                console.log("Some False");
+                                document.getElementById("subscribeButton").click();
                             }
-                        }else{
-                            document.getElementById("videoButton").click();  
-                            this.setState({
-                                moviePlayed : true
-                            })
                         }
-                    })
-                }
-                if(userType==="admin"){
-                    document.getElementById("videoButton").click();
-                }
-                break;
-            }
-
-            case "subscriptiononly":{
-                console.log("Case Subscription Only");
-                if(userType==="customer"){
-                    if(isSubscribed === "true"){
-                        console.log("All True");
-                        var obj = {
-                            userId : localStorage.getItem("userId"),
-                            movieId : this.props.match.params.movieID,
-                            subscriptionType : movieAvailability
+                        if(userType==="admin"){
+                            document.getElementById("videoButton").click();
                         }
-                        console.log("Obj Sent : ", obj);
-                        var headers = new Headers();
-                        headers.append('Accept', 'application/json');
-                        axios(`${api}/users/play`,{
-                            method: 'post',
-                            mode: 'no-cors',
-                            redirect: 'follow',
-                            withCredentials: false,
-                            headers: headers,
-                            data: obj
-                        }).then((response) => {
-                           document.getElementById("videoButton").click();
-                           this.setState({
-                               moviePlayed : true
-                           })
-                        })
-                    }else if(isSubscribed==="false" ){
-                        console.log("Some False");
-                        document.getElementById("subscribeButton").click();
+                        break;
                     }
                 }
-                if(userType==="admin"){
-                    document.getElementById("videoButton").click();
-                }
-                break;
+             
             }
-        }
+            else{
+                document.getElementById("deletedMovie").click();
+            }
+        })
     }
     handleReviewText = (e) =>{
         this.setState({
             reviewText : e.target.value
         })
     }
+    handleRedirect = (e) => {
+        document.getElementById("modelCloseBtn").click();
+        history.push("/admin/delete");
+        window.location.reload();
+    }
+    
     submitReviewText = (e) => {
         //e.preventDefault();
         var newReviewDetails = {
@@ -720,6 +738,26 @@ class movieDetails extends Component{
                     <br/>
                     
                          {moreReviews}
+                </div>
+                <button id="deletedMovie" href="#deletedMovieModel" class="delete" data-toggle="modal" style={{display : "none"}} type="button" class="btn btn-success">
+                    Play
+                </button>
+                <div id="deletedMovieModel" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form>
+                                <div class="modal-header">						
+                                    <h4 class="modal-title">Movie Not Avaiable</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <input id="modelCloseBtn" onClick={this.handleRedirect} type="button" class="btn btn-default" data-dismiss="modal" value="Cancel"/>
+                                </div>
+                                {/* <div class="modal-footer">
+                                    <Link to = {`/admin/delete/`} data-dismiss="modal" class="btn btn-success" value="Cancel"></Link>
+                                </div> */}
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

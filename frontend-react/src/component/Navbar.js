@@ -80,8 +80,8 @@ class Navbar extends Component{
                     <Link onClick={this.handleLogout} to="/signin/">Logout</Link>
                 </li>}
                 {isLoggedIn ? <li style={StyleFloatRight}><Link to="/profile/">Account</Link></li> : null}
-                {isAdmin ? <li style={StyleFloatRight}><Link to="/admin/delete/">Admin Config</Link></li> : null}
-                {isLoggedIn ? <li style={StyleFloatRight}>
+                {isAdmin ? <li style={StyleFloatRight}><Link to="/filter">Admin Config</Link></li> : null}
+                {isLoggedIn && localStorage.getItem("userType") !== "admin"? <li style={StyleFloatRight}>
                     <Link to='/filter'>
                         Search
                     </Link>
